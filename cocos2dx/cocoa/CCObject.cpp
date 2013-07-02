@@ -59,7 +59,13 @@ Object::~Object(void)
     // if the object is referenced by Lua engine, remove it
     if (_luaID)
     {
-        ScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptObjectByObject(this);
+		//cocos2d::ScriptEngineProtocol* test = ScriptEngineManager::sharedManager()->getScriptEngine();
+        //ScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptObjectByObject(this);
+		ScriptEngineProtocol* pEngine = ScriptEngineManager::sharedManager()->getScriptEngine();
+		if( pEngine != NULL )
+			 pEngine->removeScriptObjectByObject(this);
+
+		_luaID = 0;
     }
     else
     {

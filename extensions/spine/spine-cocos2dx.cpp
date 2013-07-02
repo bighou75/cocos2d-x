@@ -56,7 +56,7 @@ char* _Util_readFile (const char* path, int* length) {
 
 /**/
 
-void RegionAttachment_updateQuad (RegionAttachment* self, Slot* slot, ccV3F_C4B_T2F_Quad* quad, bool premultipliedAlpha) {
+void RegionAttachment_updateQuad (RegionAttachment* self, Slot* slot, ccV3F_C4B_T2F_Quad* quad, bool premultipliedAlpha, float resolution_y) {
 	float vertices[8];
 	RegionAttachment_computeVertices(self, slot->skeleton->x, slot->skeleton->y, slot->bone, vertices);
 
@@ -104,6 +104,16 @@ void RegionAttachment_updateQuad (RegionAttachment* self, Slot* slot, ccV3F_C4B_
 	quad->tr.texCoords.v = self->uvs[VERTEX_Y3];
 	quad->br.texCoords.u = self->uvs[VERTEX_X4];
 	quad->br.texCoords.v = self->uvs[VERTEX_Y4];
+
+	// edited by dsjeon
+	{
+		quad->tl.vertices.y = quad->bl.vertices.y + ( quad->tl.vertices.y - quad->bl.vertices.y )*resolution_y;
+		quad->tr.vertices.y = quad->br.vertices.y + ( quad->tr.vertices.y - quad->br.vertices.y )*resolution_y;
+
+		quad->bl.texCoords.v = quad->tl.texCoords.v + ( quad->bl.texCoords.v - quad->tl.texCoords.v )*resolution_y;
+		quad->br.texCoords.v = quad->tr.texCoords.v + ( quad->br.texCoords.v - quad->tr.texCoords.v )*resolution_y;
+	}
+
 }
 
 }} // namespace cocos2d { namespace extension {

@@ -55,6 +55,7 @@ void CCSkeleton::initialize () {
 	debugSlots = false;
 	debugBones = false;
 	timeScale = 1;
+	y_resolution = 1.0f;
 
 	blendFunc.src = GL_ONE;
 	blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
@@ -117,6 +118,14 @@ void CCSkeleton::update (float deltaTime) {
 	Skeleton_update(skeleton, deltaTime * timeScale);
 }
 
+void CCSkeleton::setResolutionY( float val ) {
+	y_resolution = val;
+}
+
+float CCSkeleton::getResolutionY() {
+	return y_resolution;
+}
+
 void CCSkeleton::draw () {
 	CC_NODE_DRAW_SETUP();
 
@@ -152,7 +161,7 @@ void CCSkeleton::draw () {
 		textureAtlas = regionTextureAtlas;
 		if (textureAtlas->getCapacity() == textureAtlas->getTotalQuads() &&
 			!textureAtlas->resizeCapacity(textureAtlas->getCapacity() * 2)) return;
-		RegionAttachment_updateQuad(attachment, slot, &quad, premultipliedAlpha);
+		RegionAttachment_updateQuad(attachment, slot, &quad, premultipliedAlpha,y_resolution);
 		textureAtlas->updateQuad(&quad, textureAtlas->getTotalQuads());
 	}
 	if (textureAtlas) {

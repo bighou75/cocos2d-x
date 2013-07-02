@@ -178,6 +178,18 @@ Attachment* Skeleton_getAttachmentForSlotIndex (const Skeleton* self, int slotIn
 		Attachment *attachment = Skin_getAttachment(self->data->defaultSkin, slotIndex, attachmentName);
 		if (attachment) return attachment;
 	}
+
+	// <!> dsjeon
+	for( int i = 0; i < self->data->skinCount; i++ )
+	{
+		Skin* skin_data = self->data->skins[i];
+		//if( self->data->defaultSkin == NULL || !strcmp( skin_data->name, self->data->defaultSkin->name ) )
+		//	continue;
+
+		Attachment *attachment = Skin_getAttachment(skin_data, slotIndex, attachmentName);
+		if (attachment) return attachment;
+	}
+
 	return 0;
 }
 

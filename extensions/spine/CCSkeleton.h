@@ -84,12 +84,20 @@ public:
 	virtual void setOpacityModifyRGB (bool value);
 	virtual bool isOpacityModifyRGB ();
 
+	// edited by dsjeon
+	void setResolutionY( float val );
+	float getResolutionY();
+	inline Atlas* getAtlas() { return atlas; }
+
 protected:
 	CCSkeleton ();
 	void setSkeletonData (SkeletonData* skeletonData, bool ownsSkeletonData);
 	cocos2d::TextureAtlas* getTextureAtlas (RegionAttachment* regionAttachment) const;
 
 private:
+	// edited by busgram
+	float y_resolution;
+
 	bool ownsSkeletonData;
 	Atlas* atlas;
 	void initialize ();

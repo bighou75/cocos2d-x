@@ -86,3 +86,6 @@ $pfile "CCControlPotentiometer.pkg"
 $pfile "CCControlStepper.pkg"
 $pfile "CCEditBox.pkg"
 $pfile "CCInteger.pkg"
+
+$pfile "CCUserTest.pkg"
+$pfile "ScriptBridge.pkg"

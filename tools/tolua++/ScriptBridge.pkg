@@ -1,0 +1,4 @@
+class ScriptBridge {
+	static bool isCompletedPreEvent(int eventId);
+	static bool isCompletedEvent(int eventId);
+};

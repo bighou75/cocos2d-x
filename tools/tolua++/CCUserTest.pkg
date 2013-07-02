@@ -1,0 +1,51 @@
+
+enum State
+{
+	STT_INIT = -1,
+	STT_READY,
+	STT_IDLE,
+	STT_ATTACK,
+	STT_MOVE,
+	STT_SINK,
+	STT_DAMAGE,
+};
+
+enum Entry
+{
+	STT_ENTRY,
+	STT_DOING,
+	STT_EXIT
+};
+
+
+class CShipAI : public CCObject
+{
+	const char* GetName();
+	int			GetParentLife();
+	static CShipAI* create();
+
+	State	GetState();
+	State	GetNextState();
+	State	GetPrevState();
+	Entry	GetEntry();
+	int		GetCaptainId();
+
+	void		ReserveState( State st, float delay = 0.0f );
+	void		SetState( State st_val );
+	float		GetLastAccumTimeInSec();
+	float		GetLastAccumTimeInRaw();
+	CCPoint		GetShipPosition();
+	void		SetShipPosition( CCPoint pos );
+
+	void		OrderMove( float time, CCPoint pos );
+	void		OrderIdle();
+	void		OrderAttack( int attackCount, int delay );
+
+	CCPoint		GetShipPosition();
+
+	bool		IsMoveState();
+	bool		IsAttackState();
+
+	void		StopMove();
+	void		StopAttack();
+};

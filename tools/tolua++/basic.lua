@@ -200,6 +200,8 @@ local CCObjectTypes = {
     "CCControlSwitch",
     "CCEditBox",
     "CCInteger",
+    "CCUserText",
+    "ScriptBridge"
 }
 
 -- register CCObject types

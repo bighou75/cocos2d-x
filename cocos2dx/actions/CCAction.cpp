@@ -40,6 +40,7 @@ Action::Action()
 :_originalTarget(NULL)
 ,_target(NULL)
 ,_tag(kActionTagInvalid)
+,m_paused(false)
 {
 }
 
@@ -61,6 +62,21 @@ void Action::startWithTarget(Node *aTarget)
 void Action::stop()
 {
     _target = NULL;
+}
+
+bool Action::paused()
+{
+	return m_paused;
+}
+
+void Action::pause()
+{
+	m_paused = true;
+}
+
+void Action::resume()
+{
+	m_paused = false;
 }
 
 bool Action::isDone()

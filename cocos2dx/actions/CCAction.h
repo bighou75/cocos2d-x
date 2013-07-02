@@ -70,6 +70,11 @@ public:
     */
     virtual void stop(void);
 
+	// <!> dsjeon
+	virtual void pause(void);
+	virtual void resume(void);
+	virtual bool paused();
+
     //! called every frame with it's delta time. DON'T override unless you know what you are doing.
     virtual void step(float dt);
 
@@ -110,6 +115,9 @@ protected:
     Node    *_target;
     /** The action tag. An identifier of the action */
     int     _tag;
+
+	// <!> dsjeon
+	bool	m_paused;
 };
 
 /** 

@@ -115,6 +115,9 @@ bool ActionInterval::isDone(void)
 
 void ActionInterval::step(float dt)
 {
+	if( this->paused() == true )
+		return;
+
     if (_firstTick)
     {
         _firstTick = false;
@@ -314,6 +317,9 @@ void Sequence::update(float t)
 {
     int found = 0;
     float new_t = 0.0f;
+
+	if( this->paused() == true )
+		return;
 
     if( t < _split ) {
         // action[0]
@@ -586,6 +592,9 @@ void RepeatForever::startWithTarget(Node* pTarget)
 
 void RepeatForever::step(float dt)
 {
+	if( this->paused() == true )
+		return;
+
     _innerAction->step(dt);
     if (_innerAction->isDone())
     {

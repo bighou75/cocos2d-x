@@ -106,4 +106,25 @@ void RegionAttachment_computeVertices (RegionAttachment* self, float x, float y,
 	vertices[VERTEX_Y4] = offset[VERTEX_X4] * bone->m10 + offset[VERTEX_Y4] * bone->m11 + y;
 }
 
+void RegionAttachment_change_region(RegionAttachment* self, AtlasRegion* region) {
+
+	//AtlasRegion* region = Atlas_findRegion(m_skeletonNode->getAtlas(), "EB02" );
+
+	//if (!region) {
+	//	_AttachmentLoader_setError(loader, "Region not found: ", name);
+	//	return 0;
+	//}
+	self->rendererObject = region;
+	RegionAttachment_setUVs(self, region->u, region->v, region->u2, region->v2, region->rotate);
+	self->regionOffsetX = region->offsetX;
+	self->regionOffsetY = region->offsetY;
+	self->regionWidth = region->width;
+	self->regionHeight = region->height;
+	self->regionOriginalWidth = region->originalWidth;
+	self->regionOriginalHeight = region->originalHeight;
+//	CONST_CAST(const char*, self->super.name) = region->name;
+
+//	int aa =0;
+}
+
 }} // namespace cocos2d { namespace extension {

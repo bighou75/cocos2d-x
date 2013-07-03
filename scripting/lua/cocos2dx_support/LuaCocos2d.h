@@ -9,7 +9,7 @@ extern "C" {
 }
 #endif
 
-#include "../../../../../samples/Cpp/Client/Classes/ToLuaClass.h"
+#include "../../../samples/Cpp/Client/Classes/ToLuaClass.h"
 
 TOLUA_API int tolua_Cocos2d_open(lua_State* tolua_S);
 

@@ -118,7 +118,7 @@ public:
 
     virtual bool handleAssert(const char *msg);
     
-private:
+public:
     LuaEngine(void)
     : _stack(NULL)
     {

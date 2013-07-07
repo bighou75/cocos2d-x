@@ -293,7 +293,7 @@ void CCSkeleton::setOpacityModifyRGB (bool value) {
 	premultipliedAlpha = value;
 }
 
-bool CCSkeleton::isOpacityModifyRGB () {
+bool CCSkeleton::isOpacityModifyRGB () const {
 	return premultipliedAlpha;
 }
 

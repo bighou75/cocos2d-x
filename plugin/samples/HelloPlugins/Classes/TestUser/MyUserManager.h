@@ -25,13 +25,7 @@ THE SOFTWARE.
 #define __MY_USER_MANAGER_H__
 
 #include "ProtocolUser.h"
-
-/** @warning
- * The file UCGameSDK.jar conflicts with weiboSDK.jar
- * if you want test the login/logout of UC,
- * modify the android project config: remove the weiboSDK.jar, and add UCGameSDK.jar
-*/
-#define TEST_UC         0
+#include "Configs.h"
 
 class MyUserActionResult : public cocos2d::plugin::UserActionListener
 {

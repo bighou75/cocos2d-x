@@ -6,8 +6,11 @@ enum State
 	STT_IDLE,
 	STT_ATTACK,
 	STT_MOVE,
+	STT_MOVE_LINE,
 	STT_SINK,
 	STT_DAMAGE,
+	STT_DEPLOY,
+	STT_DESTROY
 };
 
 enum Entry
@@ -30,6 +33,10 @@ class CShipAI : public CCObject
 	Entry	GetEntry();
 	int		GetCaptainId();
 
+	void	SetEnableCollision( bool val, float delay = 1.0f );
+	void	OnSetCollisionDone( Node* pNode );
+	int		GetLife();
+
 	void		ReserveState( State st, float delay = 0.0f );
 	void		SetState( State st_val );
 	float		GetLastAccumTimeInSec();
@@ -37,11 +44,11 @@ class CShipAI : public CCObject
 	CCPoint		GetShipPosition();
 	void		SetShipPosition( CCPoint pos );
 
-	void		OrderMove( float time, CCPoint pos );
-	void		OrderIdle();
+	void		OrderMove( CCPoint delta, CCPoint pos );
+	void		OrderMove( float time,	CCPoint pos  );
+	void		OrderIdle( float time = 0 );
 	void		OrderAttack( int attackCount, int delay );
-
-	CCPoint		GetShipPosition();
+	void		OrderLine( int id, float time = 1 );
 
 	bool		IsMoveState();
 	bool		IsAttackState();

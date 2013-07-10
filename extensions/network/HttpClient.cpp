@@ -313,8 +313,10 @@ public:
         if (CURLE_OK != curl_easy_perform(_curl))
             return false;
         CURLcode code = curl_easy_getinfo(_curl, CURLINFO_RESPONSE_CODE, responseCode);
-        if (code != CURLE_OK || *responseCode != 200)
-            return false;
+
+// <!> dwkim 서버의 응답이 이상하게도 0으로 온다. 하지만 responseCode는 큰 의미가 없다.
+//      if (code != CURLE_OK || *responseCode != 200)
+//          return false;
         
         // Get some mor data.
         
@@ -328,6 +330,7 @@ static int processGetTask(HttpRequest *request, write_callback callback, void *s
     CURLRaii curl;
     bool ok = curl.init(request, callback, stream, headerCallback, headerStream)
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
+            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -340,6 +343,7 @@ static int processPostTask(HttpRequest *request, write_callback callback, void *
             && curl.setOption(CURLOPT_POST, 1)
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
+            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -352,6 +356,7 @@ static int processPutTask(HttpRequest *request, write_callback callback, void *s
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "PUT")
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
+            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -363,6 +368,7 @@ static int processDeleteTask(HttpRequest *request, write_callback callback, void
     bool ok = curl.init(request, callback, stream, headerCallback, headerStream)
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "DELETE")
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
+            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }

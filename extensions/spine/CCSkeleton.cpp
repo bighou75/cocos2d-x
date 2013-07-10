@@ -130,7 +130,7 @@ void CCSkeleton::draw () {
 	CC_NODE_DRAW_SETUP();
 
 	ccGLBlendFunc(blendFunc.src, blendFunc.dst);
-	ccColor3B color = getColor();
+	Color3B color = getColor();
 	skeleton->r = color.r / (float)255;
 	skeleton->g = color.g / (float)255;
 	skeleton->b = color.b / (float)255;
@@ -142,7 +142,7 @@ void CCSkeleton::draw () {
 	}
 
 	TextureAtlas* textureAtlas = 0;
-	ccV3F_C4B_T2F_Quad quad;
+	V3F_C4B_T2F_Quad quad;
 	quad.tl.vertices.z = 0;
 	quad.tr.vertices.z = 0;
 	quad.bl.vertices.z = 0;
@@ -174,7 +174,7 @@ void CCSkeleton::draw () {
 		ccDrawColor4B(0, 0, 255, 255);
 		glLineWidth(1);
 		Point points[4];
-		ccV3F_C4B_T2F_Quad quad;
+		V3F_C4B_T2F_Quad quad;
 		for (int i = 0, n = skeleton->slotCount; i < n; i++) {
 			Slot* slot = skeleton->slots[i];
 			if (!slot->attachment || slot->attachment->type != ATTACHMENT_REGION) continue;
@@ -280,12 +280,12 @@ bool CCSkeleton::setAttachment (const char* slotName, const char* attachmentName
 
 // --- BlendProtocol
 
-const ccBlendFunc& CCSkeleton::getBlendFunc() const
+const BlendFunc& CCSkeleton::getBlendFunc() const
 {
     return blendFunc;
 }
 
-void CCSkeleton::setBlendFunc( const ccBlendFunc &blendFunc) {
+void CCSkeleton::setBlendFunc( const BlendFunc &blendFunc) {
     this->blendFunc = blendFunc;
 }
 

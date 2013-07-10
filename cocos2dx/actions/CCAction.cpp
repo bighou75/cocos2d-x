@@ -29,7 +29,6 @@ THE SOFTWARE.
 #include "base_nodes/CCNode.h"
 #include "support/CCPointExtension.h"
 #include "CCDirector.h"
-#include "cocoa/CCZone.h"
 
 NS_CC_BEGIN
 //
@@ -40,7 +39,6 @@ Action::Action()
 :_originalTarget(NULL)
 ,_target(NULL)
 ,_tag(kActionTagInvalid)
-,m_paused(false)
 {
 }
 
@@ -49,7 +47,7 @@ Action::~Action()
     CCLOGINFO("cocos2d: deallocing");
 }
 
-const char* Action::description()
+const char* Action::description() const
 {
     return String::createWithFormat("<Action | Tag = %d>", _tag)->getCString();
 }
@@ -79,7 +77,7 @@ void Action::resume()
 	m_paused = false;
 }
 
-bool Action::isDone()
+bool Action::isDone() const
 {
     return true;
 }
@@ -140,27 +138,6 @@ Speed *Speed::clone() const
 	return  a;
 }
 
-Object *Speed::copyWithZone(Zone *pZone)
-{
-    Zone* pNewZone = NULL;
-    Speed* pRet = NULL;
-    if(pZone && pZone->_copyObject) //in case of being called at sub class
-    {
-        pRet = (Speed*)(pZone->_copyObject);
-    }
-    else
-    {
-        pRet = new Speed();
-        pZone = pNewZone = new Zone(pRet);
-    }
-    Action::copyWithZone(pZone);
-
-    pRet->initWithAction( (ActionInterval*)(_innerAction->copy()->autorelease()) , _speed );
-    
-    CC_SAFE_DELETE(pNewZone);
-    return pRet;
-}
-
 void Speed::startWithTarget(Node* pTarget)
 {
     Action::startWithTarget(pTarget);
@@ -178,7 +155,7 @@ void Speed::step(float dt)
     _innerAction->step(dt * _speed);
 }
 
-bool Speed::isDone()
+bool Speed::isDone() const
 {
     return _innerAction->isDone();
 }
@@ -279,26 +256,6 @@ bool Follow::initWithTarget(Node *pFollowedNode, const Rect& rect/* = RectZero*/
     return true;
 }
 
-Object *Follow::copyWithZone(Zone *pZone)
-{
-    Zone *pNewZone = NULL;
-    Follow *pRet = NULL;
-    if(pZone && pZone->_copyObject) //in case of being called at sub class
-    {
-        pRet = (Follow*)(pZone->_copyObject);
-    }
-    else
-    {
-        pRet = new Follow();
-        pZone = pNewZone = new Zone(pRet);
-    }
-    Action::copyWithZone(pZone);
-    // copy member data
-    pRet->_tag = _tag;
-    CC_SAFE_DELETE(pNewZone);
-    return pRet;
-}
-
 void Follow::step(float dt)
 {
     CC_UNUSED_PARAM(dt);
@@ -320,7 +277,7 @@ void Follow::step(float dt)
     }
 }
 
-bool Follow::isDone()
+bool Follow::isDone() const
 {
     return ( !_followedNode->isRunning() );
 }

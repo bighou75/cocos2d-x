@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on Mon Jul  8 23:09:26 2013.
+** Generated automatically by tolua++-1.0.92 on 07/10/13 10:13:22.
 */
 
 /****************************************************************************
@@ -369,6 +369,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCTransitionShrinkGrow");
  tolua_usertype(tolua_S,"CCCatmullRomBy");
  tolua_usertype(tolua_S,"CCProgressFromTo");
+ tolua_usertype(tolua_S,"Node");
  tolua_usertype(tolua_S,"CCActionCamera");
  tolua_usertype(tolua_S,"CCFlipY3D");
  tolua_usertype(tolua_S,"CCEaseExponentialIn");
@@ -450,6 +451,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCObject");
  tolua_usertype(tolua_S,"CCEaseBackInOut");
  tolua_usertype(tolua_S,"CCAtlasNode");
+ tolua_usertype(tolua_S,"ScriptBridge");
  tolua_usertype(tolua_S,"CCEaseBackOut");
  tolua_usertype(tolua_S,"CCSize");
  tolua_usertype(tolua_S,"CCInteger");
@@ -526,6 +528,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"V2F_C4F_T2F");
  tolua_usertype(tolua_S,"Quad3");
  tolua_usertype(tolua_S,"CCMoveBy");
+ tolua_usertype(tolua_S,"CCFadeOutBLTiles");
  tolua_usertype(tolua_S,"CCCamera");
  tolua_usertype(tolua_S,"CCSequence");
  tolua_usertype(tolua_S,"V3F_C4B_T2F");
@@ -595,7 +598,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCSprite");
  tolua_usertype(tolua_S,"CCSplitCols");
  tolua_usertype(tolua_S,"CCAccelAmplitude");
- tolua_usertype(tolua_S,"CCFadeOutBLTiles");
+ tolua_usertype(tolua_S,"CShipAI");
  tolua_usertype(tolua_S,"CCFadeOutTRTiles");
  tolua_usertype(tolua_S,"CCFadeOut");
  tolua_usertype(tolua_S,"CCLayerMultiplex");
@@ -64334,6 +64337,919 @@ static int tolua_Cocos2d_CCInteger_create00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: GetName of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetName00
+static int tolua_Cocos2d_CShipAI_GetName00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetName'", NULL);
+#endif
+  {
+   const char* tolua_ret = (const char*)  self->GetName();
+   tolua_pushstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetName'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetParentLife of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetParentLife00
+static int tolua_Cocos2d_CShipAI_GetParentLife00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetParentLife'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetParentLife();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetParentLife'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: create of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_create00
+static int tolua_Cocos2d_CShipAI_create00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   CShipAI* tolua_ret = (CShipAI*)  CShipAI::create();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"CShipAI");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'create'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetState00
+static int tolua_Cocos2d_CShipAI_GetState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetState'", NULL);
+#endif
+  {
+   State tolua_ret = (State)  self->GetState();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetNextState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetNextState00
+static int tolua_Cocos2d_CShipAI_GetNextState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetNextState'", NULL);
+#endif
+  {
+   State tolua_ret = (State)  self->GetNextState();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetNextState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetPrevState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetPrevState00
+static int tolua_Cocos2d_CShipAI_GetPrevState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPrevState'", NULL);
+#endif
+  {
+   State tolua_ret = (State)  self->GetPrevState();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetPrevState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetEntry of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetEntry00
+static int tolua_Cocos2d_CShipAI_GetEntry00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetEntry'", NULL);
+#endif
+  {
+   Entry tolua_ret = (Entry)  self->GetEntry();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetEntry'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCaptainId of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetCaptainId00
+static int tolua_Cocos2d_CShipAI_GetCaptainId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCaptainId'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetCaptainId();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCaptainId'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetEnableCollision of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetEnableCollision00
+static int tolua_Cocos2d_CShipAI_SetEnableCollision00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  bool val = ((bool)  tolua_toboolean(tolua_S,2,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,3,1.0f));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetEnableCollision'", NULL);
+#endif
+  {
+   self->SetEnableCollision(val,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetEnableCollision'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OnSetCollisionDone of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OnSetCollisionDone00
+static int tolua_Cocos2d_CShipAI_OnSetCollisionDone00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isusertype(tolua_S,2,"Node",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  Node* pNode = ((Node*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OnSetCollisionDone'", NULL);
+#endif
+  {
+   self->OnSetCollisionDone(pNode);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OnSetCollisionDone'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetLife of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetLife00
+static int tolua_Cocos2d_CShipAI_GetLife00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetLife'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetLife();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetLife'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: ReserveState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_ReserveState00
+static int tolua_Cocos2d_CShipAI_ReserveState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  State st = ((State) (int)  tolua_tonumber(tolua_S,2,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,3,0.0f));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'ReserveState'", NULL);
+#endif
+  {
+   self->ReserveState(st,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'ReserveState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetState00
+static int tolua_Cocos2d_CShipAI_SetState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  State st_val = ((State) (int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetState'", NULL);
+#endif
+  {
+   self->SetState(st_val);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetLastAccumTimeInSec of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetLastAccumTimeInSec00
+static int tolua_Cocos2d_CShipAI_GetLastAccumTimeInSec00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetLastAccumTimeInSec'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->GetLastAccumTimeInSec();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetLastAccumTimeInSec'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetLastAccumTimeInRaw of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetLastAccumTimeInRaw00
+static int tolua_Cocos2d_CShipAI_GetLastAccumTimeInRaw00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetLastAccumTimeInRaw'", NULL);
+#endif
+  {
+   float tolua_ret = (float)  self->GetLastAccumTimeInRaw();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetLastAccumTimeInRaw'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetShipPosition of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetShipPosition00
+static int tolua_Cocos2d_CShipAI_GetShipPosition00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetShipPosition'", NULL);
+#endif
+  {
+   Point tolua_ret = (Point)  self->GetShipPosition();
+   {
+#ifdef __cplusplus
+    void* tolua_obj = Mtolua_new((Point)(tolua_ret));
+     tolua_pushusertype(tolua_S,tolua_obj,"CCPoint");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#else
+    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(Point));
+     tolua_pushusertype(tolua_S,tolua_obj,"CCPoint");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+#endif
+   }
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetShipPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipPosition of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipPosition00
+static int tolua_Cocos2d_CShipAI_SetShipPosition00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  Point pos = *((Point*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipPosition'", NULL);
+#endif
+  {
+   self->SetShipPosition(pos);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetShipPosition'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderMove of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderMove00
+static int tolua_Cocos2d_CShipAI_OrderMove00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"CCPoint",0,&tolua_err)) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  Point delta = *((Point*)  tolua_tousertype(tolua_S,2,0));
+  Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
+#endif
+  {
+   self->OrderMove(delta,pos);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderMove'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderMove of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderMove01
+static int tolua_Cocos2d_CShipAI_OrderMove01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  float time = ((float)  tolua_tonumber(tolua_S,2,0));
+  Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
+#endif
+  {
+   self->OrderMove(time,pos);
+  }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_OrderMove00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderIdle of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderIdle00
+static int tolua_Cocos2d_CShipAI_OrderIdle00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  float time = ((float)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderIdle'", NULL);
+#endif
+  {
+   self->OrderIdle(time);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderIdle'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderAttack of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderAttack00
+static int tolua_Cocos2d_CShipAI_OrderAttack00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int attackCount = ((int)  tolua_tonumber(tolua_S,2,0));
+  int delay = ((int)  tolua_tonumber(tolua_S,3,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderAttack'", NULL);
+#endif
+  {
+   self->OrderAttack(attackCount,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderAttack'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderLine of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderLine00
+static int tolua_Cocos2d_CShipAI_OrderLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+  float time = ((float)  tolua_tonumber(tolua_S,3,1));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderLine'", NULL);
+#endif
+  {
+   self->OrderLine(id,time);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsMoveState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_IsMoveState00
+static int tolua_Cocos2d_CShipAI_IsMoveState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsMoveState'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsMoveState();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsMoveState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsAttackState of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_IsAttackState00
+static int tolua_Cocos2d_CShipAI_IsAttackState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsAttackState'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsAttackState();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsAttackState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: StopMove of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_StopMove00
+static int tolua_Cocos2d_CShipAI_StopMove00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'StopMove'", NULL);
+#endif
+  {
+   self->StopMove();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'StopMove'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: StopAttack of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_StopAttack00
+static int tolua_Cocos2d_CShipAI_StopAttack00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'StopAttack'", NULL);
+#endif
+  {
+   self->StopAttack();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'StopAttack'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isCompletedPreEvent of class  ScriptBridge */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_ScriptBridge_isCompletedPreEvent00
+static int tolua_Cocos2d_ScriptBridge_isCompletedPreEvent00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"ScriptBridge",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  int eventId = ((int)  tolua_tonumber(tolua_S,2,0));
+  {
+   bool tolua_ret = (bool)  ScriptBridge::isCompletedPreEvent(eventId);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isCompletedPreEvent'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: isCompletedEvent of class  ScriptBridge */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_ScriptBridge_isCompletedEvent00
+static int tolua_Cocos2d_ScriptBridge_isCompletedEvent00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"ScriptBridge",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  int eventId = ((int)  tolua_tonumber(tolua_S,2,0));
+  {
+   bool tolua_ret = (bool)  ScriptBridge::isCompletedEvent(eventId);
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'isCompletedEvent'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* Open function */
 TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
 {
@@ -67692,6 +68608,53 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,".call",tolua_Cocos2d_CCInteger_new00_local);
    tolua_function(tolua_S,"getValue",tolua_Cocos2d_CCInteger_getValue00);
    tolua_function(tolua_S,"create",tolua_Cocos2d_CCInteger_create00);
+  tolua_endmodule(tolua_S);
+  tolua_constant(tolua_S,"STT_INIT",STT_INIT);
+  tolua_constant(tolua_S,"STT_READY",STT_READY);
+  tolua_constant(tolua_S,"STT_IDLE",STT_IDLE);
+  tolua_constant(tolua_S,"STT_ATTACK",STT_ATTACK);
+  tolua_constant(tolua_S,"STT_MOVE",STT_MOVE);
+  tolua_constant(tolua_S,"STT_MOVE_LINE",STT_MOVE_LINE);
+  tolua_constant(tolua_S,"STT_SINK",STT_SINK);
+  tolua_constant(tolua_S,"STT_DAMAGE",STT_DAMAGE);
+  tolua_constant(tolua_S,"STT_DEPLOY",STT_DEPLOY);
+  tolua_constant(tolua_S,"STT_DESTROY",STT_DESTROY);
+  tolua_constant(tolua_S,"STT_ENTRY",STT_ENTRY);
+  tolua_constant(tolua_S,"STT_DOING",STT_DOING);
+  tolua_constant(tolua_S,"STT_EXIT",STT_EXIT);
+  tolua_cclass(tolua_S,"CShipAI","CShipAI","CCObject",NULL);
+  tolua_beginmodule(tolua_S,"CShipAI");
+   tolua_function(tolua_S,"GetName",tolua_Cocos2d_CShipAI_GetName00);
+   tolua_function(tolua_S,"GetParentLife",tolua_Cocos2d_CShipAI_GetParentLife00);
+   tolua_function(tolua_S,"create",tolua_Cocos2d_CShipAI_create00);
+   tolua_function(tolua_S,"GetState",tolua_Cocos2d_CShipAI_GetState00);
+   tolua_function(tolua_S,"GetNextState",tolua_Cocos2d_CShipAI_GetNextState00);
+   tolua_function(tolua_S,"GetPrevState",tolua_Cocos2d_CShipAI_GetPrevState00);
+   tolua_function(tolua_S,"GetEntry",tolua_Cocos2d_CShipAI_GetEntry00);
+   tolua_function(tolua_S,"GetCaptainId",tolua_Cocos2d_CShipAI_GetCaptainId00);
+   tolua_function(tolua_S,"SetEnableCollision",tolua_Cocos2d_CShipAI_SetEnableCollision00);
+   tolua_function(tolua_S,"OnSetCollisionDone",tolua_Cocos2d_CShipAI_OnSetCollisionDone00);
+   tolua_function(tolua_S,"GetLife",tolua_Cocos2d_CShipAI_GetLife00);
+   tolua_function(tolua_S,"ReserveState",tolua_Cocos2d_CShipAI_ReserveState00);
+   tolua_function(tolua_S,"SetState",tolua_Cocos2d_CShipAI_SetState00);
+   tolua_function(tolua_S,"GetLastAccumTimeInSec",tolua_Cocos2d_CShipAI_GetLastAccumTimeInSec00);
+   tolua_function(tolua_S,"GetLastAccumTimeInRaw",tolua_Cocos2d_CShipAI_GetLastAccumTimeInRaw00);
+   tolua_function(tolua_S,"GetShipPosition",tolua_Cocos2d_CShipAI_GetShipPosition00);
+   tolua_function(tolua_S,"SetShipPosition",tolua_Cocos2d_CShipAI_SetShipPosition00);
+   tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_CShipAI_OrderMove00);
+   tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_CShipAI_OrderMove01);
+   tolua_function(tolua_S,"OrderIdle",tolua_Cocos2d_CShipAI_OrderIdle00);
+   tolua_function(tolua_S,"OrderAttack",tolua_Cocos2d_CShipAI_OrderAttack00);
+   tolua_function(tolua_S,"OrderLine",tolua_Cocos2d_CShipAI_OrderLine00);
+   tolua_function(tolua_S,"IsMoveState",tolua_Cocos2d_CShipAI_IsMoveState00);
+   tolua_function(tolua_S,"IsAttackState",tolua_Cocos2d_CShipAI_IsAttackState00);
+   tolua_function(tolua_S,"StopMove",tolua_Cocos2d_CShipAI_StopMove00);
+   tolua_function(tolua_S,"StopAttack",tolua_Cocos2d_CShipAI_StopAttack00);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"ScriptBridge","ScriptBridge","",NULL);
+  tolua_beginmodule(tolua_S,"ScriptBridge");
+   tolua_function(tolua_S,"isCompletedPreEvent",tolua_Cocos2d_ScriptBridge_isCompletedPreEvent00);
+   tolua_function(tolua_S,"isCompletedEvent",tolua_Cocos2d_ScriptBridge_isCompletedEvent00);
   tolua_endmodule(tolua_S);
  tolua_endmodule(tolua_S);
  return 1;

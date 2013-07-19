@@ -33,6 +33,13 @@ class CShipAI : public CCObject
 	Entry	GetEntry();
 	int		GetCaptainId();
 
+	const char* GetGroupName();
+	int			GetStartPos();
+	int			GetIdInGroup();
+
+	void  SetShipOpacity( byte value );
+	void  SetShipScale( int lineid );
+
 	void	SetEnableCollision( bool val, float delay = 1.0f );
 	void	OnSetCollisionDone( Node* pNode );
 	int		GetLife();
@@ -44,15 +51,32 @@ class CShipAI : public CCObject
 	CCPoint		GetShipPosition();
 	void		SetShipPosition( CCPoint pos );
 
-	void		OrderMove( CCPoint delta, CCPoint pos );
-	void		OrderMove( float time,	CCPoint pos  );
-	void		OrderIdle( float time = 0 );
-	void		OrderAttack( int attackCount, int delay );
-	void		OrderLine( int id, float time = 1 );
+	void		OrderLine( int id, float time = 1, float delay = 0 );
+	void		OrderMove( float time, CCPoint pos, float delay = 0 );
+	void		OrderMove( CCPoint delta, CCPoint pos, float delay = 0 );
+	void		OrderIdle( float idleTime = 0.0f, float delay = 0 );
+	void		OrderAttack( int attackCount, int attackDelay, float delay = 0 );
 
 	bool		IsMoveState();
 	bool		IsAttackState();
 
 	void		StopMove();
 	void		StopAttack();
+	int			GetCannonballCount();
+
+	const char* GetGroupName();
+	int			GetStartPos();
+	int			GetIdInGroup();
+	int			GetCountInGroup();
+
+	void		SetShipOpacity( byte value );
+	void		SetShipScale( int lineid );
+
+	int			GetLinePos( int lineid );
+	bool		IsGroupReady();
+	void		SetGroupReady( bool val );
+	int			GetGroupRandomActiveId();
+	int			GetObjID();
+	void		SetShipLine( int line, bool force = true );
+
 };

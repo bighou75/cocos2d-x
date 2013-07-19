@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on 07/10/13 10:13:22.
+** Generated automatically by tolua++-1.0.92 on 07/19/13 15:22:59.
 */
 
 /****************************************************************************
@@ -66,6 +66,13 @@ static int tolua_collect_Color4F (lua_State* tolua_S)
 static int tolua_collect_AnimationFrameData (lua_State* tolua_S)
 {
  AnimationFrameData* self = (AnimationFrameData*) tolua_tousertype(tolua_S,1,0);
+    Mtolua_delete(self);
+    return 0;
+}
+
+static int tolua_collect_unit_data (lua_State* tolua_S)
+{
+ unit_data* self = (unit_data*) tolua_tousertype(tolua_S,1,0);
     Mtolua_delete(self);
     return 0;
 }
@@ -437,6 +444,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCLens3D");
  tolua_usertype(tolua_S,"CCTintBy");
  tolua_usertype(tolua_S,"CCTransitionProgressRadialCCW");
+ tolua_usertype(tolua_S,"WaveMgr");
  tolua_usertype(tolua_S,"CCScaleBy");
  tolua_usertype(tolua_S,"T2F_Quad");
  tolua_usertype(tolua_S,"CCScheduler");
@@ -497,6 +505,7 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCTransitionMoveInT");
  tolua_usertype(tolua_S,"Color4F");
  tolua_usertype(tolua_S,"CCLayerGradient");
+ tolua_usertype(tolua_S,"unit_data");
  tolua_usertype(tolua_S,"CCTimer");
  tolua_usertype(tolua_S,"CCTMXMapInfo");
  tolua_usertype(tolua_S,"CCLayerColor");
@@ -523,10 +532,12 @@ static void tolua_reg_types (lua_State* tolua_S)
  tolua_usertype(tolua_S,"CCRotateTo");
  tolua_usertype(tolua_S,"CCShakyTiles3D");
  tolua_usertype(tolua_S,"CCNode");
+ tolua_usertype(tolua_S,"WaveUnit");
  tolua_usertype(tolua_S,"CCBezierTo");
  tolua_usertype(tolua_S,"CCDeccelAmplitude");
  tolua_usertype(tolua_S,"V2F_C4F_T2F");
  tolua_usertype(tolua_S,"Quad3");
+ tolua_usertype(tolua_S,"byte");
  tolua_usertype(tolua_S,"CCMoveBy");
  tolua_usertype(tolua_S,"CCFadeOutBLTiles");
  tolua_usertype(tolua_S,"CCCamera");
@@ -64589,6 +64600,168 @@ static int tolua_Cocos2d_CShipAI_GetCaptainId00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: GetGroupName of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetGroupName00
+static int tolua_Cocos2d_CShipAI_GetGroupName00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetGroupName'", NULL);
+#endif
+  {
+   const char* tolua_ret = (const char*)  self->GetGroupName();
+   tolua_pushstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetGroupName'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetStartPos of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetStartPos00
+static int tolua_Cocos2d_CShipAI_GetStartPos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetStartPos'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetStartPos();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetStartPos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetIdInGroup of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetIdInGroup00
+static int tolua_Cocos2d_CShipAI_GetIdInGroup00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetIdInGroup'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetIdInGroup();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetIdInGroup'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipOpacity of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipOpacity00
+static int tolua_Cocos2d_CShipAI_SetShipOpacity00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"byte",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  byte value = *((byte*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipOpacity'", NULL);
+#endif
+  {
+   self->SetShipOpacity(value);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetShipOpacity'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipScale of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipScale00
+static int tolua_Cocos2d_CShipAI_SetShipScale00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int lineid = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipScale'", NULL);
+#endif
+  {
+   self->SetShipScale(lineid);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetShipScale'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: SetEnableCollision of class  CShipAI */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetEnableCollision00
 static int tolua_Cocos2d_CShipAI_SetEnableCollision00(lua_State* tolua_S)
@@ -64896,6 +65069,43 @@ static int tolua_Cocos2d_CShipAI_SetShipPosition00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
+/* method: OrderLine of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderLine00
+static int tolua_Cocos2d_CShipAI_OrderLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+  float time = ((float)  tolua_tonumber(tolua_S,3,1));
+  float delay = ((float)  tolua_tonumber(tolua_S,4,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderLine'", NULL);
+#endif
+  {
+   self->OrderLine(id,time,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
 /* method: OrderMove of class  CShipAI */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderMove00
 static int tolua_Cocos2d_CShipAI_OrderMove00(lua_State* tolua_S)
@@ -64904,22 +65114,24 @@ static int tolua_Cocos2d_CShipAI_OrderMove00(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
-     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
   CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-  Point delta = *((Point*)  tolua_tousertype(tolua_S,2,0));
+  float time = ((float)  tolua_tonumber(tolua_S,2,0));
   Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,4,0));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
 #endif
   {
-   self->OrderMove(delta,pos);
+   self->OrderMove(time,pos,delay);
   }
  }
  return 0;
@@ -64938,21 +65150,23 @@ static int tolua_Cocos2d_CShipAI_OrderMove01(lua_State* tolua_S)
  tolua_Error tolua_err;
  if (
      !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"CCPoint",0,&tolua_err)) ||
      (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
  {
   CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-  float time = ((float)  tolua_tonumber(tolua_S,2,0));
+  Point delta = *((Point*)  tolua_tousertype(tolua_S,2,0));
   Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,4,0));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
 #endif
   {
-   self->OrderMove(time,pos);
+   self->OrderMove(delta,pos,delay);
   }
  }
  return 0;
@@ -64970,19 +65184,21 @@ static int tolua_Cocos2d_CShipAI_OrderIdle00(lua_State* tolua_S)
  if (
      !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,1,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,3,&tolua_err)
+     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
  )
   goto tolua_lerror;
  else
 #endif
  {
   CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-  float time = ((float)  tolua_tonumber(tolua_S,2,0));
+  float idleTime = ((float)  tolua_tonumber(tolua_S,2,0.0f));
+  float delay = ((float)  tolua_tonumber(tolua_S,3,0));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderIdle'", NULL);
 #endif
   {
-   self->OrderIdle(time);
+   self->OrderIdle(idleTime,delay);
   }
  }
  return 0;
@@ -65004,7 +65220,8 @@ static int tolua_Cocos2d_CShipAI_OrderAttack00(lua_State* tolua_S)
      !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
      !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
      !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
+     !tolua_isnumber(tolua_S,4,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,5,&tolua_err)
  )
   goto tolua_lerror;
  else
@@ -65012,53 +65229,19 @@ static int tolua_Cocos2d_CShipAI_OrderAttack00(lua_State* tolua_S)
  {
   CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
   int attackCount = ((int)  tolua_tonumber(tolua_S,2,0));
-  int delay = ((int)  tolua_tonumber(tolua_S,3,0));
+  int attackDelay = ((int)  tolua_tonumber(tolua_S,3,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,4,0));
 #ifndef TOLUA_RELEASE
   if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderAttack'", NULL);
 #endif
   {
-   self->OrderAttack(attackCount,delay);
+   self->OrderAttack(attackCount,attackDelay,delay);
   }
  }
  return 0;
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'OrderAttack'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: OrderLine of class  CShipAI */
-#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_OrderLine00
-static int tolua_Cocos2d_CShipAI_OrderLine00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
-     !tolua_isnumber(tolua_S,3,1,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,4,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-  int id = ((int)  tolua_tonumber(tolua_S,2,0));
-  float time = ((float)  tolua_tonumber(tolua_S,3,1));
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderLine'", NULL);
-#endif
-  {
-   self->OrderLine(id,time);
-  }
- }
- return 0;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'OrderLine'.",&tolua_err);
  return 0;
 #endif
 }
@@ -65185,6 +65368,1590 @@ static int tolua_Cocos2d_CShipAI_StopAttack00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'StopAttack'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCannonballCount of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetCannonballCount00
+static int tolua_Cocos2d_CShipAI_GetCannonballCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCannonballCount'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetCannonballCount();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCannonballCount'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetGroupName of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetGroupName01
+static int tolua_Cocos2d_CShipAI_GetGroupName01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetGroupName'", NULL);
+#endif
+  {
+   const char* tolua_ret = (const char*)  self->GetGroupName();
+   tolua_pushstring(tolua_S,(const char*)tolua_ret);
+  }
+ }
+ return 1;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_GetGroupName00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetStartPos of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetStartPos01
+static int tolua_Cocos2d_CShipAI_GetStartPos01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetStartPos'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetStartPos();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_GetStartPos00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetIdInGroup of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetIdInGroup01
+static int tolua_Cocos2d_CShipAI_GetIdInGroup01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetIdInGroup'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetIdInGroup();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_GetIdInGroup00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCountInGroup of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetCountInGroup00
+static int tolua_Cocos2d_CShipAI_GetCountInGroup00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCountInGroup'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetCountInGroup();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCountInGroup'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipOpacity of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipOpacity01
+static int tolua_Cocos2d_CShipAI_SetShipOpacity01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,2,&tolua_err) || !tolua_isusertype(tolua_S,2,"byte",0,&tolua_err)) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  byte value = *((byte*)  tolua_tousertype(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipOpacity'", NULL);
+#endif
+  {
+   self->SetShipOpacity(value);
+  }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_SetShipOpacity00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipScale of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipScale01
+static int tolua_Cocos2d_CShipAI_SetShipScale01(lua_State* tolua_S)
+{
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int lineid = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipScale'", NULL);
+#endif
+  {
+   self->SetShipScale(lineid);
+  }
+ }
+ return 0;
+tolua_lerror:
+ return tolua_Cocos2d_CShipAI_SetShipScale00(tolua_S);
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetLinePos of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetLinePos00
+static int tolua_Cocos2d_CShipAI_GetLinePos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int lineid = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetLinePos'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetLinePos(lineid);
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetLinePos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsGroupReady of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_IsGroupReady00
+static int tolua_Cocos2d_CShipAI_IsGroupReady00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsGroupReady'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsGroupReady();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsGroupReady'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetGroupReady of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetGroupReady00
+static int tolua_Cocos2d_CShipAI_SetGroupReady00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  bool val = ((bool)  tolua_toboolean(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetGroupReady'", NULL);
+#endif
+  {
+   self->SetGroupReady(val);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetGroupReady'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetGroupRandomActiveId of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetGroupRandomActiveId00
+static int tolua_Cocos2d_CShipAI_GetGroupRandomActiveId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetGroupRandomActiveId'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetGroupRandomActiveId();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetGroupRandomActiveId'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetObjID of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetObjID00
+static int tolua_Cocos2d_CShipAI_GetObjID00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetObjID'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetObjID();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetObjID'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetShipLine of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_SetShipLine00
+static int tolua_Cocos2d_CShipAI_SetShipLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isboolean(tolua_S,3,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,4,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+  int line = ((int)  tolua_tonumber(tolua_S,2,0));
+  bool force = ((bool)  tolua_toboolean(tolua_S,3,true));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetShipLine'", NULL);
+#endif
+  {
+   self->SetShipLine(line,force);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetShipLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: id of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_id
+static int tolua_get_unit_data_id(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'id'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->id);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: id of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_id
+static int tolua_set_unit_data_id(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'id'",NULL);
+  if (!tolua_isnumber(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->id = ((int)  tolua_tonumber(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: spos of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_spos
+static int tolua_get_unit_data_spos(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'spos'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->spos);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: spos of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_spos
+static int tolua_set_unit_data_spos(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'spos'",NULL);
+  if (!tolua_isnumber(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->spos = ((int)  tolua_tonumber(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: sline of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_sline
+static int tolua_get_unit_data_sline(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'sline'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->sline);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: sline of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_sline
+static int tolua_set_unit_data_sline(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'sline'",NULL);
+  if (!tolua_isnumber(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->sline = ((int)  tolua_tonumber(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: tpos of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_tpos
+static int tolua_get_unit_data_tpos(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'tpos'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->tpos);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: tpos of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_tpos
+static int tolua_set_unit_data_tpos(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'tpos'",NULL);
+  if (!tolua_isnumber(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->tpos = ((int)  tolua_tonumber(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: tline of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_tline
+static int tolua_get_unit_data_tline(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'tline'",NULL);
+#endif
+  tolua_pushnumber(tolua_S,(lua_Number)self->tline);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: tline of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_tline
+static int tolua_set_unit_data_tline(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'tline'",NULL);
+  if (!tolua_isnumber(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->tline = ((int)  tolua_tonumber(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* get function: active of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_get_unit_data_active
+static int tolua_get_unit_data_active(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'active'",NULL);
+#endif
+  tolua_pushboolean(tolua_S,(bool)self->active);
+ return 1;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* set function: active of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_set_unit_data_active
+static int tolua_set_unit_data_active(lua_State* tolua_S)
+{
+  unit_data* self = (unit_data*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  tolua_Error tolua_err;
+  if (!self) tolua_error(tolua_S,"invalid 'self' in accessing variable 'active'",NULL);
+  if (!tolua_isboolean(tolua_S,2,0,&tolua_err))
+   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);
+#endif
+  self->active = ((bool)  tolua_toboolean(tolua_S,2,0))
+;
+ return 0;
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_unit_data_new00
+static int tolua_Cocos2d_unit_data_new00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"unit_data",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   unit_data* tolua_ret = (unit_data*)  Mtolua_new((unit_data)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"unit_data");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: new_local of class  unit_data */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_unit_data_new00_local
+static int tolua_Cocos2d_unit_data_new00_local(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertable(tolua_S,1,"unit_data",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  {
+   unit_data* tolua_ret = (unit_data*)  Mtolua_new((unit_data)());
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"unit_data");
+    tolua_register_gc(tolua_S,lua_gettop(tolua_S));
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'new'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetId of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetId00
+static int tolua_Cocos2d_WaveUnit_GetId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetId'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetId();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetId'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetPos of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetPos00
+static int tolua_Cocos2d_WaveUnit_GetPos00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPos'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetPos();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetPos'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetLine of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetLine00
+static int tolua_Cocos2d_WaveUnit_GetLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetLine'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetLine();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetUnitData of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetUnitData00
+static int tolua_Cocos2d_WaveUnit_GetUnitData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetUnitData'", NULL);
+#endif
+  {
+   unit_data* tolua_ret = (unit_data*)  self->GetUnitData(id);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"unit_data");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetUnitData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetUnitCount of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetUnitCount00
+static int tolua_Cocos2d_WaveUnit_GetUnitCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetUnitCount'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetUnitCount();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetUnitCount'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetUnit of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_GetUnit00
+static int tolua_Cocos2d_WaveUnit_GetUnit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetUnit'", NULL);
+#endif
+  {
+   CShipAI* tolua_ret = (CShipAI*)  self->GetUnit(i);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"CShipAI");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetUnit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: RemoveUnit of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_RemoveUnit00
+static int tolua_Cocos2d_WaveUnit_RemoveUnit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'RemoveUnit'", NULL);
+#endif
+  {
+   self->RemoveUnit(id);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'RemoveUnit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsFinish of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_IsFinish00
+static int tolua_Cocos2d_WaveUnit_IsFinish00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsFinish'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsFinish();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsFinish'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: ActivateUnit of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_ActivateUnit00
+static int tolua_Cocos2d_WaveUnit_ActivateUnit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'ActivateUnit'", NULL);
+#endif
+  {
+   self->ActivateUnit(id);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'ActivateUnit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderMove of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_OrderMove00
+static int tolua_Cocos2d_WaveUnit_OrderMove00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+  float time = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
+#endif
+  {
+   self->OrderMove(i,pos,time,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderMove'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderAttack of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_OrderAttack00
+static int tolua_Cocos2d_WaveUnit_OrderAttack00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  int count = ((int)  tolua_tonumber(tolua_S,3,0));
+  float attacktime = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderAttack'", NULL);
+#endif
+  {
+   self->OrderAttack(i,count,attacktime,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderAttack'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderLine of class  WaveUnit */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveUnit_OrderLine00
+static int tolua_Cocos2d_WaveUnit_OrderLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveUnit",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveUnit* self = (WaveUnit*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  int line = ((int)  tolua_tonumber(tolua_S,3,0));
+  float time = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderLine'", NULL);
+#endif
+  {
+   self->OrderLine(i,line,time,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderLine'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetWaveState of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetWaveState00
+static int tolua_Cocos2d_WaveMgr_GetWaveState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetWaveState'", NULL);
+#endif
+  {
+   WAVE_STATE tolua_ret = (WAVE_STATE)  self->GetWaveState();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetWaveState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: SetWaveState of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_SetWaveState00
+static int tolua_Cocos2d_WaveMgr_SetWaveState00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  WAVE_STATE st = ((WAVE_STATE) (int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'SetWaveState'", NULL);
+#endif
+  {
+   self->SetWaveState(st);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'SetWaveState'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: AddWave of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_AddWave00
+static int tolua_Cocos2d_WaveMgr_AddWave00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'AddWave'", NULL);
+#endif
+  {
+   self->AddWave();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'AddWave'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: NextWave of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_NextWave00
+static int tolua_Cocos2d_WaveMgr_NextWave00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'NextWave'", NULL);
+#endif
+  {
+   self->NextWave();
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'NextWave'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsCurrentWaveFinish of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_IsCurrentWaveFinish00
+static int tolua_Cocos2d_WaveMgr_IsCurrentWaveFinish00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsCurrentWaveFinish'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsCurrentWaveFinish();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsCurrentWaveFinish'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCurrentWaveUnitCount of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitCount00
+static int tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCurrentWaveUnitCount'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetCurrentWaveUnitCount();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCurrentWaveUnitCount'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetActivatedWaveUnitCount of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetActivatedWaveUnitCount00
+static int tolua_Cocos2d_WaveMgr_GetActivatedWaveUnitCount00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetActivatedWaveUnitCount'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetActivatedWaveUnitCount();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetActivatedWaveUnitCount'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetRandomGroupActiveId of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetRandomGroupActiveId00
+static int tolua_Cocos2d_WaveMgr_GetRandomGroupActiveId00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetRandomGroupActiveId'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetRandomGroupActiveId();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetRandomGroupActiveId'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: IsLastWave of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_IsLastWave00
+static int tolua_Cocos2d_WaveMgr_IsLastWave00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'IsLastWave'", NULL);
+#endif
+  {
+   bool tolua_ret = (bool)  self->IsLastWave();
+   tolua_pushboolean(tolua_S,(bool)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'IsLastWave'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetUnit of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetUnit00
+static int tolua_Cocos2d_WaveMgr_GetUnit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetUnit'", NULL);
+#endif
+  {
+   CShipAI* tolua_ret = (CShipAI*)  self->GetUnit(i);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"CShipAI");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetUnit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCurrentWave of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetCurrentWave00
+static int tolua_Cocos2d_WaveMgr_GetCurrentWave00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCurrentWave'", NULL);
+#endif
+  {
+   WaveUnit* tolua_ret = (WaveUnit*)  self->GetCurrentWave();
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"WaveUnit");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCurrentWave'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetCurrentWaveUnitData of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitData00
+static int tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitData00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int id = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetCurrentWaveUnitData'", NULL);
+#endif
+  {
+   unit_data* tolua_ret = (unit_data*)  self->GetCurrentWaveUnitData(id);
+    tolua_pushusertype(tolua_S,(void*)tolua_ret,"unit_data");
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetCurrentWaveUnitData'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: ActivateUnit of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_ActivateUnit00
+static int tolua_Cocos2d_WaveMgr_ActivateUnit00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,3,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'ActivateUnit'", NULL);
+#endif
+  {
+   self->ActivateUnit(i);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'ActivateUnit'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderMove of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_OrderMove00
+static int tolua_Cocos2d_WaveMgr_OrderMove00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     (tolua_isvaluenil(tolua_S,3,&tolua_err) || !tolua_isusertype(tolua_S,3,"CCPoint",0,&tolua_err)) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  Point pos = *((Point*)  tolua_tousertype(tolua_S,3,0));
+  float time = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderMove'", NULL);
+#endif
+  {
+   self->OrderMove(i,pos,time,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderMove'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderAttack of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_OrderAttack00
+static int tolua_Cocos2d_WaveMgr_OrderAttack00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  int count = ((int)  tolua_tonumber(tolua_S,3,0));
+  float attacktime = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderAttack'", NULL);
+#endif
+  {
+   self->OrderAttack(i,count,attacktime,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderAttack'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: OrderLine of class  WaveMgr */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_WaveMgr_OrderLine00
+static int tolua_Cocos2d_WaveMgr_OrderLine00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"WaveMgr",0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,2,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,3,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,4,0,&tolua_err) ||
+     !tolua_isnumber(tolua_S,5,1,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,6,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  WaveMgr* self = (WaveMgr*)  tolua_tousertype(tolua_S,1,0);
+  int i = ((int)  tolua_tonumber(tolua_S,2,0));
+  int line = ((int)  tolua_tonumber(tolua_S,3,0));
+  float time = ((float)  tolua_tonumber(tolua_S,4,0));
+  float delay = ((float)  tolua_tonumber(tolua_S,5,0));
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'OrderLine'", NULL);
+#endif
+  {
+   self->OrderLine(i,line,time,delay);
+  }
+ }
+ return 0;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'OrderLine'.",&tolua_err);
  return 0;
 #endif
 }
@@ -68632,6 +70399,11 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"GetPrevState",tolua_Cocos2d_CShipAI_GetPrevState00);
    tolua_function(tolua_S,"GetEntry",tolua_Cocos2d_CShipAI_GetEntry00);
    tolua_function(tolua_S,"GetCaptainId",tolua_Cocos2d_CShipAI_GetCaptainId00);
+   tolua_function(tolua_S,"GetGroupName",tolua_Cocos2d_CShipAI_GetGroupName00);
+   tolua_function(tolua_S,"GetStartPos",tolua_Cocos2d_CShipAI_GetStartPos00);
+   tolua_function(tolua_S,"GetIdInGroup",tolua_Cocos2d_CShipAI_GetIdInGroup00);
+   tolua_function(tolua_S,"SetShipOpacity",tolua_Cocos2d_CShipAI_SetShipOpacity00);
+   tolua_function(tolua_S,"SetShipScale",tolua_Cocos2d_CShipAI_SetShipScale00);
    tolua_function(tolua_S,"SetEnableCollision",tolua_Cocos2d_CShipAI_SetEnableCollision00);
    tolua_function(tolua_S,"OnSetCollisionDone",tolua_Cocos2d_CShipAI_OnSetCollisionDone00);
    tolua_function(tolua_S,"GetLife",tolua_Cocos2d_CShipAI_GetLife00);
@@ -68641,15 +70413,83 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"GetLastAccumTimeInRaw",tolua_Cocos2d_CShipAI_GetLastAccumTimeInRaw00);
    tolua_function(tolua_S,"GetShipPosition",tolua_Cocos2d_CShipAI_GetShipPosition00);
    tolua_function(tolua_S,"SetShipPosition",tolua_Cocos2d_CShipAI_SetShipPosition00);
+   tolua_function(tolua_S,"OrderLine",tolua_Cocos2d_CShipAI_OrderLine00);
    tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_CShipAI_OrderMove00);
    tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_CShipAI_OrderMove01);
    tolua_function(tolua_S,"OrderIdle",tolua_Cocos2d_CShipAI_OrderIdle00);
    tolua_function(tolua_S,"OrderAttack",tolua_Cocos2d_CShipAI_OrderAttack00);
-   tolua_function(tolua_S,"OrderLine",tolua_Cocos2d_CShipAI_OrderLine00);
    tolua_function(tolua_S,"IsMoveState",tolua_Cocos2d_CShipAI_IsMoveState00);
    tolua_function(tolua_S,"IsAttackState",tolua_Cocos2d_CShipAI_IsAttackState00);
    tolua_function(tolua_S,"StopMove",tolua_Cocos2d_CShipAI_StopMove00);
    tolua_function(tolua_S,"StopAttack",tolua_Cocos2d_CShipAI_StopAttack00);
+   tolua_function(tolua_S,"GetCannonballCount",tolua_Cocos2d_CShipAI_GetCannonballCount00);
+   tolua_function(tolua_S,"GetGroupName",tolua_Cocos2d_CShipAI_GetGroupName01);
+   tolua_function(tolua_S,"GetStartPos",tolua_Cocos2d_CShipAI_GetStartPos01);
+   tolua_function(tolua_S,"GetIdInGroup",tolua_Cocos2d_CShipAI_GetIdInGroup01);
+   tolua_function(tolua_S,"GetCountInGroup",tolua_Cocos2d_CShipAI_GetCountInGroup00);
+   tolua_function(tolua_S,"SetShipOpacity",tolua_Cocos2d_CShipAI_SetShipOpacity01);
+   tolua_function(tolua_S,"SetShipScale",tolua_Cocos2d_CShipAI_SetShipScale01);
+   tolua_function(tolua_S,"GetLinePos",tolua_Cocos2d_CShipAI_GetLinePos00);
+   tolua_function(tolua_S,"IsGroupReady",tolua_Cocos2d_CShipAI_IsGroupReady00);
+   tolua_function(tolua_S,"SetGroupReady",tolua_Cocos2d_CShipAI_SetGroupReady00);
+   tolua_function(tolua_S,"GetGroupRandomActiveId",tolua_Cocos2d_CShipAI_GetGroupRandomActiveId00);
+   tolua_function(tolua_S,"GetObjID",tolua_Cocos2d_CShipAI_GetObjID00);
+   tolua_function(tolua_S,"SetShipLine",tolua_Cocos2d_CShipAI_SetShipLine00);
+  tolua_endmodule(tolua_S);
+  #ifdef __cplusplus
+  tolua_cclass(tolua_S,"unit_data","unit_data","",tolua_collect_unit_data);
+  #else
+  tolua_cclass(tolua_S,"unit_data","unit_data","",NULL);
+  #endif
+  tolua_beginmodule(tolua_S,"unit_data");
+   tolua_variable(tolua_S,"id",tolua_get_unit_data_id,tolua_set_unit_data_id);
+   tolua_variable(tolua_S,"spos",tolua_get_unit_data_spos,tolua_set_unit_data_spos);
+   tolua_variable(tolua_S,"sline",tolua_get_unit_data_sline,tolua_set_unit_data_sline);
+   tolua_variable(tolua_S,"tpos",tolua_get_unit_data_tpos,tolua_set_unit_data_tpos);
+   tolua_variable(tolua_S,"tline",tolua_get_unit_data_tline,tolua_set_unit_data_tline);
+   tolua_variable(tolua_S,"active",tolua_get_unit_data_active,tolua_set_unit_data_active);
+   tolua_function(tolua_S,"new",tolua_Cocos2d_unit_data_new00);
+   tolua_function(tolua_S,"new_local",tolua_Cocos2d_unit_data_new00_local);
+   tolua_function(tolua_S,".call",tolua_Cocos2d_unit_data_new00_local);
+  tolua_endmodule(tolua_S);
+  tolua_cclass(tolua_S,"WaveUnit","WaveUnit","Node",NULL);
+  tolua_beginmodule(tolua_S,"WaveUnit");
+   tolua_function(tolua_S,"GetId",tolua_Cocos2d_WaveUnit_GetId00);
+   tolua_function(tolua_S,"GetPos",tolua_Cocos2d_WaveUnit_GetPos00);
+   tolua_function(tolua_S,"GetLine",tolua_Cocos2d_WaveUnit_GetLine00);
+   tolua_function(tolua_S,"GetUnitData",tolua_Cocos2d_WaveUnit_GetUnitData00);
+   tolua_function(tolua_S,"GetUnitCount",tolua_Cocos2d_WaveUnit_GetUnitCount00);
+   tolua_function(tolua_S,"GetUnit",tolua_Cocos2d_WaveUnit_GetUnit00);
+   tolua_function(tolua_S,"RemoveUnit",tolua_Cocos2d_WaveUnit_RemoveUnit00);
+   tolua_function(tolua_S,"IsFinish",tolua_Cocos2d_WaveUnit_IsFinish00);
+   tolua_function(tolua_S,"ActivateUnit",tolua_Cocos2d_WaveUnit_ActivateUnit00);
+   tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_WaveUnit_OrderMove00);
+   tolua_function(tolua_S,"OrderAttack",tolua_Cocos2d_WaveUnit_OrderAttack00);
+   tolua_function(tolua_S,"OrderLine",tolua_Cocos2d_WaveUnit_OrderLine00);
+  tolua_endmodule(tolua_S);
+  tolua_constant(tolua_S,"WAVE_INIT",WAVE_INIT);
+  tolua_constant(tolua_S,"WAVE_START",WAVE_START);
+  tolua_constant(tolua_S,"WAVE_READY",WAVE_READY);
+  tolua_constant(tolua_S,"WAVE_ACTIVE",WAVE_ACTIVE);
+  tolua_constant(tolua_S,"WAVE_END",WAVE_END);
+  tolua_cclass(tolua_S,"WaveMgr","WaveMgr","Node",NULL);
+  tolua_beginmodule(tolua_S,"WaveMgr");
+   tolua_function(tolua_S,"GetWaveState",tolua_Cocos2d_WaveMgr_GetWaveState00);
+   tolua_function(tolua_S,"SetWaveState",tolua_Cocos2d_WaveMgr_SetWaveState00);
+   tolua_function(tolua_S,"AddWave",tolua_Cocos2d_WaveMgr_AddWave00);
+   tolua_function(tolua_S,"NextWave",tolua_Cocos2d_WaveMgr_NextWave00);
+   tolua_function(tolua_S,"IsCurrentWaveFinish",tolua_Cocos2d_WaveMgr_IsCurrentWaveFinish00);
+   tolua_function(tolua_S,"GetCurrentWaveUnitCount",tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitCount00);
+   tolua_function(tolua_S,"GetActivatedWaveUnitCount",tolua_Cocos2d_WaveMgr_GetActivatedWaveUnitCount00);
+   tolua_function(tolua_S,"GetRandomGroupActiveId",tolua_Cocos2d_WaveMgr_GetRandomGroupActiveId00);
+   tolua_function(tolua_S,"IsLastWave",tolua_Cocos2d_WaveMgr_IsLastWave00);
+   tolua_function(tolua_S,"GetUnit",tolua_Cocos2d_WaveMgr_GetUnit00);
+   tolua_function(tolua_S,"GetCurrentWave",tolua_Cocos2d_WaveMgr_GetCurrentWave00);
+   tolua_function(tolua_S,"GetCurrentWaveUnitData",tolua_Cocos2d_WaveMgr_GetCurrentWaveUnitData00);
+   tolua_function(tolua_S,"ActivateUnit",tolua_Cocos2d_WaveMgr_ActivateUnit00);
+   tolua_function(tolua_S,"OrderMove",tolua_Cocos2d_WaveMgr_OrderMove00);
+   tolua_function(tolua_S,"OrderAttack",tolua_Cocos2d_WaveMgr_OrderAttack00);
+   tolua_function(tolua_S,"OrderLine",tolua_Cocos2d_WaveMgr_OrderLine00);
   tolua_endmodule(tolua_S);
   tolua_cclass(tolua_S,"ScriptBridge","ScriptBridge","",NULL);
   tolua_beginmodule(tolua_S,"ScriptBridge");

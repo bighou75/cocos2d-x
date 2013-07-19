@@ -88,4 +88,7 @@ $pfile "CCEditBox.pkg"
 $pfile "CCInteger.pkg"
 
 $pfile "CCUserTest.pkg"
+$pfile "CCWaveUnit.pkg"
+$pfile "CCStageFlowMgr.pkg"
+
 $pfile "ScriptBridge.pkg"

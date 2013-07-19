@@ -973,6 +973,7 @@ public:
      * @return A "local" axis aligned boudning box of the node.
      */
     Rect boundingBox(void);
+    Rect boundingBoxWorld(void);
 
     /// @{
     /// @name Actions

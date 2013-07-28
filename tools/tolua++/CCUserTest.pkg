@@ -78,5 +78,6 @@ class CShipAI : public CCObject
 	int			GetGroupRandomActiveId();
 	int			GetObjID();
 	void		SetShipLine( int line, bool force = true );
+	bool		IsConnectedWaveMgr();
 
 };

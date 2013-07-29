@@ -77,7 +77,6 @@ CCSkeleton::CCSkeleton () {
 
 CCSkeleton::CCSkeleton (SkeletonData *skeletonData, bool ownsSkeletonData) {
 	initialize();
-
 	setSkeletonData(skeletonData, ownsSkeletonData);
 }
 

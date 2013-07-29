@@ -37,7 +37,7 @@ class CShipAI : public CCObject
 	int			GetStartPos();
 	int			GetIdInGroup();
 
-	void  SetShipOpacity( byte value );
+	void  SetShipOpacity( char value );
 	void  SetShipScale( int lineid );
 
 	void	SetEnableCollision( bool val, float delay = 1.0f );
@@ -69,7 +69,6 @@ class CShipAI : public CCObject
 	int			GetIdInGroup();
 	int			GetCountInGroup();
 
-	void		SetShipOpacity( byte value );
 	void		SetShipScale( int lineid );
 
 	int			GetLinePos( int lineid );

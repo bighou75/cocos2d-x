@@ -39,6 +39,7 @@ Action::Action()
 :_originalTarget(NULL)
 ,_target(NULL)
 ,_tag(kActionTagInvalid)
+,m_paused(false)
 {
 }
 

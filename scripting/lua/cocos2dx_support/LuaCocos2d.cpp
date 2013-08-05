@@ -1,6 +1,6 @@
 /*
 ** Lua binding: Cocos2d
-** Generated automatically by tolua++-1.0.92 on 07/29/13 14:37:53.
+** Generated automatically by tolua++-1.0.92 on 08/05/13 09:33:31.
 */
 
 /****************************************************************************
@@ -64471,70 +64471,6 @@ static int tolua_Cocos2d_CShipAI_GetState00(lua_State* tolua_S)
 }
 #endif //#ifndef TOLUA_DISABLE
 
-/* method: GetNextState of class  CShipAI */
-#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetNextState00
-static int tolua_Cocos2d_CShipAI_GetNextState00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetNextState'", NULL);
-#endif
-  {
-   State tolua_ret = (State)  self->GetNextState();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetNextState'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
-/* method: GetPrevState of class  CShipAI */
-#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetPrevState00
-static int tolua_Cocos2d_CShipAI_GetPrevState00(lua_State* tolua_S)
-{
-#ifndef TOLUA_RELEASE
- tolua_Error tolua_err;
- if (
-     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
-     !tolua_isnoobj(tolua_S,2,&tolua_err)
- )
-  goto tolua_lerror;
- else
-#endif
- {
-  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
-#ifndef TOLUA_RELEASE
-  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetPrevState'", NULL);
-#endif
-  {
-   State tolua_ret = (State)  self->GetPrevState();
-   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
-  }
- }
- return 1;
-#ifndef TOLUA_RELEASE
- tolua_lerror:
- tolua_error(tolua_S,"#ferror in function 'GetPrevState'.",&tolua_err);
- return 0;
-#endif
-}
-#endif //#ifndef TOLUA_DISABLE
-
 /* method: GetEntry of class  CShipAI */
 #ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetEntry00
 static int tolua_Cocos2d_CShipAI_GetEntry00(lua_State* tolua_S)
@@ -64690,6 +64626,38 @@ static int tolua_Cocos2d_CShipAI_GetIdInGroup00(lua_State* tolua_S)
 #ifndef TOLUA_RELEASE
  tolua_lerror:
  tolua_error(tolua_S,"#ferror in function 'GetIdInGroup'.",&tolua_err);
+ return 0;
+#endif
+}
+#endif //#ifndef TOLUA_DISABLE
+
+/* method: GetAttackRatio of class  CShipAI */
+#ifndef TOLUA_DISABLE_tolua_Cocos2d_CShipAI_GetAttackRatio00
+static int tolua_Cocos2d_CShipAI_GetAttackRatio00(lua_State* tolua_S)
+{
+#ifndef TOLUA_RELEASE
+ tolua_Error tolua_err;
+ if (
+     !tolua_isusertype(tolua_S,1,"CShipAI",0,&tolua_err) ||
+     !tolua_isnoobj(tolua_S,2,&tolua_err)
+ )
+  goto tolua_lerror;
+ else
+#endif
+ {
+  CShipAI* self = (CShipAI*)  tolua_tousertype(tolua_S,1,0);
+#ifndef TOLUA_RELEASE
+  if (!self) tolua_error(tolua_S,"invalid 'self' in function 'GetAttackRatio'", NULL);
+#endif
+  {
+   int tolua_ret = (int)  self->GetAttackRatio();
+   tolua_pushnumber(tolua_S,(lua_Number)tolua_ret);
+  }
+ }
+ return 1;
+#ifndef TOLUA_RELEASE
+ tolua_lerror:
+ tolua_error(tolua_S,"#ferror in function 'GetAttackRatio'.",&tolua_err);
  return 0;
 #endif
 }
@@ -70634,13 +70602,12 @@ TOLUA_API int tolua_Cocos2d_open (lua_State* tolua_S)
    tolua_function(tolua_S,"GetParentLife",tolua_Cocos2d_CShipAI_GetParentLife00);
    tolua_function(tolua_S,"create",tolua_Cocos2d_CShipAI_create00);
    tolua_function(tolua_S,"GetState",tolua_Cocos2d_CShipAI_GetState00);
-   tolua_function(tolua_S,"GetNextState",tolua_Cocos2d_CShipAI_GetNextState00);
-   tolua_function(tolua_S,"GetPrevState",tolua_Cocos2d_CShipAI_GetPrevState00);
    tolua_function(tolua_S,"GetEntry",tolua_Cocos2d_CShipAI_GetEntry00);
    tolua_function(tolua_S,"GetCaptainId",tolua_Cocos2d_CShipAI_GetCaptainId00);
    tolua_function(tolua_S,"GetGroupName",tolua_Cocos2d_CShipAI_GetGroupName00);
    tolua_function(tolua_S,"GetStartPos",tolua_Cocos2d_CShipAI_GetStartPos00);
    tolua_function(tolua_S,"GetIdInGroup",tolua_Cocos2d_CShipAI_GetIdInGroup00);
+   tolua_function(tolua_S,"GetAttackRatio",tolua_Cocos2d_CShipAI_GetAttackRatio00);
    tolua_function(tolua_S,"SetShipOpacity",tolua_Cocos2d_CShipAI_SetShipOpacity00);
    tolua_function(tolua_S,"SetShipScale",tolua_Cocos2d_CShipAI_SetShipScale00);
    tolua_function(tolua_S,"SetEnableCollision",tolua_Cocos2d_CShipAI_SetEnableCollision00);

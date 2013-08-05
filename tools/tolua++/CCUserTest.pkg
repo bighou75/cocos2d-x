@@ -28,14 +28,13 @@ class CShipAI : public CCObject
 	static CShipAI* create();
 
 	State	GetState();
-	State	GetNextState();
-	State	GetPrevState();
 	Entry	GetEntry();
 	int		GetCaptainId();
 
 	const char* GetGroupName();
 	int			GetStartPos();
 	int			GetIdInGroup();
+	int			GetAttackRatio();
 
 	void  SetShipOpacity( char value );
 	void  SetShipScale( int lineid );

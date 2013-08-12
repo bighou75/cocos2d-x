@@ -31,7 +31,6 @@ class CShipAI : public CCObject
 	Entry	GetEntry();
 	int		GetCaptainId();
 
-	const char* GetGroupName();
 	int			GetStartPos();
 	int			GetIdInGroup();
 	int			GetAttackRatio();
@@ -63,19 +62,19 @@ class CShipAI : public CCObject
 	void		StopAttack();
 	int			GetCannonballCount();
 
-	const char* GetGroupName();
 	int			GetStartPos();
 	int			GetIdInGroup();
-	int			GetCountInGroup();
 
 	void		SetShipScale( int lineid );
-
 	int			GetLinePos( int lineid );
-	bool		IsGroupReady();
-	void		SetGroupReady( bool val );
-	int			GetGroupRandomActiveId();
+
 	int			GetObjID();
 	void		SetShipLine( int line, bool force = true );
 	bool		IsConnectedWaveMgr();
+
+	void		SetAngry();
+	bool		IsAngry();
+
+	int			SpawnMob(  int id, float x, int line );
 
 };

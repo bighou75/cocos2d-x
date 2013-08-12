@@ -1031,6 +1031,8 @@ public:
      */
     Action* getActionByTag(int tag);
 
+	Action* getActionByIndex(int index);
+
     /** 
      * Returns the numbers of actions that are running plus the ones that are schedule to run (actions in actionsToAdd and actions arrays).
      *

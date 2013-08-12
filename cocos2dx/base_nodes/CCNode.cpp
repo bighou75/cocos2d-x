@@ -1055,6 +1055,11 @@ Action * Node::getActionByTag(int tag)
     return _actionManager->getActionByTag(tag, this);
 }
 
+Action * Node::getActionByIndex(int index)
+{
+    return _actionManager->getActionByIndex(index, this);
+}
+
 unsigned int Node::numberOfRunningActions()
 {
     return _actionManager->numberOfRunningActionsInTarget(this);

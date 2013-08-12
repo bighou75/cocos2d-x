@@ -323,6 +323,35 @@ Action* ActionManager::getActionByTag(unsigned int tag, Object *pTarget)
     return NULL;
 }
 
+Action* ActionManager::getActionByIndex(unsigned int index, Object *pTarget)
+{
+    tHashElement *pElement = NULL;
+    HASH_FIND_INT(_targets, &pTarget, pElement);
+
+    if (pElement)
+    {
+        if (pElement->actions != NULL)
+        {
+            unsigned int limit = pElement->actions->num;
+            for (unsigned int i = 0; i < limit; ++i)
+            {
+                Action *pAction = (Action*)pElement->actions->arr[i];
+
+				if (pElement->actionIndex == index)
+                {
+                    return pAction;
+                }
+            }
+        }
+    }
+    else
+    {
+        // CCLOG("cocos2d : getActionByTag: Target not found");
+    }
+
+    return NULL;
+}
+
 unsigned int ActionManager::numberOfRunningActionsInTarget(Object *pTarget)
 {
     tHashElement *pElement = NULL;

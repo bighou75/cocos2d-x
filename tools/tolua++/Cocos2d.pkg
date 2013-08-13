@@ -86,3 +86,7 @@ $pfile "CCControlStepper.pkg"
 $pfile "CCEditBox.pkg"
 $pfile "CCInteger.pkg"
 $pfile "CCDrawNode.pkg"
+
+$pfile "CCUserTest.pkg"
+$pfile "CCStageFlowMgr.pkg"
+$pfile "CCWaveUnit.pkg"

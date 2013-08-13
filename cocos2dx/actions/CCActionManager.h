@@ -89,7 +89,6 @@ public:
      @return the Action the with the given tag
      */
     Action* getActionByTag(unsigned int tag, const Object *target) const;
-
 	Action* getActionByIndex(unsigned int index, Object *pTarget);
 
     /** Returns the numbers of actions that are running in a certain target. 

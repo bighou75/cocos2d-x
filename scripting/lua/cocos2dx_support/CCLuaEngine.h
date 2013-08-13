@@ -121,12 +121,12 @@ public:
     
     virtual int sendEvent(ScriptEvent* message);
     void extendLuaObject();
-private:
     LuaEngine(void)
     : _stack(NULL)
     {
     }
     bool init(void);
+private:
     int handleNodeEvent(void* data);
     int handleMenuClickedEvent(void* data);
     int handleNotificationEvent(void* data);

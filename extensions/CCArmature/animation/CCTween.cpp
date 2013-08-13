@@ -94,11 +94,11 @@ bool Tween::init(Bone *bone)
 }
 
 
-void Tween::play(MovementBoneData *_movementBoneData, int _durationTo, int _durationTween,  int _loop, int _tweenEasing)
+void Tween::play(MovementBoneData *movementBoneData, int durationTo, int durationTween,  int loop, int tweenEasing)
 {
-    ProcessBase::play(NULL, _durationTo, _durationTween, _loop, _tweenEasing);
+    ProcessBase::play(NULL, durationTo, durationTween, loop, tweenEasing);
 
-    _loopType = (AnimationType)_loop;
+    _loopType = (AnimationType)loop;
 
     _currentKeyFrame = NULL;
     _isTweenKeyFrame = false;
@@ -107,14 +107,14 @@ void Tween::play(MovementBoneData *_movementBoneData, int _durationTo, int _dura
     betweenDuration = 0;
     _toIndex = 0;
 
-    setMovementBoneData(_movementBoneData);
+    setMovementBoneData(movementBoneData);
 
 
     if (_movementBoneData->frameList.count() == 1)
     {
         _loopType = SINGLE_FRAME;
         FrameData *_nextKeyFrame = _movementBoneData->getFrameData(0);
-        if(_durationTo == 0)
+        if(durationTo == 0)
         {
             setBetween(_nextKeyFrame, _nextKeyFrame);
         }
@@ -130,7 +130,7 @@ void Tween::play(MovementBoneData *_movementBoneData, int _durationTo, int _dura
     }
     else if (_movementBoneData->frameList.count() > 1)
     {
-        if (_loop)
+        if (loop)
         {
             _loopType = ANIMATION_TO_LOOP_BACK;
             _rawDuration = _movementBoneData->duration;
@@ -141,9 +141,9 @@ void Tween::play(MovementBoneData *_movementBoneData, int _durationTo, int _dura
             _rawDuration = _movementBoneData->duration - 1;
         }
 
-        _durationTween = _durationTween * _movementBoneData->scale;
+        _durationTween = durationTween * _movementBoneData->scale;
 
-        if (_loop && _movementBoneData->delay != 0)
+        if (loop && _movementBoneData->delay != 0)
         {
             setBetween(_tweenData, tweenNodeTo(updateFrameData(1 - _movementBoneData->delay), _between));
 
@@ -333,6 +333,7 @@ void Tween::arriveKeyFrame(FrameData *keyFrameData)
 
 FrameData *Tween::tweenNodeTo(float percent, FrameData *node)
 {
+
     node = node == NULL ? _tweenData : node;
 
     node->x = _from->x + percent * _between->x;
@@ -353,10 +354,10 @@ FrameData *Tween::tweenNodeTo(float percent, FrameData *node)
         _bone->updateColor();
     }
 
-    //    Point p1 = ccp(_from->x, _from->y);
-    //    Point p2 = ccp(100, 0);
-    //    Point p3 = ccp(200, 400);
-    //    Point p4 = ccp(_from->x + _between->x, _from->y + _between->y);
+    //    Point p1 = Point(_from->x, _from->y);
+    //    Point p2 = Point(100, 0);
+    //    Point p3 = Point(200, 400);
+    //    Point p4 = Point(_from->x + _between->x, _from->y + _between->y);
     //
     //    Point p = bezierTo(percent, p1, p2, p3, p4);
     //    node->x = p.x;

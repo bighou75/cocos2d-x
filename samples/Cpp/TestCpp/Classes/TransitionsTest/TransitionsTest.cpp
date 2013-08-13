@@ -18,7 +18,7 @@ class FlipXLeftOver : public TransitionFlipX
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipX::create(t, s, kTransitionOrientationLeftOver);
+        return TransitionFlipX::create(t, s, TransitionScene::Orientation::LEFT_OVER);
     }
 };
 
@@ -27,7 +27,7 @@ class FlipXRightOver : public TransitionFlipX
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipX::create(t, s, kTransitionOrientationRightOver);
+        return TransitionFlipX::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
     }
 };
 
@@ -36,7 +36,7 @@ class FlipYUpOver : public TransitionFlipY
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipY::create(t, s, kTransitionOrientationUpOver); 
+        return TransitionFlipY::create(t, s, TransitionScene::Orientation::UP_OVER); 
     }
 };
 
@@ -45,7 +45,7 @@ class FlipYDownOver : public TransitionFlipY
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipY::create(t, s, kTransitionOrientationDownOver); 
+        return TransitionFlipY::create(t, s, TransitionScene::Orientation::DOWN_OVER); 
     }
 };
 
@@ -54,7 +54,7 @@ class FlipAngularLeftOver : public TransitionFlipAngular
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipAngular::create(t, s, kTransitionOrientationLeftOver); 
+        return TransitionFlipAngular::create(t, s, TransitionScene::Orientation::LEFT_OVER); 
     }
 };
 
@@ -63,7 +63,7 @@ class FlipAngularRightOver : public TransitionFlipAngular
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionFlipAngular::create(t, s, kTransitionOrientationRightOver);
+        return TransitionFlipAngular::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
     }
 };
 
@@ -72,7 +72,7 @@ class ZoomFlipXLeftOver : public TransitionZoomFlipX
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipX::create(t, s, kTransitionOrientationLeftOver); 
+        return TransitionZoomFlipX::create(t, s, TransitionScene::Orientation::LEFT_OVER); 
     }
 };
 
@@ -81,7 +81,7 @@ class ZoomFlipXRightOver : public TransitionZoomFlipX
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipX::create(t, s, kTransitionOrientationRightOver);
+        return TransitionZoomFlipX::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
     }
 };
 
@@ -90,7 +90,7 @@ class ZoomFlipYUpOver : public TransitionZoomFlipY
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipY::create(t, s, kTransitionOrientationUpOver); 
+        return TransitionZoomFlipY::create(t, s, TransitionScene::Orientation::UP_OVER); 
 
     }
 };
@@ -100,7 +100,7 @@ class ZoomFlipYDownOver : public TransitionZoomFlipY
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipY::create(t, s, kTransitionOrientationDownOver); 
+        return TransitionZoomFlipY::create(t, s, TransitionScene::Orientation::DOWN_OVER); 
     }
 };
 
@@ -109,7 +109,7 @@ class ZoomFlipAngularLeftOver : public TransitionZoomFlipAngular
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipAngular::create(t, s, kTransitionOrientationLeftOver); 
+        return TransitionZoomFlipAngular::create(t, s, TransitionScene::Orientation::LEFT_OVER); 
     }
 };
 
@@ -118,7 +118,7 @@ class ZoomFlipAngularRightOver : public TransitionZoomFlipAngular
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        return TransitionZoomFlipAngular::create(t, s, kTransitionOrientationRightOver);
+        return TransitionZoomFlipAngular::create(t, s, TransitionScene::Orientation::RIGHT_OVER);
     }
 };
 
@@ -127,7 +127,7 @@ class PageTransitionForward : public TransitionPageTurn
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        Director::sharedDirector()->setDepthTest(true);
+        Director::getInstance()->setDepthTest(true);
         return TransitionPageTurn::create(t, s, false);
     }
 };
@@ -137,7 +137,7 @@ class PageTransitionBackward : public TransitionPageTurn
 public:
     static TransitionScene* create(float t, Scene* s)
     {
-        Director::sharedDirector()->setDepthTest(true);
+        Director::getInstance()->setDepthTest(true);
         return TransitionPageTurn::create(t, s, true);
     }
 };
@@ -201,7 +201,7 @@ static int s_nSceneIdx = 0;
 TransitionScene* createTransition(int nIndex, float t, Scene* s)
 {
     // fix bug #486, without setDepthTest(false), FlipX,Y will flickers
-    Director::sharedDirector()->setDepthTest(false);
+    Director::getInstance()->setDepthTest(false);
 
     switch(nIndex)
     {
@@ -267,46 +267,46 @@ TransitionScene* createTransition(int nIndex, float t, Scene* s)
 
 void TransitionsTestScene::runThisTest()
 {
-    Layer * pLayer = new TestLayer1();
-    addChild(pLayer);
-    pLayer->release();
+    Layer * layer = new TestLayer1();
+    addChild(layer);
+    layer->release();
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }
 
 TestLayer1::TestLayer1(void)
 {
     float x,y;
 
-    Size size = Director::sharedDirector()->getWinSize();
+    Size size = Director::getInstance()->getWinSize();
     x = size.width;
     y = size.height;
 
     Sprite* bg1 = Sprite::create(s_back1);
-    bg1->setPosition( ccp(size.width/2, size.height/2) );
+    bg1->setPosition( Point(size.width/2, size.height/2) );
     addChild(bg1, -1);
 
     LabelTTF* title = LabelTTF::create( (transitions[s_nSceneIdx]).c_str(), "Thonburi", 32 );
     addChild(title);
     title->setColor( Color3B(255,32,32) );
-    title->setPosition( ccp(x/2, y-100) );
+    title->setPosition( Point(x/2, y-100) );
 
     LabelTTF* label = LabelTTF::create("SCENE 1", "Marker Felt", 38);
     label->setColor( Color3B(16,16,255));
-    label->setPosition( ccp(x/2,y/2));    
+    label->setPosition( Point(x/2,y/2));    
     addChild( label);
 
     // menu
-    MenuItemImage *item1 = MenuItemImage::create(s_pPathB1, s_pPathB2, CC_CALLBACK_1(TestLayer1::backCallback, this) );
-    MenuItemImage *item2 = MenuItemImage::create(s_pPathR1, s_pPathR2, CC_CALLBACK_1(TestLayer1::restartCallback, this) );
-    MenuItemImage *item3 = MenuItemImage::create(s_pPathF1, s_pPathF2, CC_CALLBACK_1(TestLayer1::nextCallback, this) );
+    MenuItemImage *item1 = MenuItemImage::create(s_pathB1, s_pathB2, CC_CALLBACK_1(TestLayer1::backCallback, this) );
+    MenuItemImage *item2 = MenuItemImage::create(s_pathR1, s_pathR2, CC_CALLBACK_1(TestLayer1::restartCallback, this) );
+    MenuItemImage *item3 = MenuItemImage::create(s_pathF1, s_pathF2, CC_CALLBACK_1(TestLayer1::nextCallback, this) );
 
     Menu *menu = Menu::create(item1, item2, item3, NULL);
 
-    menu->setPosition( PointZero );
-    item1->setPosition(ccp(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item2->setPosition(ccp(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item3->setPosition(ccp(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    menu->setPosition( Point::ZERO );
+    item1->setPosition(Point(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item2->setPosition(Point(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item3->setPosition(Point(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
 
     addChild(menu, 1);    
 
@@ -318,42 +318,42 @@ TestLayer1::~TestLayer1(void)
 
 }
 
-void TestLayer1::restartCallback(Object* pSender)
+void TestLayer1::restartCallback(Object* sender)
 {
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer2();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer2();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }    
 }
 
-void TestLayer1::nextCallback(Object* pSender)
+void TestLayer1::nextCallback(Object* sender)
 {
     s_nSceneIdx++;
     s_nSceneIdx = s_nSceneIdx % MAX_LAYER;
 
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer2();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer2();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }
 }
 
-void TestLayer1::backCallback(Object* pSender)
+void TestLayer1::backCallback(Object* sender)
 {
     s_nSceneIdx--;
     int total = MAX_LAYER;
@@ -362,15 +362,15 @@ void TestLayer1::backCallback(Object* pSender)
 
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer2();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer2();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }
 }
 
@@ -382,60 +382,60 @@ void TestLayer1::step(float dt)
 void TestLayer1::onEnter()
 {
     Layer::onEnter();
-    CCLog("Scene 1 onEnter");
+    log("Scene 1 onEnter");
 }
 
 void TestLayer1::onEnterTransitionDidFinish()
 {
     Layer::onEnterTransitionDidFinish();
-    CCLog("Scene 1: onEnterTransitionDidFinish");
+    log("Scene 1: onEnterTransitionDidFinish");
 }
 
 void TestLayer1::onExitTransitionDidStart()
 {
     Layer::onExitTransitionDidStart();
-    CCLog("Scene 1: onExitTransitionDidStart");
+    log("Scene 1: onExitTransitionDidStart");
 }
 
 void TestLayer1::onExit()
 {
     Layer::onExit();
-    CCLog("Scene 1 onExit");
+    log("Scene 1 onExit");
 }
 
 TestLayer2::TestLayer2()
 {
     float x,y;
 
-    Size size = Director::sharedDirector()->getWinSize();
+    Size size = Director::getInstance()->getWinSize();
     x = size.width;
     y = size.height;
 
     Sprite* bg1 = Sprite::create(s_back2);
-    bg1->setPosition( ccp(size.width/2, size.height/2) );
+    bg1->setPosition( Point(size.width/2, size.height/2) );
     addChild(bg1, -1);
 
     LabelTTF* title = LabelTTF::create((transitions[s_nSceneIdx]).c_str(), "Thonburi", 32 );
     addChild(title);
     title->setColor( Color3B(255,32,32) );
-    title->setPosition( ccp(x/2, y-100) );
+    title->setPosition( Point(x/2, y-100) );
 
     LabelTTF* label = LabelTTF::create("SCENE 2", "Marker Felt", 38);
     label->setColor( Color3B(16,16,255));
-    label->setPosition( ccp(x/2,y/2));    
+    label->setPosition( Point(x/2,y/2));    
     addChild( label);
 
     // menu
-    MenuItemImage *item1 = MenuItemImage::create(s_pPathB1, s_pPathB2, CC_CALLBACK_1(TestLayer2::backCallback, this) );
-    MenuItemImage *item2 = MenuItemImage::create(s_pPathR1, s_pPathR2, CC_CALLBACK_1(TestLayer2::restartCallback, this) );
-    MenuItemImage *item3 = MenuItemImage::create(s_pPathF1, s_pPathF2, CC_CALLBACK_1(TestLayer2::nextCallback, this) );
+    MenuItemImage *item1 = MenuItemImage::create(s_pathB1, s_pathB2, CC_CALLBACK_1(TestLayer2::backCallback, this) );
+    MenuItemImage *item2 = MenuItemImage::create(s_pathR1, s_pathR2, CC_CALLBACK_1(TestLayer2::restartCallback, this) );
+    MenuItemImage *item3 = MenuItemImage::create(s_pathF1, s_pathF2, CC_CALLBACK_1(TestLayer2::nextCallback, this) );
 
     Menu *menu = Menu::create(item1, item2, item3, NULL);
 
-    menu->setPosition( PointZero );
-    item1->setPosition(ccp(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item2->setPosition(ccp(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item3->setPosition(ccp(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    menu->setPosition( Point::ZERO );
+    item1->setPosition(Point(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item2->setPosition(Point(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item3->setPosition(Point(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
 
     addChild(menu, 1);    
 
@@ -447,42 +447,42 @@ TestLayer2::~TestLayer2()
 
 }
 
-void TestLayer2::restartCallback(Object* pSender)
+void TestLayer2::restartCallback(Object* sender)
 {
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer1();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer1();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }
 }
 
-void TestLayer2::nextCallback(Object* pSender)
+void TestLayer2::nextCallback(Object* sender)
 {
     s_nSceneIdx++;
     s_nSceneIdx = s_nSceneIdx % MAX_LAYER;
 
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer1();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer1();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }
 }
 
-void TestLayer2::backCallback(Object* pSender)
+void TestLayer2::backCallback(Object* sender)
 {
     s_nSceneIdx--;
     int total = MAX_LAYER;
@@ -491,15 +491,15 @@ void TestLayer2::backCallback(Object* pSender)
 
     Scene* s = new TransitionsTestScene();
 
-    Layer* pLayer = new TestLayer1();
-    s->addChild(pLayer);
+    Layer* layer = new TestLayer1();
+    s->addChild(layer);
 
-    Scene* pScene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
+    Scene* scene = createTransition(s_nSceneIdx, TRANSITION_DURATION, s);
     s->release();
-    pLayer->release();
-    if (pScene)
+    layer->release();
+    if (scene)
     {
-        Director::sharedDirector()->replaceScene(pScene);
+        Director::getInstance()->replaceScene(scene);
     }
 }
 
@@ -511,23 +511,23 @@ void TestLayer2::step(float dt)
 void TestLayer2::onEnter()
 {
     Layer::onEnter();
-    CCLog("Scene 2 onEnter");
+    log("Scene 2 onEnter");
 }
 
 void TestLayer2::onEnterTransitionDidFinish()
 {
     Layer::onEnterTransitionDidFinish();
-    CCLog("Scene 2: onEnterTransitionDidFinish");
+    log("Scene 2: onEnterTransitionDidFinish");
 }
 
 void TestLayer2::onExitTransitionDidStart()
 {
     Layer::onExitTransitionDidStart();
-    CCLog("Scene 2: onExitTransitionDidStart");
+    log("Scene 2: onExitTransitionDidStart");
 }
 
 void TestLayer2::onExit()
 {
     Layer::onExit();
-    CCLog("Scene 2 onExit");
+    log("Scene 2 onExit");
 }

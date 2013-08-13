@@ -9,6 +9,13 @@ extern "C" {
 }
 #endif
 
+#include "base_nodes/CCNode.h"
+class GLNode:public cocos2d::Node
+{
+    virtual void draw();
+};
+
+TOLUA_API int tolua_Cocos2d_CCDrawNode_drawPolygon00(lua_State* tolua_S);
 
 TOLUA_API int tolua_opengl_open(lua_State* tolua_S);
 

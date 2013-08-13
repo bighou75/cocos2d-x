@@ -48,7 +48,7 @@ bool EGLView::isOpenGLReady()
     
 bool EGLView::setContentScaleFactor(float contentScaleFactor)
 {
-    assert(_resolutionPolicy == kResolutionUnKnown); // cannot enable retina mode
+    assert(_resolutionPolicy == ResolutionPolicy::UNKNOWN); // cannot enable retina mode
 	
 	_scaleX = _scaleY = contentScaleFactor;
 	[[CCEAGLView sharedEGLView] setNeedsLayout];
@@ -82,10 +82,16 @@ void EGLView::setIMEKeyboardState(bool bOpen)
     }
 }
 
-EGLView* EGLView::sharedOpenGLView()
+EGLView* EGLView::getInstance()
 {
     static EGLView instance;
     return &instance;
+}
+
+// XXX: deprecated
+EGLView* EGLView::sharedOpenGLView()
+{
+    return EGLView::getInstance();
 }
 
 NS_CC_END

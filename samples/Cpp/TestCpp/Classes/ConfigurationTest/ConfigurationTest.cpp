@@ -25,11 +25,11 @@ static Layer* nextAction()
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* backAction()
@@ -39,20 +39,20 @@ static Layer* backAction()
     if( sceneIdx < 0 )
         sceneIdx += total;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* restartAction()
 {
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 void ConfigurationTestScene::runThisTest()
@@ -60,7 +60,7 @@ void ConfigurationTestScene::runThisTest()
     sceneIdx = -1;
     addChild(nextAction());
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }
 
 
@@ -84,27 +84,27 @@ void ConfigurationBase::onExit()
     BaseTest::onExit();
 }
 
-void ConfigurationBase::restartCallback(Object* pSender)
+void ConfigurationBase::restartCallback(Object* sender)
 {
     Scene* s = new ConfigurationTestScene();
     s->addChild( restartAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void ConfigurationBase::nextCallback(Object* pSender)
+void ConfigurationBase::nextCallback(Object* sender)
 {
     Scene* s = new ConfigurationTestScene();
     s->addChild( nextAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void ConfigurationBase::backCallback(Object* pSender)
+void ConfigurationBase::backCallback(Object* sender)
 {
     Scene* s = new ConfigurationTestScene();
     s->addChild( backAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
@@ -117,8 +117,8 @@ void ConfigurationLoadConfig::onEnter()
 {
     ConfigurationBase::onEnter();
 
-	Configuration::sharedConfiguration()->loadConfigFile("configs/config-test-ok.plist");
-	Configuration::sharedConfiguration()->dumpInfo();
+	Configuration::getInstance()->loadConfigFile("configs/config-test-ok.plist");
+	Configuration::getInstance()->dumpInfo();
 
 }
 
@@ -136,8 +136,8 @@ void ConfigurationQuery::onEnter()
 {
     ConfigurationBase::onEnter();
 
-	CCLOG("cocos2d version: %s", Configuration::sharedConfiguration()->getCString("cocos2d.version") );
-	CCLOG("OpenGL version: %s", Configuration::sharedConfiguration()->getCString("gl.version") );
+	CCLOG("cocos2d version: %s", Configuration::getInstance()->getCString("cocos2d.version") );
+	CCLOG("OpenGL version: %s", Configuration::getInstance()->getCString("gl.version") );
 }
 
 std::string ConfigurationQuery::subtitle()
@@ -154,7 +154,7 @@ void ConfigurationInvalid::onEnter()
 {
     ConfigurationBase::onEnter();
 
-	Configuration::sharedConfiguration()->loadConfigFile("configs/config-test-invalid.plist");
+	Configuration::getInstance()->loadConfigFile("configs/config-test-invalid.plist");
 }
 
 std::string ConfigurationInvalid::subtitle()
@@ -171,19 +171,19 @@ void ConfigurationDefault::onEnter()
 {
     ConfigurationBase::onEnter();
 
-	const char *c_value = Configuration::sharedConfiguration()->getCString("invalid.key", "no key");
+	const char *c_value = Configuration::getInstance()->getCString("invalid.key", "no key");
 	if( strcmp(c_value, "no key") != 0 )
 		CCLOG("1. Test failed!");
 	else
 		CCLOG("1. Test OK!");
 
-	bool b_value = Configuration::sharedConfiguration()->getBool("invalid.key", true);
+	bool b_value = Configuration::getInstance()->getBool("invalid.key", true);
 	if( ! b_value )
 		CCLOG("2. Test failed!");
 	else
 		CCLOG("2. Test OK!");
 
-	double d_value = Configuration::sharedConfiguration()->getNumber("invalid.key", 42.42);
+	double d_value = Configuration::getInstance()->getNumber("invalid.key", 42.42);
 	if( d_value != 42.42 )
 		CCLOG("3. Test failed!");
 	else
@@ -205,7 +205,7 @@ void ConfigurationSet::onEnter()
 {
     ConfigurationBase::onEnter();
 
-	Configuration *conf = Configuration::sharedConfiguration();
+	Configuration *conf = Configuration::getInstance();
 
 	conf->setObject("this.is.an.int.value", Integer::create(10) );
 	conf->setObject("this.is.a.bool.value", Bool::create(true) );

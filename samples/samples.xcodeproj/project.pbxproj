@@ -52,6 +52,14 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		15A055AD17966C350040AC39 /* Deprecated.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055AC17966C350040AC39 /* Deprecated.lua */; };
+		15A055AE17966C350040AC39 /* Deprecated.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055AC17966C350040AC39 /* Deprecated.lua */; };
+		15A055AF17966C350040AC39 /* Deprecated.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055AC17966C350040AC39 /* Deprecated.lua */; };
+		15A055B017966C350040AC39 /* Deprecated.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055AC17966C350040AC39 /* Deprecated.lua */; };
+		15A055C2179E25050040AC39 /* DrawPrimitives.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055C1179E25050040AC39 /* DrawPrimitives.lua */; };
+		15A055C3179E25050040AC39 /* DrawPrimitives.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055C1179E25050040AC39 /* DrawPrimitives.lua */; };
+		15A055C4179E25050040AC39 /* DrawPrimitives.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055C1179E25050040AC39 /* DrawPrimitives.lua */; };
+		15A055C5179E25050040AC39 /* DrawPrimitives.lua in Resources */ = {isa = PBXBuildFile; fileRef = 15A055C1179E25050040AC39 /* DrawPrimitives.lua */; };
 		15C64825165F3934007D4F18 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64824165F3934007D4F18 /* OpenGL.framework */; };
 		15C64827165F394E007D4F18 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64826165F394E007D4F18 /* QuartzCore.framework */; };
 		15C64829165F396B007D4F18 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64828165F396B007D4F18 /* OpenAL.framework */; };
@@ -120,6 +128,18 @@
 		1A119CB31785480400D62A44 /* Cocos2dConstants.lua in Resources */ = {isa = PBXBuildFile; fileRef = 1A119C9017853D8D00D62A44 /* Cocos2dConstants.lua */; };
 		1A119CB41785480400D62A44 /* Opengl.lua in Resources */ = {isa = PBXBuildFile; fileRef = 1A119C9117853D8D00D62A44 /* Opengl.lua */; };
 		1A119CB51785480400D62A44 /* OpenglConstants.lua in Resources */ = {isa = PBXBuildFile; fileRef = 1A119C9217853D8D00D62A44 /* OpenglConstants.lua */; };
+		1A2E823B1793EED50058E421 /* jsb_deprecated.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E823C1793EED50058E421 /* jsb_deprecated.js in Sources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E823F1793EEF50058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E82401793EF260058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824517952E8D0058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824817952E9A0058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824917952EAC0058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824A17952EB70058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824B17952EC50058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824C17952ECE0058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824D17952ED70058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
+		1A2E824E17952EDF0058E421 /* jsb_deprecated.js in Resources */ = {isa = PBXBuildFile; fileRef = 1A2E823A1793EED50058E421 /* jsb_deprecated.js */; };
 		1A6FB4DE17854A6A00CDF010 /* animations in Resources */ = {isa = PBXBuildFile; fileRef = 1A6FB4C417854A6A00CDF010 /* animations */; };
 		1A6FB4DF17854A6A00CDF010 /* armature in Resources */ = {isa = PBXBuildFile; fileRef = 1A6FB4C517854A6A00CDF010 /* armature */; };
 		1A6FB4E017854A6A00CDF010 /* background-music-aac.wav in Resources */ = {isa = PBXBuildFile; fileRef = 1A6FB4C617854A6A00CDF010 /* background-music-aac.wav */; };
@@ -241,27 +261,20 @@
 		1A6FB7DC1785624000CDF010 /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A119874178539DF00D62A44 /* AppDelegate.cpp */; };
 		1A6FB7DF1785628900CDF010 /* AppController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1A6FB7DD1785628900CDF010 /* AppController.mm */; };
 		1A6FB7E01785628900CDF010 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6FB7DE1785628900CDF010 /* main.m */; };
+		1A96FFCD1791701800E3AF98 /* SocketIOTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A96FFCB1791701800E3AF98 /* SocketIOTest.cpp */; };
+		1A96FFCE1791701800E3AF98 /* SocketIOTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1A96FFCB1791701800E3AF98 /* SocketIOTest.cpp */; };
 		1A9F808D177E98A600D9A1CB /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F808C177E98A600D9A1CB /* libcurl.dylib */; };
-		1AC070BE1782721D00FE5C7A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = A035AEDB1782564100987F6C /* MainMenu.xib */; };
-		1AC070BF1782721D00FE5C7A /* Icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = A035AEE21782564100987F6C /* Icon.icns */; };
+		1AA62D3817A15EAA0006E64F /* hd in Resources */ = {isa = PBXBuildFile; fileRef = A0BD5A1C178F5F6C008915C5 /* hd */; };
+		1AA62D3B17A15EB00006E64F /* sd in Resources */ = {isa = PBXBuildFile; fileRef = A0BD5A1D178F5F6C008915C5 /* sd */; };
+		1ACD13F3178E487D00682DBD /* Scale9SpriteTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD13F1178E487D00682DBD /* Scale9SpriteTest.cpp */; };
+		1ACD13F4178E487D00682DBD /* Scale9SpriteTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1ACD13F1178E487D00682DBD /* Scale9SpriteTest.cpp */; };
 		A01E166C1784BDA100B0CA4A /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = A035ADEA178254FF00987F6C /* .gitignore */; };
 		A01E166D1784BDA100B0CA4A /* app.config.txt in Resources */ = {isa = PBXBuildFile; fileRef = A035ADEB178254FF00987F6C /* app.config.txt */; };
 		A01E166E1784BDA100B0CA4A /* app.icf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADEC178254FF00987F6C /* app.icf */; };
 		A01E166F1784BDA100B0CA4A /* background-music-aac.wav in Resources */ = {isa = PBXBuildFile; fileRef = A035ADED178254FF00987F6C /* background-music-aac.wav */; };
 		A01E16701784BDA100B0CA4A /* development.icf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADEE178254FF00987F6C /* development.icf */; };
 		A01E16711784BDA100B0CA4A /* Marker Felt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF0178254FF00987F6C /* Marker Felt.ttf */; };
-		A01E16721784BDA100B0CA4A /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF2178254FF00987F6C /* CloseNormal.png */; };
-		A01E16731784BDA100B0CA4A /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF3178254FF00987F6C /* CloseSelected.png */; };
-		A01E16741784BDA100B0CA4A /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF4178254FF00987F6C /* Player.png */; };
-		A01E16751784BDA100B0CA4A /* Projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF5178254FF00987F6C /* Projectile.png */; };
-		A01E16761784BDA100B0CA4A /* Target.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF6178254FF00987F6C /* Target.png */; };
 		A01E16771784BDA100B0CA4A /* pew-pew-lei.wav in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF7178254FF00987F6C /* pew-pew-lei.wav */; };
-		A01E16781784BDA100B0CA4A /* app.icf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF9178254FF00987F6C /* app.icf */; };
-		A01E16791784BDA100B0CA4A /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFA178254FF00987F6C /* CloseNormal.png */; };
-		A01E167A1784BDA100B0CA4A /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFB178254FF00987F6C /* CloseSelected.png */; };
-		A01E167B1784BDA100B0CA4A /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFC178254FF00987F6C /* Player.png */; };
-		A01E167C1784BDA100B0CA4A /* Projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFD178254FF00987F6C /* Projectile.png */; };
-		A01E167D1784BDA100B0CA4A /* Target.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFE178254FF00987F6C /* Target.png */; };
 		A01E167F1784BDA100B0CA4A /* AppDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A035AD7A178254FF00987F6C /* AppDelegate.cpp */; };
 		A01E16801784BDA100B0CA4A /* GameOverScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A035AD7C178254FF00987F6C /* GameOverScene.cpp */; };
 		A01E16811784BDA100B0CA4A /* HelloWorldScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A035AD7E178254FF00987F6C /* HelloWorldScene.cpp */; };
@@ -1010,18 +1023,7 @@
 		A035AE42178254FF00987F6C /* background-music-aac.wav in Resources */ = {isa = PBXBuildFile; fileRef = A035ADED178254FF00987F6C /* background-music-aac.wav */; };
 		A035AE43178254FF00987F6C /* development.icf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADEE178254FF00987F6C /* development.icf */; };
 		A035AE44178254FF00987F6C /* Marker Felt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF0178254FF00987F6C /* Marker Felt.ttf */; };
-		A035AE45178254FF00987F6C /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF2178254FF00987F6C /* CloseNormal.png */; };
-		A035AE46178254FF00987F6C /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF3178254FF00987F6C /* CloseSelected.png */; };
-		A035AE47178254FF00987F6C /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF4178254FF00987F6C /* Player.png */; };
-		A035AE48178254FF00987F6C /* Projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF5178254FF00987F6C /* Projectile.png */; };
-		A035AE49178254FF00987F6C /* Target.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF6178254FF00987F6C /* Target.png */; };
 		A035AE4A178254FF00987F6C /* pew-pew-lei.wav in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF7178254FF00987F6C /* pew-pew-lei.wav */; };
-		A035AE4B178254FF00987F6C /* app.icf in Resources */ = {isa = PBXBuildFile; fileRef = A035ADF9178254FF00987F6C /* app.icf */; };
-		A035AE4C178254FF00987F6C /* CloseNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFA178254FF00987F6C /* CloseNormal.png */; };
-		A035AE4D178254FF00987F6C /* CloseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFB178254FF00987F6C /* CloseSelected.png */; };
-		A035AE4E178254FF00987F6C /* Player.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFC178254FF00987F6C /* Player.png */; };
-		A035AE4F178254FF00987F6C /* Projectile.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFD178254FF00987F6C /* Projectile.png */; };
-		A035AE50178254FF00987F6C /* Target.png in Resources */ = {isa = PBXBuildFile; fileRef = A035ADFE178254FF00987F6C /* Target.png */; };
 		A035AE7C178255DC00987F6C /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A9F808C177E98A600D9A1CB /* libcurl.dylib */; };
 		A035AE7D178255DC00987F6C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C6482E165F399D007D4F18 /* libz.dylib */; };
 		A035AE7E178255DC00987F6C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64832165F3AFD007D4F18 /* Foundation.framework */; };
@@ -1229,7 +1231,6 @@
 		A07A52231783A1D20073F6A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64826165F394E007D4F18 /* QuartzCore.framework */; };
 		A07A522B1783A1EC0073F6A7 /* libbox2d iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A510317839B9C0073F6A7 /* libbox2d iOS.a */; };
 		A07A522C1783A1EC0073F6A7 /* libchipmunk iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A510117839B9C0073F6A7 /* libchipmunk iOS.a */; };
-		A07A522D1783A1EC0073F6A7 /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A50FD17839B9C0073F6A7 /* libcocos2dx iOS.a */; };
 		A07A522E1783A1EC0073F6A7 /* libcocos2dx-extensions iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A50FF17839B9C0073F6A7 /* libcocos2dx-extensions iOS.a */; };
 		A07A522F1783A1EC0073F6A7 /* libCocosDenshion iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A510517839B9C0073F6A7 /* libCocosDenshion iOS.a */; };
 		A07A52431783A3A90073F6A7 /* RootViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = A07A52331783A3A80073F6A7 /* RootViewController.mm */; };
@@ -1251,7 +1252,6 @@
 		A07A52BF1783AF210073F6A7 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A52B91783AE900073F6A7 /* OpenGLES.framework */; };
 		A07A52C01783AF250073F6A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A52B71783AE6D0073F6A7 /* UIKit.framework */; };
 		A07A52C31783B02C0073F6A7 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A52C11783B01F0073F6A7 /* AVFoundation.framework */; };
-		A07A53721784AC9B0073F6A7 /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A50FD17839B9C0073F6A7 /* libcocos2dx iOS.a */; };
 		A07A53751784AC9B0073F6A7 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C6482E165F399D007D4F18 /* libz.dylib */; };
 		A07A53761784AC9B0073F6A7 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C64832165F3AFD007D4F18 /* Foundation.framework */; };
 		A07A53771784AC9B0073F6A7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15C6482C165F3988007D4F18 /* AudioToolbox.framework */; };
@@ -1278,6 +1278,10 @@
 		A07A53921784AD790073F6A7 /* iphone in Resources */ = {isa = PBXBuildFile; fileRef = A035AF6E1782567A00987F6C /* iphone */; };
 		A07A53931784AD820073F6A7 /* bang.png in Resources */ = {isa = PBXBuildFile; fileRef = A035AF041782564100987F6C /* bang.png */; };
 		A07A53941784AD880073F6A7 /* Marker Felt.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A035AF071782564200987F6C /* Marker Felt.ttf */; };
+		A0BD5A1E178F5F6C008915C5 /* hd in Resources */ = {isa = PBXBuildFile; fileRef = A0BD5A1C178F5F6C008915C5 /* hd */; };
+		A0BD5A1F178F5F6C008915C5 /* sd in Resources */ = {isa = PBXBuildFile; fileRef = A0BD5A1D178F5F6C008915C5 /* sd */; };
+		B36FB10617990E14005F39FB /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A50FD17839B9C0073F6A7 /* libcocos2dx iOS.a */; };
+		B36FB10917990F13005F39FB /* libcocos2dx iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A07A50FD17839B9C0073F6A7 /* libcocos2dx iOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -2212,13 +2216,6 @@
 			remoteGlobalIDString = A03F31E81781479B006731B9;
 			remoteInfo = "jsbindings Mac";
 		};
-		A07A52621783A9980073F6A7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A07A50DF17839B9B0073F6A7 /* cocos2d_libs.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = A07A4C241783777C0073F6A7;
-			remoteInfo = "cocos2dx iOS";
-		};
 		A07A52641783A9980073F6A7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A07A50DF17839B9B0073F6A7 /* cocos2d_libs.xcodeproj */;
@@ -2261,9 +2258,18 @@
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
 		};
+		B36FB10717990F09005F39FB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A07A50DF17839B9B0073F6A7 /* cocos2d_libs.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = A07A4C241783777C0073F6A7;
+			remoteInfo = "cocos2dx iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15A055AC17966C350040AC39 /* Deprecated.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Deprecated.lua; path = ../scripting/lua/script/Deprecated.lua; sourceTree = "<group>"; };
+		15A055C1179E25050040AC39 /* DrawPrimitives.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DrawPrimitives.lua; path = ../scripting/lua/script/DrawPrimitives.lua; sourceTree = "<group>"; };
 		15C64822165F391E007D4F18 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		15C64824165F3934007D4F18 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
 		15C64826165F394E007D4F18 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -2321,6 +2327,7 @@
 		1A119C9017853D8D00D62A44 /* Cocos2dConstants.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Cocos2dConstants.lua; path = ../scripting/lua/script/Cocos2dConstants.lua; sourceTree = "<group>"; };
 		1A119C9117853D8D00D62A44 /* Opengl.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = Opengl.lua; path = ../scripting/lua/script/Opengl.lua; sourceTree = "<group>"; };
 		1A119C9217853D8D00D62A44 /* OpenglConstants.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = OpenglConstants.lua; path = ../scripting/lua/script/OpenglConstants.lua; sourceTree = "<group>"; };
+		1A2E823A1793EED50058E421 /* jsb_deprecated.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jsb_deprecated.js; sourceTree = "<group>"; };
 		1A6FB4C417854A6A00CDF010 /* animations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = animations; path = Cpp/TestCpp/Resources/animations; sourceTree = SOURCE_ROOT; };
 		1A6FB4C517854A6A00CDF010 /* armature */ = {isa = PBXFileReference; lastKnownFileType = folder; name = armature; path = Cpp/TestCpp/Resources/armature; sourceTree = SOURCE_ROOT; };
 		1A6FB4C617854A6A00CDF010 /* background-music-aac.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "background-music-aac.wav"; path = "Cpp/TestCpp/Resources/background-music-aac.wav"; sourceTree = SOURCE_ROOT; };
@@ -2363,7 +2370,11 @@
 		1A6FB7DD1785628900CDF010 /* AppController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppController.mm; path = Lua/TestLua/proj.mac/AppController.mm; sourceTree = "<group>"; };
 		1A6FB7DE1785628900CDF010 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Lua/TestLua/proj.mac/main.m; sourceTree = "<group>"; };
 		1A6FB7E11785629800CDF010 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = Lua/TestLua/proj.mac/AppController.h; sourceTree = "<group>"; };
+		1A96FFCB1791701800E3AF98 /* SocketIOTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketIOTest.cpp; sourceTree = "<group>"; };
+		1A96FFCC1791701800E3AF98 /* SocketIOTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketIOTest.h; sourceTree = "<group>"; };
 		1A9F808C177E98A600D9A1CB /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = usr/lib/libcurl.dylib; sourceTree = SDKROOT; };
+		1ACD13F1178E487D00682DBD /* Scale9SpriteTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scale9SpriteTest.cpp; sourceTree = "<group>"; };
+		1ACD13F2178E487D00682DBD /* Scale9SpriteTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scale9SpriteTest.h; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Test cpp Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Test cpp Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01E16931784BDA100B0CA4A /* Simple Game iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Game iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A01E16A11784BF3000B0CA4A /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
@@ -2914,18 +2925,7 @@
 		A035ADED178254FF00987F6C /* background-music-aac.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "background-music-aac.wav"; sourceTree = "<group>"; };
 		A035ADEE178254FF00987F6C /* development.icf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = development.icf; sourceTree = "<group>"; };
 		A035ADF0178254FF00987F6C /* Marker Felt.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Marker Felt.ttf"; sourceTree = "<group>"; };
-		A035ADF2178254FF00987F6C /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
-		A035ADF3178254FF00987F6C /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
-		A035ADF4178254FF00987F6C /* Player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Player.png; sourceTree = "<group>"; };
-		A035ADF5178254FF00987F6C /* Projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Projectile.png; sourceTree = "<group>"; };
-		A035ADF6178254FF00987F6C /* Target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Target.png; sourceTree = "<group>"; };
 		A035ADF7178254FF00987F6C /* pew-pew-lei.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "pew-pew-lei.wav"; sourceTree = "<group>"; };
-		A035ADF9178254FF00987F6C /* app.icf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = app.icf; sourceTree = "<group>"; };
-		A035ADFA178254FF00987F6C /* CloseNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseNormal.png; sourceTree = "<group>"; };
-		A035ADFB178254FF00987F6C /* CloseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseSelected.png; sourceTree = "<group>"; };
-		A035ADFC178254FF00987F6C /* Player.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Player.png; sourceTree = "<group>"; };
-		A035ADFD178254FF00987F6C /* Projectile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Projectile.png; sourceTree = "<group>"; };
-		A035ADFE178254FF00987F6C /* Target.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Target.png; sourceTree = "<group>"; };
 		A035AE88178255DC00987F6C /* Hello cpp Mac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hello cpp Mac.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A035AE8C1782564100987F6C /* AppDelegate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AppDelegate.cpp; sourceTree = "<group>"; };
 		A035AE8D1782564100987F6C /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -2991,6 +2991,8 @@
 		A07A52BB1783AEB80073F6A7 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		A07A52C11783B01F0073F6A7 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		A07A53811784AC9B0073F6A7 /* Hello cpp iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hello cpp iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0BD5A1C178F5F6C008915C5 /* hd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = hd; sourceTree = "<group>"; };
+		A0BD5A1D178F5F6C008915C5 /* sd */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -3428,9 +3430,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B36FB10917990F13005F39FB /* libcocos2dx iOS.a in Frameworks */,
 				A07A522B1783A1EC0073F6A7 /* libbox2d iOS.a in Frameworks */,
 				A07A522C1783A1EC0073F6A7 /* libchipmunk iOS.a in Frameworks */,
-				A07A522D1783A1EC0073F6A7 /* libcocos2dx iOS.a in Frameworks */,
 				A07A522E1783A1EC0073F6A7 /* libcocos2dx-extensions iOS.a in Frameworks */,
 				A07A522F1783A1EC0073F6A7 /* libCocosDenshion iOS.a in Frameworks */,
 				A07A521E1783A1D20073F6A7 /* libz.dylib in Frameworks */,
@@ -3449,7 +3451,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A07A53721784AC9B0073F6A7 /* libcocos2dx iOS.a in Frameworks */,
+				B36FB10617990E14005F39FB /* libcocos2dx iOS.a in Frameworks */,
 				A07A53751784AC9B0073F6A7 /* libz.dylib in Frameworks */,
 				A07A537B1784AC9B0073F6A7 /* OpenGLES.framework in Frameworks */,
 				A07A53761784AC9B0073F6A7 /* Foundation.framework in Frameworks */,
@@ -3635,6 +3637,8 @@
 		1A119C8D17853D6300D62A44 /* Lua Common */ = {
 			isa = PBXGroup;
 			children = (
+				15A055C1179E25050040AC39 /* DrawPrimitives.lua */,
+				15A055AC17966C350040AC39 /* Deprecated.lua */,
 				1A119C8E17853D8D00D62A44 /* AudioEngine.lua */,
 				1A119C8F17853D8D00D62A44 /* CCBReaderLoad.lua */,
 				1A119C9017853D8D00D62A44 /* Cocos2dConstants.lua */,
@@ -3686,6 +3690,15 @@
 			);
 			name = en.lproj;
 			path = Lua/TestLua/proj.mac/en.lproj;
+			sourceTree = "<group>";
+		};
+		1ACD13F0178E487D00682DBD /* Scale9SpriteTest */ = {
+			isa = PBXGroup;
+			children = (
+				1ACD13F1178E487D00682DBD /* Scale9SpriteTest.cpp */,
+				1ACD13F2178E487D00682DBD /* Scale9SpriteTest.h */,
+			);
+			path = Scale9SpriteTest;
 			sourceTree = "<group>";
 		};
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
@@ -4199,6 +4212,7 @@
 				A0359A2817821D9B00987F6C /* ExtensionsTest.h */,
 				A0359A2917821D9B00987F6C /* NetworkTest */,
 				A0359A2E17821D9B00987F6C /* NotificationCenterTest */,
+				1ACD13F0178E487D00682DBD /* Scale9SpriteTest */,
 				A0359A3117821D9B00987F6C /* TableViewTest */,
 			);
 			path = ExtensionsTest;
@@ -4432,6 +4446,8 @@
 			children = (
 				A0359A2A17821D9B00987F6C /* HttpClientTest.cpp */,
 				A0359A2B17821D9B00987F6C /* HttpClientTest.h */,
+				1A96FFCB1791701800E3AF98 /* SocketIOTest.cpp */,
+				1A96FFCC1791701800E3AF98 /* SocketIOTest.h */,
 				A0359A2C17821D9B00987F6C /* WebSocketTest.cpp */,
 				A0359A2D17821D9B00987F6C /* WebSocketTest.h */,
 			);
@@ -4903,6 +4919,7 @@
 				A035A6FB17822A8E00987F6C /* jsb_cocos2d_extension.js */,
 				A035A6FC17822A8E00987F6C /* jsb_cocosbuilder.js */,
 				A035A6FD17822A8E00987F6C /* jsb_debugger.js */,
+				1A2E823A1793EED50058E421 /* jsb_deprecated.js */,
 				A035A6FE17822A8E00987F6C /* jsb_opengl.js */,
 				A035A6FF17822A8E00987F6C /* jsb_opengl_constants.js */,
 				A035A70017822A8E00987F6C /* jsb_sys.js */,
@@ -5139,15 +5156,15 @@
 		A035ADE9178254FF00987F6C /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				A0BD5A1C178F5F6C008915C5 /* hd */,
+				A0BD5A1D178F5F6C008915C5 /* sd */,
 				A035ADEA178254FF00987F6C /* .gitignore */,
 				A035ADEB178254FF00987F6C /* app.config.txt */,
 				A035ADEC178254FF00987F6C /* app.icf */,
 				A035ADED178254FF00987F6C /* background-music-aac.wav */,
 				A035ADEE178254FF00987F6C /* development.icf */,
 				A035ADEF178254FF00987F6C /* fonts */,
-				A035ADF1178254FF00987F6C /* hd */,
 				A035ADF7178254FF00987F6C /* pew-pew-lei.wav */,
-				A035ADF8178254FF00987F6C /* sd */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -5158,31 +5175,6 @@
 				A035ADF0178254FF00987F6C /* Marker Felt.ttf */,
 			);
 			path = fonts;
-			sourceTree = "<group>";
-		};
-		A035ADF1178254FF00987F6C /* hd */ = {
-			isa = PBXGroup;
-			children = (
-				A035ADF2178254FF00987F6C /* CloseNormal.png */,
-				A035ADF3178254FF00987F6C /* CloseSelected.png */,
-				A035ADF4178254FF00987F6C /* Player.png */,
-				A035ADF5178254FF00987F6C /* Projectile.png */,
-				A035ADF6178254FF00987F6C /* Target.png */,
-			);
-			path = hd;
-			sourceTree = "<group>";
-		};
-		A035ADF8178254FF00987F6C /* sd */ = {
-			isa = PBXGroup;
-			children = (
-				A035ADF9178254FF00987F6C /* app.icf */,
-				A035ADFA178254FF00987F6C /* CloseNormal.png */,
-				A035ADFB178254FF00987F6C /* CloseSelected.png */,
-				A035ADFC178254FF00987F6C /* Player.png */,
-				A035ADFD178254FF00987F6C /* Projectile.png */,
-				A035ADFE178254FF00987F6C /* Target.png */,
-			);
-			path = sd;
 			sourceTree = "<group>";
 		};
 		A035AE8A1782564100987F6C /* HelloCpp */ = {
@@ -5787,7 +5779,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				A07A52631783A9980073F6A7 /* PBXTargetDependency */,
+				B36FB10817990F09005F39FB /* PBXTargetDependency */,
 				A07A52651783A9980073F6A7 /* PBXTargetDependency */,
 				A07A52671783A9980073F6A7 /* PBXTargetDependency */,
 				A07A52691783A9980073F6A7 /* PBXTargetDependency */,
@@ -5858,8 +5850,8 @@
 				1A6FB53517854FE400CDF010 /* Hello lua Mac */,
 				1A6FB7821785614200CDF010 /* Test lua Mac */,
 				A07A517B1783A1CC0073F6A7 /* build-all-samples iOS */,
-				A07A517F1783A1D20073F6A7 /* Test cpp iOS */,
 				A07A52CF1784AC9B0073F6A7 /* Hello cpp iOS */,
+				A07A517F1783A1D20073F6A7 /* Test cpp iOS */,
 				A01E16631784BDA100B0CA4A /* Simple Game iOS */,
 				A01E16C01784C06E00B0CA4A /* Test JavaScript iOS */,
 				A01E199E1784DA0600B0CA4A /* Test JavaScript Obfuscated iOS */,
@@ -6001,6 +5993,8 @@
 				1A119C9717853D8D00D62A44 /* Cocos2dConstants.lua in Resources */,
 				1A119C9917853D8D00D62A44 /* Opengl.lua in Resources */,
 				1A119C9B17853D8D00D62A44 /* OpenglConstants.lua in Resources */,
+				15A055AF17966C350040AC39 /* Deprecated.lua in Resources */,
+				15A055C4179E25050040AC39 /* DrawPrimitives.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6048,6 +6042,8 @@
 				1A6FB4F717854A6A00CDF010 /* zwoptex in Resources */,
 				1A6FB4FC17854A8500CDF010 /* cocosbuilderRes in Resources */,
 				1A6FB4FD17854A8500CDF010 /* luaScript in Resources */,
+				15A055B017966C350040AC39 /* Deprecated.lua in Resources */,
+				15A055C5179E25050040AC39 /* DrawPrimitives.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6073,6 +6069,8 @@
 				1A6FB55217854FE400CDF010 /* Cocos2dConstants.lua in Resources */,
 				1A6FB55317854FE400CDF010 /* Opengl.lua in Resources */,
 				1A6FB55417854FE400CDF010 /* OpenglConstants.lua in Resources */,
+				15A055AD17966C350040AC39 /* Deprecated.lua in Resources */,
+				15A055C2179E25050040AC39 /* DrawPrimitives.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6116,6 +6114,8 @@
 				1A6FB7D71785620900CDF010 /* spine in Resources */,
 				1A6FB7D81785620900CDF010 /* TileMaps in Resources */,
 				1A6FB7D91785620900CDF010 /* zwoptex in Resources */,
+				15A055AE17966C350040AC39 /* Deprecated.lua in Resources */,
+				15A055C3179E25050040AC39 /* DrawPrimitives.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6123,8 +6123,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AC070BE1782721D00FE5C7A /* MainMenu.xib in Resources */,
-				1AC070BF1782721D00FE5C7A /* Icon.icns in Resources */,
 				A035A51F1782275800987F6C /* animations in Resources */,
 				A035A5201782275800987F6C /* app.icf in Resources */,
 				A035A5211782275800987F6C /* armature in Resources */,
@@ -6173,18 +6171,7 @@
 				A01E166F1784BDA100B0CA4A /* background-music-aac.wav in Resources */,
 				A01E16701784BDA100B0CA4A /* development.icf in Resources */,
 				A01E16711784BDA100B0CA4A /* Marker Felt.ttf in Resources */,
-				A01E16721784BDA100B0CA4A /* CloseNormal.png in Resources */,
-				A01E16731784BDA100B0CA4A /* CloseSelected.png in Resources */,
-				A01E16741784BDA100B0CA4A /* Player.png in Resources */,
-				A01E16751784BDA100B0CA4A /* Projectile.png in Resources */,
-				A01E16761784BDA100B0CA4A /* Target.png in Resources */,
 				A01E16771784BDA100B0CA4A /* pew-pew-lei.wav in Resources */,
-				A01E16781784BDA100B0CA4A /* app.icf in Resources */,
-				A01E16791784BDA100B0CA4A /* CloseNormal.png in Resources */,
-				A01E167A1784BDA100B0CA4A /* CloseSelected.png in Resources */,
-				A01E167B1784BDA100B0CA4A /* Player.png in Resources */,
-				A01E167C1784BDA100B0CA4A /* Projectile.png in Resources */,
-				A01E167D1784BDA100B0CA4A /* Target.png in Resources */,
 				A01E16B31784BF3000B0CA4A /* Default-568h@2x.png in Resources */,
 				A01E16B41784BF3000B0CA4A /* Default.png in Resources */,
 				A01E16B51784BF3000B0CA4A /* Default@2x.png in Resources */,
@@ -6192,6 +6179,8 @@
 				A01E16B71784BF3000B0CA4A /* Icon-144.png in Resources */,
 				A01E16B81784BF3000B0CA4A /* Icon-57.png in Resources */,
 				A01E16B91784BF3000B0CA4A /* Icon-72.png in Resources */,
+				A0BD5A1E178F5F6C008915C5 /* hd in Resources */,
+				A0BD5A1F178F5F6C008915C5 /* sd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6199,6 +6188,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E82401793EF260058E421 /* jsb_deprecated.js in Resources */,
 				A01E17D51784C28700B0CA4A /* jsb.js in Resources */,
 				A01E17D61784C28700B0CA4A /* jsb_chipmunk.js in Resources */,
 				A01E17D71784C28700B0CA4A /* jsb_chipmunk_constants.js in Resources */,
@@ -6279,6 +6269,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824B17952EC50058E421 /* jsb_deprecated.js in Resources */,
 				A01E18FD1784C5B300B0CA4A /* boot-html5.js in Resources */,
 				A01E18FE1784C5B300B0CA4A /* boot-jsb.js in Resources */,
 				A01E19001784C5B300B0CA4A /* levels.js in Resources */,
@@ -6314,6 +6305,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824C17952ECE0058E421 /* jsb_deprecated.js in Resources */,
 				A01E18671784C4D600B0CA4A /* jsb.js in Resources */,
 				A01E18681784C4D600B0CA4A /* jsb_chipmunk.js in Resources */,
 				A01E18691784C4D600B0CA4A /* jsb_chipmunk_constants.js in Resources */,
@@ -6347,6 +6339,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824D17952ED70058E421 /* jsb_deprecated.js in Resources */,
 				A01E189C1784C4DC00B0CA4A /* jsb.js in Resources */,
 				A01E189D1784C4DC00B0CA4A /* jsb_chipmunk.js in Resources */,
 				A01E189E1784C4DC00B0CA4A /* jsb_chipmunk_constants.js in Resources */,
@@ -6374,6 +6367,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824E17952EDF0058E421 /* jsb_deprecated.js in Resources */,
 				A01E18D11784C4E000B0CA4A /* jsb.js in Resources */,
 				A01E18D21784C4E000B0CA4A /* jsb_chipmunk.js in Resources */,
 				A01E18D31784C4E000B0CA4A /* jsb_chipmunk_constants.js in Resources */,
@@ -6466,6 +6460,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E823F1793EEF50058E421 /* jsb_deprecated.js in Resources */,
 				A035A64C1782296200987F6C /* game.js in Resources */,
 				A035A6D7178229E400987F6C /* main.js in Resources */,
 				A035A6E7178229E400987F6C /* tests_resources-html5.js in Resources */,
@@ -6542,6 +6537,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824517952E8D0058E421 /* jsb_deprecated.js in Resources */,
 				A035A8661782343C00987F6C /* boot-html5.js in Resources */,
 				A035A8671782343C00987F6C /* boot-jsb.js in Resources */,
 				A035A8691782343C00987F6C /* levels.js in Resources */,
@@ -6573,6 +6569,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824817952E9A0058E421 /* jsb_deprecated.js in Resources */,
 				A035AA841782413200987F6C /* main.js in Resources */,
 				A035AA861782413200987F6C /* MoonWarriors-jsb.js in Resources */,
 				A035A9CF17823FE100987F6C /* jsb.js in Resources */,
@@ -6599,6 +6596,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824917952EAC0058E421 /* jsb_deprecated.js in Resources */,
 				A035AA9D1782422400987F6C /* jsb.js in Resources */,
 				A035AA9E1782422400987F6C /* jsb_chipmunk.js in Resources */,
 				A035AA9F1782422400987F6C /* jsb_chipmunk_constants.js in Resources */,
@@ -6622,6 +6620,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A2E824A17952EB70058E421 /* jsb_deprecated.js in Resources */,
 				A035AC101782453000987F6C /* jsb.js in Resources */,
 				A035AC111782453000987F6C /* jsb_chipmunk.js in Resources */,
 				A035AC121782453000987F6C /* jsb_chipmunk_constants.js in Resources */,
@@ -6654,18 +6653,9 @@
 				A035AE42178254FF00987F6C /* background-music-aac.wav in Resources */,
 				A035AE43178254FF00987F6C /* development.icf in Resources */,
 				A035AE44178254FF00987F6C /* Marker Felt.ttf in Resources */,
-				A035AE45178254FF00987F6C /* CloseNormal.png in Resources */,
-				A035AE46178254FF00987F6C /* CloseSelected.png in Resources */,
-				A035AE47178254FF00987F6C /* Player.png in Resources */,
-				A035AE48178254FF00987F6C /* Projectile.png in Resources */,
-				A035AE49178254FF00987F6C /* Target.png in Resources */,
 				A035AE4A178254FF00987F6C /* pew-pew-lei.wav in Resources */,
-				A035AE4B178254FF00987F6C /* app.icf in Resources */,
-				A035AE4C178254FF00987F6C /* CloseNormal.png in Resources */,
-				A035AE4D178254FF00987F6C /* CloseSelected.png in Resources */,
-				A035AE4E178254FF00987F6C /* Player.png in Resources */,
-				A035AE4F178254FF00987F6C /* Projectile.png in Resources */,
-				A035AE50178254FF00987F6C /* Target.png in Resources */,
+				1AA62D3817A15EAA0006E64F /* hd in Resources */,
+				1AA62D3B17A15EB00006E64F /* sd in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6908,6 +6898,8 @@
 				A0359B0A17821D9C00987F6C /* ZwoptexTest.cpp in Sources */,
 				A07A525C1783A3D90073F6A7 /* AppController.mm in Sources */,
 				A07A52601783A3D90073F6A7 /* main.m in Sources */,
+				1ACD13F3178E487D00682DBD /* Scale9SpriteTest.cpp in Sources */,
+				1A96FFCD1791701800E3AF98 /* SocketIOTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6932,6 +6924,7 @@
 				A01E17911784C0E000B0CA4A /* main.m in Sources */,
 				A01E17921784C0E000B0CA4A /* RootViewController.mm in Sources */,
 				A01E17991784C16100B0CA4A /* AppDelegate.cpp in Sources */,
+				1A2E823C1793EED50058E421 /* jsb_deprecated.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7007,6 +7000,7 @@
 				A035A64B1782296200987F6C /* AppDelegate.cpp in Sources */,
 				A035A6731782296200987F6C /* AppController.mm in Sources */,
 				A035A6781782296200987F6C /* main.m in Sources */,
+				1A2E823B1793EED50058E421 /* jsb_deprecated.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7183,6 +7177,8 @@
 				A07A52431783A3A90073F6A7 /* RootViewController.mm in Sources */,
 				A07A52441783A3A90073F6A7 /* testsAppDelegate.mm in Sources */,
 				A07A524C1783A3A90073F6A7 /* main.m in Sources */,
+				1ACD13F4178E487D00682DBD /* Scale9SpriteTest.cpp in Sources */,
+				1A96FFCE1791701800E3AF98 /* SocketIOTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7796,11 +7792,6 @@
 			name = "jsbindings Mac";
 			targetProxy = A07A51731783A0A80073F6A7 /* PBXContainerItemProxy */;
 		};
-		A07A52631783A9980073F6A7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "cocos2dx iOS";
-			targetProxy = A07A52621783A9980073F6A7 /* PBXContainerItemProxy */;
-		};
 		A07A52651783A9980073F6A7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "cocos2dx-extensions iOS";
@@ -7830,6 +7821,11 @@
 			isa = PBXTargetDependency;
 			name = "cocos2dx iOS";
 			targetProxy = A07A52D11784AC9B0073F6A7 /* PBXContainerItemProxy */;
+		};
+		B36FB10817990F09005F39FB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "cocos2dx iOS";
+			targetProxy = B36FB10717990F09005F39FB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -8084,7 +8080,7 @@
 		1A6FB56917854FE400CDF010 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8100,7 +8096,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Lua/HelloLua/proj.mac\"",
 				);
-				OTHER_LDFLAGS = (
+				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[arch=x86_64]" = (
 					"-pagezero_size",
 					10000,
 					"-image_base",
@@ -8116,7 +8113,7 @@
 		1A6FB56A17854FE400CDF010 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8131,7 +8128,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/Lua/HelloLua/proj.mac\"",
 				);
-				OTHER_LDFLAGS = (
+				OTHER_LDFLAGS = "";
+				"OTHER_LDFLAGS[arch=x86_64]" = (
 					"-pagezero_size",
 					10000,
 					"-image_base",
@@ -8148,7 +8146,7 @@
 		1A6FB7B11785614200CDF010 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8181,7 +8179,7 @@
 		1A6FB7B21785614200CDF010 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8215,6 +8213,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8233,6 +8232,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8545,6 +8545,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8565,6 +8566,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8585,6 +8587,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8604,6 +8607,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8623,6 +8627,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8642,6 +8647,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8661,6 +8667,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8680,6 +8687,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8699,6 +8707,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8718,6 +8727,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8737,6 +8747,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8756,6 +8767,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8774,12 +8786,14 @@
 		A035ACBD1782469800987F6C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 			};
 			name = Debug;
 		};
 		A035ACBE1782469800987F6C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 			};
 			name = Release;
 		};
@@ -8787,6 +8801,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8805,6 +8820,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8823,6 +8839,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8841,6 +8858,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -8885,11 +8903,20 @@
 					CC_TARGET_OS_IPHONE,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios/libfreetype2/freetype\"",
+					"\"$(SRCROOT)/../extensions\"",
+					"\"$(SRCROOT)/../external\"",
+				);
 				INFOPLIST_FILE = "Cpp/TestCpp/proj.ios/Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../cocos2dx/platform/third_party/ios/libraries",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/../cocos2dx/platform/ios\" \"$(SRCROOT)/../cocos2dx/platform/ios/Simulation\" \"$(SRCROOT)/../cocos2dx/platform/third_party/ios\" \"$(SRCROOT)/../external/libwebsockets/ios/include\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios/libfreetype2/freetype\" $(inherited) \"$(SRCROOT)/../cocos2dx/platform/ios\" \"$(SRCROOT)/../cocos2dx/platform/ios/Simulation\" \"$(SRCROOT)/../cocos2dx/platform/third_party/ios\" \"$(SRCROOT)/../external/libwebsockets/ios/include\"";
 			};
 			name = Debug;
 		};
@@ -8904,11 +8931,20 @@
 					CC_TARGET_OS_IPHONE,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../cocos2dx/platform/third_party/ios/libfreetype2/freetype\"",
+					"\"$(SRCROOT)/../extensions\"",
+					"\"$(SRCROOT)/../external\"",
+				);
 				INFOPLIST_FILE = "Cpp/TestCpp/proj.ios/Test-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../cocos2dx/platform/third_party/ios/libraries",
+				);
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/../cocos2dx/platform/ios\" \"$(SRCROOT)/../cocos2dx/platform/ios/Simulation\" \"$(SRCROOT)/../cocos2dx/platform/third_party/ios\" \"$(SRCROOT)/../external/libwebsockets/ios/include\"";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) \"$(SRCROOT)/../cocos2dx/platform/ios\" \"$(SRCROOT)/../cocos2dx/platform/ios/Simulation\" \"$(SRCROOT)/../cocos2dx/platform/third_party/ios\" \"$(SRCROOT)/../external/libwebsockets/ios/include\" $(SRCROOT)/../cocos2dx/platform/third_party/ios/libfreetype2\"";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -8970,6 +9006,7 @@
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../extensions\"",
@@ -8996,6 +9033,7 @@
 					"CC_ENABLE_CHIPMUNK_INTEGRATION=1",
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../extensions\"",

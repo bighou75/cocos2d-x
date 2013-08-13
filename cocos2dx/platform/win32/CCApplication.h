@@ -25,26 +25,29 @@ public:
     @brief    Get current applicaiton instance.
     @return Current application instance pointer.
     */
-    static Application* sharedApplication();
+    static Application* getInstance();
 
+    /** @deprecated Use getInstance() instead */
+    CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
+    
     /* override functions */
     virtual void setAnimationInterval(double interval);
-    virtual ccLanguageType getCurrentLanguage();
+    virtual LanguageType getCurrentLanguage();
     
     /**
      @brief Get target platform
      */
-    virtual TargetPlatform getTargetPlatform();
+    virtual Platform getTargetPlatform();
 
     /**
      *  Sets the Resource root path.
-     *  @deprecated Please use FileUtils::sharedFileUtils()->setSearchPaths() instead.
+     *  @deprecated Please use FileUtils::getInstance()->setSearchPaths() instead.
      */
     CC_DEPRECATED_ATTRIBUTE void setResourceRootPath(const std::string& rootResDir);
 
     /** 
      *  Gets the Resource root path.
-     *  @deprecated Please use FileUtils::sharedFileUtils()->getSearchPaths() instead. 
+     *  @deprecated Please use FileUtils::getInstance()->getSearchPaths() instead. 
      */
     CC_DEPRECATED_ATTRIBUTE const std::string& getResourceRootPath(void);
 

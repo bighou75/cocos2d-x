@@ -23,14 +23,14 @@ AppDelegate::AppDelegate()
 
 AppDelegate::~AppDelegate()
 {
-    ScriptEngineManager::purgeSharedManager();
+    ScriptEngineManager::destroyInstance();
 }
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
     // initialize director
-    Director *pDirector = Director::sharedDirector();
-    pDirector->setOpenGLView(EGLView::sharedOpenGLView());
+    Director *pDirector = Director::getInstance();
+    pDirector->setOpenGLView(EGLView::getInstance());
     
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -51,7 +51,7 @@ bool AppDelegate::applicationDidFinishLaunching()
     sc->start();
     CCLOG("applicationDidFinishLaunching 02");
     ScriptEngineProtocol *pEngine = ScriptingCore::getInstance();
-    ScriptEngineManager::sharedManager()->setScriptEngine(pEngine);
+    ScriptEngineManager::getInstance()->setScriptEngine(pEngine);
     ScriptingCore::getInstance()->runScript("main.js");
        CCLOG("applicationDidFinishLaunching 03");
     return true;
@@ -60,9 +60,9 @@ bool AppDelegate::applicationDidFinishLaunching()
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground()
 {
-    Director::sharedDirector()->stopAnimation();
-    SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->pauseAllEffects();
+    Director::getInstance()->stopAnimation();
+    SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+    SimpleAudioEngine::getInstance()->pauseAllEffects();
 
     ScriptingCore* sc = ScriptingCore::getInstance();
     jsval nsval;
@@ -75,9 +75,9 @@ void AppDelegate::applicationDidEnterBackground()
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground()
 {
-    Director::sharedDirector()->startAnimation();
-    SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
-    SimpleAudioEngine::sharedEngine()->resumeAllEffects();
+    Director::getInstance()->startAnimation();
+    SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+    SimpleAudioEngine::getInstance()->resumeAllEffects();
 
     ScriptingCore* sc = ScriptingCore::getInstance();
     jsval nsval;

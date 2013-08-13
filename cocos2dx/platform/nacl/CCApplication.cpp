@@ -69,8 +69,8 @@ int Application::run()
     for (;;)
     {
         //long iLastTime = getCurrentMillSecond();
-        Director::sharedDirector()->mainLoop();
-        EGLView::sharedOpenGLView()->ProcessEventQueue();
+        Director::getInstance()->mainLoop();
+        EGLView::getInstance()->ProcessEventQueue();
 
         //long iCurTime = getCurrentMillSecond();
         /*
@@ -90,20 +90,26 @@ void Application::setAnimationInterval(double interval)
     _animationInterval = interval * 1000.0f;
 }
 
-TargetPlatform Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
-    return kTargetNaCl;
+    return Platform::OS_NACL;
 }
 
-Application* Application::sharedApplication()
+Application* Application::getInstance()
 {
     CC_ASSERT(sm_pSharedApplication);
     return sm_pSharedApplication;
 }
 
-ccLanguageType Application::getCurrentLanguage()
+// @deprecated Use getInstance() instead
+Application* Application::sharedApplication()
 {
-    ccLanguageType ret = kLanguageEnglish;
+    return Application::getInstance();
+}
+
+LanguageType Application::getCurrentLanguage()
+{
+    LanguageType ret = LanguageType::ENGLISH;
     return ret;
 }
 

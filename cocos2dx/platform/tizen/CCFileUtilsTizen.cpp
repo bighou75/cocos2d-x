@@ -40,12 +40,17 @@ using namespace Tizen::Base;
 using namespace Tizen::Io;
 using namespace Tizen::Text;
 
-FileUtils* FileUtils::sharedFileUtils()
+FileUtils* FileUtils::getInstance()
 {
     if (s_sharedFileUtils == NULL)
     {
         s_sharedFileUtils = new FileUtilsTizen();
-        s_sharedFileUtils->init();
+        if(!s_sharedFileUtils->init())
+        {
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = NULL;
+          CCLOG("ERROR: Could not init CCFileUtilsTizen");
+        }
     }
     return s_sharedFileUtils;
 }

@@ -37,18 +37,18 @@ MenuLayer::~MenuLayer(void)
 
 MenuLayer* MenuLayer::menuWithEntryID(int entryId)
 {
-    MenuLayer* pLayer = new MenuLayer();
-    pLayer->initWithEntryID(entryId);
-    pLayer->autorelease();
+    MenuLayer* layer = new MenuLayer();
+    layer->initWithEntryID(entryId);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 bool MenuLayer::initWithEntryID(int entryId)
 {
-    Director* pDirector = Director::sharedDirector();
-	Point visibleOrigin = pDirector->getVisibleOrigin();
-	Size visibleSize = pDirector->getVisibleSize();
+    Director* director = Director::getInstance();
+	Point visibleOrigin = director->getVisibleOrigin();
+	Size visibleSize = director->getVisibleSize();
 
     m_entryID = entryId;
     
@@ -57,15 +57,15 @@ bool MenuLayer::initWithEntryID(int entryId)
     Box2DView* view = Box2DView::viewWithEntryID( entryId );
     addChild(view, 0, kTagBox2DNode);
     view->setScale(15);
-    view->setAnchorPoint( ccp(0,0) );
-    view->setPosition( ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/3) );
+    view->setAnchorPoint( Point(0,0) );
+    view->setPosition( Point(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height/3) );
 //#if (CC_TARGET_PLATFORM == CC_PLATFORM_MARMALADE)
 //    LabelBMFont* label = LabelBMFont::create(view->title().c_str(),  "fonts/arial16.fnt");
 //#else    
     LabelTTF* label = LabelTTF::create(view->title().c_str(), "Arial", 28);
 //#endif
     addChild(label, 1);
-    label->setPosition( ccp(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height-50) );
+    label->setPosition( Point(visibleOrigin.x+visibleSize.width/2, visibleOrigin.y+visibleSize.height-50) );
 
     MenuItemImage *item1 = MenuItemImage::create("Images/b1.png", "Images/b2.png", CC_CALLBACK_1(MenuLayer::backCallback, this) );
     MenuItemImage *item2 = MenuItemImage::create("Images/r1.png","Images/r2.png", CC_CALLBACK_1( MenuLayer::restartCallback, this) );
@@ -73,10 +73,10 @@ bool MenuLayer::initWithEntryID(int entryId)
 
     Menu *menu = Menu::create(item1, item2, item3, NULL);
 
-    menu->setPosition( PointZero );
-    item1->setPosition(ccp(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item2->setPosition(ccp(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
-    item3->setPosition(ccp(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    menu->setPosition( Point::ZERO );
+    item1->setPosition(Point(VisibleRect::center().x - item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item2->setPosition(Point(VisibleRect::center().x, VisibleRect::bottom().y+item2->getContentSize().height/2));
+    item3->setPosition(Point(VisibleRect::center().x + item2->getContentSize().width*2, VisibleRect::bottom().y+item2->getContentSize().height/2));
     
     addChild(menu, 1);    
 
@@ -88,7 +88,7 @@ void MenuLayer::restartCallback(Object* sender)
     Scene* s = new Box2dTestBedScene();
     MenuLayer* box = MenuLayer::menuWithEntryID(m_entryID);
     s->addChild( box );
-    Director::sharedDirector()->replaceScene( s );
+    Director::getInstance()->replaceScene( s );
     s->release();
 }
 
@@ -100,7 +100,7 @@ void MenuLayer::nextCallback(Object* sender)
         next = 0;
     MenuLayer* box = MenuLayer::menuWithEntryID(next);
     s->addChild( box );
-    Director::sharedDirector()->replaceScene( s );
+    Director::getInstance()->replaceScene( s );
     s->release();
 }
 
@@ -115,14 +115,14 @@ void MenuLayer::backCallback(Object* sender)
     MenuLayer* box = MenuLayer::menuWithEntryID(next);
 
     s->addChild( box );
-    Director::sharedDirector()->replaceScene( s );
+    Director::getInstance()->replaceScene( s );
     s->release();
 }
 
 void MenuLayer::registerWithTouchDispatcher()
 {
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
 }
 
 bool MenuLayer::ccTouchBegan(Touch* touch, Event* event)
@@ -143,7 +143,7 @@ void MenuLayer::ccTouchMoved(Touch* touch, Event* event)
     Point diff = touch->getDelta();    
     Node *node = getChildByTag( kTagBox2DNode );
     Point currentPos = node->getPosition();
-    node->setPosition( ccpAdd(currentPos, diff) );
+    node->setPosition(currentPos + diff);
 }
 
 //------------------------------------------------------------------
@@ -191,7 +191,7 @@ void Box2DView::draw()
 {
     Layer::draw();
 
-    ccGLEnableVertexAttribs( kVertexAttribFlag_Position );
+    GL::enableVertexAttribs( cocos2d::GL::VERTEX_ATTRIB_FLAG_POSITION );
 
     kmGLPushMatrix();
 
@@ -210,8 +210,8 @@ Box2DView::~Box2DView()
 void Box2DView::registerWithTouchDispatcher()
 {
     // higher priority than dragging
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->addTargetedDelegate(this, -10, true);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->addTargetedDelegate(this, -10, true);
 }
 
 bool Box2DView::ccTouchBegan(Touch* touch, Event* event)
@@ -254,5 +254,5 @@ void Box2dTestBedScene::runThisTest()
 {
     addChild(MenuLayer::menuWithEntryID(0));
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }

@@ -49,13 +49,14 @@ SOURCES = ../Classes/AccelerometerTest/AccelerometerTest.cpp \
 	../Classes/ExtensionsTest/ExtensionsTest.cpp \
 	../Classes/ExtensionsTest/NotificationCenterTest/NotificationCenterTest.cpp \
 	../Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/ComponentsTestScene.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/EnemyController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/GameOverScene.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/PlayerController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/ProjectileController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/SceneController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/ComponentsTestScene.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/EnemyController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/GameOverScene.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/PlayerController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/ProjectileController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/SceneController.cpp \
 	../Classes/ExtensionsTest/ArmatureTest/ArmatureScene.cpp \
+	../Classes/ExtensionsTest/Scale9SpriteTest/Scale9SpriteTest.cpp \
 	../Classes/FontTest/FontTest.cpp \
 	../Classes/IntervalTest/IntervalTest.cpp \
 	../Classes/KeypadTest/KeypadTest.cpp \
@@ -142,9 +143,10 @@ $(TARGET).data: $(CORE_MAKEFILE_LIST) $(patsubst %,$(RESOURCE_PATH)/%,$(RESOURCE
 	cp -av $(RESOURCE_PATH)/* $(shell dirname $@)
 	rm -rf $(RESTMP)
 
-$(BIN_DIR)/index.html: index.html $(CORE_MAKEFILE_LIST)
+$(BIN_DIR)/$(HTMLTPL_FILE): $(HTMLTPL_DIR)/$(HTMLTPL_FILE) $(CORE_MAKEFILE_LIST)
 	@mkdir -p $(@D)
-	cp index.html $(@D)
+	@cp -Rf $(HTMLTPL_DIR)/* $(BIN_DIR)
+	@sed -i -e "s/JS_APPLICATION/$(EXECUTABLE)/g" $(BIN_DIR)/$(HTMLTPL_FILE)
 
 ####### Compile
 $(OBJ_DIR)/%.o: ../%.cpp $(CORE_MAKEFILE_LIST)

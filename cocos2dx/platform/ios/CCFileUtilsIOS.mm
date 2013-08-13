@@ -124,7 +124,7 @@ static void addObjectToNSArray(Object *object, NSMutableArray *array)
 static void addValueToDict(id key, id value, Dictionary* pDict)
 {
     // the key must be a string
-    CCAssert([key isKindOfClass:[NSString class]], "The key should be a string!");
+    CCASSERT([key isKindOfClass:[NSString class]], "The key should be a string!");
     std::string pKey = [key UTF8String];
     
     // the value is a new dictionary
@@ -208,12 +208,17 @@ static void addObjectToNSDict(const char * key, Object* object, NSMutableDiction
     }
 }
 
-FileUtils* FileUtils::sharedFileUtils()
+FileUtils* FileUtils::getInstance()
 {
     if (s_sharedFileUtils == NULL)
     {
         s_sharedFileUtils = new FileUtilsIOS();
-        s_sharedFileUtils->init();
+        if(!s_sharedFileUtils->init())
+        {
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = NULL;
+          CCLOG("ERROR: Could not init CCFileUtilsIOS");
+        }
     }
     return s_sharedFileUtils;
 }
@@ -303,7 +308,7 @@ bool FileUtilsIOS::isAbsolutePath(const std::string& strPath)
 
 Dictionary* FileUtilsIOS::createDictionaryWithContentsOfFile(const std::string& filename)
 {
-    std::string fullPath = FileUtils::sharedFileUtils()->fullPathForFilename(filename.c_str());
+    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filename.c_str());
     NSString* pPath = [NSString stringWithUTF8String:fullPath.c_str()];
     NSDictionary* pDict = [NSDictionary dictionaryWithContentsOfFile:pPath];
     
@@ -348,7 +353,7 @@ Array* FileUtilsIOS::createArrayWithContentsOfFile(const std::string& filename)
     //    pPath = [pPath stringByDeletingPathExtension];
     //    pPath = [[NSBundle mainBundle] pathForResource:pPath ofType:pathExtension];
     //    fixing cannot read data using Array::createWithContentsOfFile
-    std::string fullPath = FileUtils::sharedFileUtils()->fullPathForFilename(filename.c_str());
+    std::string fullPath = FileUtils::getInstance()->fullPathForFilename(filename.c_str());
     NSString* pPath = [NSString stringWithUTF8String:fullPath.c_str()];
     NSArray* pArray = [NSArray arrayWithContentsOfFile:pPath];
     

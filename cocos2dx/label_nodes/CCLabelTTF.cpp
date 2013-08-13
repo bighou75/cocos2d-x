@@ -31,17 +31,17 @@ THE SOFTWARE.
 NS_CC_BEGIN
 
 #if CC_USE_LA88_LABELS
-#define SHADER_PROGRAM kShader_PositionTextureColor
+#define SHADER_PROGRAM GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR
 #else
-#define SHADER_PROGRAM kShader_PositionTextureA8Color
+#define SHADER_PROGRAM GLProgram::SHADER_NAME_POSITION_TEXTUREA8Color
 #endif
 
 //
 //CCLabelTTF
 //
 LabelTTF::LabelTTF()
-: _alignment(kTextAlignmentCenter)
-, _vAlignment(kVerticalTextAlignmentTop)
+: _alignment(TextHAlignment::CENTER)
+, _vAlignment(TextVAlignment::TOP)
 , _fontName(NULL)
 , _fontSize(0.0)
 , _string("")
@@ -73,18 +73,18 @@ LabelTTF * LabelTTF::create()
 LabelTTF * LabelTTF::create(const char *string, const char *fontName, float fontSize)
 {
     return LabelTTF::create(string, fontName, fontSize,
-                              SizeZero, kTextAlignmentCenter, kVerticalTextAlignmentTop);
+                              Size::ZERO, TextHAlignment::CENTER, TextVAlignment::TOP);
 }
 
 LabelTTF * LabelTTF::create(const char *string, const char *fontName, float fontSize,
-                                const Size& dimensions, TextAlignment hAlignment)
+                                const Size& dimensions, TextHAlignment hAlignment)
 {
-    return LabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, kVerticalTextAlignmentTop);
+    return LabelTTF::create(string, fontName, fontSize, dimensions, hAlignment, TextVAlignment::TOP);
 }
 
 LabelTTF* LabelTTF::create(const char *string, const char *fontName, float fontSize,
-                               const Size &dimensions, TextAlignment hAlignment, 
-                               VerticalTextAlignment vAlignment)
+                               const Size &dimensions, TextHAlignment hAlignment, 
+                               TextVAlignment vAlignment)
 {
     LabelTTF *pRet = new LabelTTF();
     if(pRet && pRet->initWithString(string, fontName, fontSize, dimensions, hAlignment, vAlignment))
@@ -114,27 +114,27 @@ bool LabelTTF::init()
 }
 
 bool LabelTTF::initWithString(const char *label, const char *fontName, float fontSize, 
-                                const Size& dimensions, TextAlignment alignment)
+                                const Size& dimensions, TextHAlignment alignment)
 {
-    return this->initWithString(label, fontName, fontSize, dimensions, alignment, kVerticalTextAlignmentTop);
+    return this->initWithString(label, fontName, fontSize, dimensions, alignment, TextVAlignment::TOP);
 }
 
 bool LabelTTF::initWithString(const char *label, const char *fontName, float fontSize)
 {
     return this->initWithString(label, fontName, fontSize, 
-                                SizeZero, kTextAlignmentLeft, kVerticalTextAlignmentTop);
+                                Size::ZERO, TextHAlignment::LEFT, TextVAlignment::TOP);
 }
 
 bool LabelTTF::initWithString(const char *string, const char *fontName, float fontSize,
-                                const cocos2d::Size &dimensions, TextAlignment hAlignment,
-                                VerticalTextAlignment vAlignment)
+                                const cocos2d::Size &dimensions, TextHAlignment hAlignment,
+                                TextVAlignment vAlignment)
 {
     if (Sprite::init())
     {
         // shader program
-        this->setShaderProgram(ShaderCache::sharedShaderCache()->programForKey(SHADER_PROGRAM));
+        this->setShaderProgram(ShaderCache::getInstance()->programForKey(SHADER_PROGRAM));
         
-        _dimensions = CCSizeMake(dimensions.width, dimensions.height);
+        _dimensions = Size(dimensions.width, dimensions.height);
         _alignment  = hAlignment;
         _vAlignment  = vAlignment;
         _fontName   = new std::string(fontName);
@@ -153,7 +153,7 @@ bool LabelTTF::initWithStringAndTextDefinition(const char *string, FontDefinitio
     if (Sprite::init())
     {
         // shader program
-        this->setShaderProgram(ShaderCache::sharedShaderCache()->programForKey(SHADER_PROGRAM));
+        this->setShaderProgram(ShaderCache::getInstance()->programForKey(SHADER_PROGRAM));
         
         // prepare everythin needed to render the label
         _updateWithTextDefinition(textDefinition, false);
@@ -173,7 +173,7 @@ bool LabelTTF::initWithStringAndTextDefinition(const char *string, FontDefinitio
 
 void LabelTTF::setString(const char *string)
 {
-    CCAssert(string != NULL, "Invalid string");
+    CCASSERT(string != NULL, "Invalid string");
     
     if (_string.compare(string))
     {
@@ -193,12 +193,12 @@ const char* LabelTTF::description() const
     return String::createWithFormat("<LabelTTF | FontName = %s, FontSize = %.1f>", _fontName->c_str(), _fontSize)->getCString();
 }
 
-TextAlignment LabelTTF::getHorizontalAlignment() const
+TextHAlignment LabelTTF::getHorizontalAlignment() const
 {
     return _alignment;
 }
 
-void LabelTTF::setHorizontalAlignment(TextAlignment alignment)
+void LabelTTF::setHorizontalAlignment(TextHAlignment alignment)
 {
     if (alignment != _alignment)
     {
@@ -212,12 +212,12 @@ void LabelTTF::setHorizontalAlignment(TextAlignment alignment)
     }
 }
 
-VerticalTextAlignment LabelTTF::getVerticalAlignment() const
+TextVAlignment LabelTTF::getVerticalAlignment() const
 {
     return _vAlignment;
 }
 
-void LabelTTF::setVerticalAlignment(VerticalTextAlignment verticalAlignment)
+void LabelTTF::setVerticalAlignment(TextVAlignment verticalAlignment)
 {
     if (verticalAlignment != _vAlignment)
     {
@@ -320,7 +320,7 @@ bool LabelTTF::updateTexture()
     tex->release();
     
     // set the size in the sprite
-    Rect rect =RectZero;
+    Rect rect =Rect::ZERO;
     rect.size   = _texture->getContentSize();
     this->setTextureRect(rect);
     
@@ -470,7 +470,7 @@ FontDefinition LabelTTF::getTextDefinition()
 
 void LabelTTF::_updateWithTextDefinition(const FontDefinition& textDefinition, bool mustUpdateTexture)
 {
-    _dimensions = CCSizeMake(textDefinition._dimensions.width, textDefinition._dimensions.height);
+    _dimensions = Size(textDefinition._dimensions.width, textDefinition._dimensions.height);
     _alignment  = textDefinition._alignment;
     _vAlignment  = textDefinition._vertAlignment;
     

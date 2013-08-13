@@ -4,6 +4,7 @@
 #include "../testBasic.h"
 #include "../BaseTest.h"
 
+
 class AtlasDemo : public BaseTest
 {
 protected:
@@ -16,9 +17,9 @@ public:
     virtual std::string subtitle();
     virtual void onEnter();
 
-    void restartCallback(Object* pSender);
-    void nextCallback(Object* pSender);
-    void backCallback(Object* pSender);
+    void restartCallback(Object* sender);
+    void nextCallback(Object* sender);
+    void backCallback(Object* sender);
 };
 
 
@@ -181,18 +182,18 @@ public:
     virtual std::string title();
     virtual std::string subtitle();
 private:
-    void  setAlignmentLeft(Object* pSender);
-    void  setAlignmentCenter(Object* pSender);
-    void  setAlignmentRight(Object* pSender);
-    void  setAlignmentTop(Object* pSender);
-    void  setAlignmentMiddle(Object* pSender);
-    void  setAlignmentBottom(Object* pSender);
+    void  setAlignmentLeft(Object* sender);
+    void  setAlignmentCenter(Object* sender);
+    void  setAlignmentRight(Object* sender);
+    void  setAlignmentTop(Object* sender);
+    void  setAlignmentMiddle(Object* sender);
+    void  setAlignmentBottom(Object* sender);
     void  updateAlignment();
     const char* getCurrentAlignment();
 private:
     LabelTTF* _plabel;
-    TextAlignment _horizAlign;
-    VerticalTextAlignment _vertAlign;
+    TextHAlignment _horizAlign;
+    TextVAlignment _vertAlign;
 };
 
 class LabelTTFMultiline : public AtlasDemo
@@ -227,9 +228,9 @@ public:
     virtual std::string subtitle();
     void stringChanged(Object *sender);
     void alignmentChanged(Object *sender);
-    virtual void ccTouchesBegan(Set *pTouches, Event *pEvent);
-    virtual void ccTouchesEnded(Set *pTouches, Event *pEvent);
-    virtual void ccTouchesMoved(Set *pTouches, Event *pEvent);
+    virtual void ccTouchesBegan(Set  *touches, Event  *event);
+    virtual void ccTouchesEnded(Set  *touches, Event  *event);
+    virtual void ccTouchesMoved(Set  *touches, Event  *event);
 
 public:
     LabelBMFont *_labelShouldRetain;
@@ -314,6 +315,122 @@ public:
 private:
     LabelBMFont *label1;
 };
+
+class LabelBMFontNewTest : public AtlasDemo
+{
+public:
+    LabelBMFontNewTest();
+    
+    virtual void draw();
+    virtual std::string title();
+    virtual std::string subtitle();
+private:
+    StringBMFont *label1;
+};
+
+class NewLabelTTFTestLongLine : public AtlasDemo
+{
+public:
+
+    NewLabelTTFTestLongLine();
+
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
+class NewLabelTTFColorTest : public AtlasDemo
+{
+public:
+
+    NewLabelTTFColorTest();
+
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
+class NewLabelTTFUnicode : public AtlasDemo
+{
+public:
+    
+    NewLabelTTFUnicode();
+    
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
+class NewLabelTTFAlignment : public AtlasDemo
+{
+public:
+    
+    NewLabelTTFAlignment();
+    virtual std::string title();
+    virtual std::string subtitle();
+    
+private:
+    
+    void setAlignmentLeft(Object* sender);
+    void setAlignmentCenter(Object* sender);
+    void setAlignmentRight(Object* sender);
+    void updateAlignment();
+    
+    Label          * _label;
+    TextHAlignment   _horizAlign;
+    
+};
+
+
+class NewLabelTTFFontsTest : public AtlasDemo
+{
+public:
+
+    NewLabelTTFFontsTest();
+
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
+
+class NewLabelBMFontTest : public AtlasDemo
+{
+public:
+
+    NewLabelBMFontTest();
+
+    virtual std::string title();
+    virtual std::string subtitle();
+
+private:
+};
+
+
+class NewLabelBMFontTestOld : public AtlasDemo
+{
+public:
+    
+    NewLabelBMFontTestOld();
+    ~NewLabelBMFontTestOld();
+    
+    virtual std::string title();
+    virtual std::string subtitle();
+    
+private:
+    Label *label;
+};
+
+
+class NewLabelFontDefTest : public AtlasDemo
+{
+public:
+
+    NewLabelFontDefTest();
+
+    virtual std::string title();
+    virtual std::string subtitle();
+
+private:
+};
+
+
 
 // we don't support linebreak mode
 

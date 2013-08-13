@@ -124,9 +124,9 @@ bool ControlSwitchSprite::initWithMaskSprite(
 
         CHECK_GL_ERROR_DEBUG();
 
-        getShaderProgram()->addAttribute(kAttributeNamePosition, kVertexAttrib_Position);
-        getShaderProgram()->addAttribute(kAttributeNameColor, kVertexAttrib_Color);
-        getShaderProgram()->addAttribute(kAttributeNameTexCoord, kVertexAttrib_TexCoords);
+        getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+        getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+        getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
         CHECK_GL_ERROR_DEBUG();
 
         getShaderProgram()->link();
@@ -157,14 +157,14 @@ void ControlSwitchSprite::draw()
 {
     CC_NODE_DRAW_SETUP();
 
-    ccGLEnableVertexAttribs(kVertexAttribFlag_PosColorTex);
-    ccGLBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
+    GL::blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     getShaderProgram()->setUniformsForBuiltins();
 
-    ccGLBindTexture2DN(0, getTexture()->getName());
+    GL::bindTexture2DN(0, getTexture()->getName());
     glUniform1i(_textureLocation, 0);
 
-    ccGLBindTexture2DN(1, _maskTexture->getName());
+    GL::bindTexture2DN(1, _maskTexture->getName());
     glUniform1i(_maskLocation, 1);
 
 #define kQuadSize sizeof(_quad.bl)
@@ -177,38 +177,38 @@ void ControlSwitchSprite::draw()
 
     // vertex
     int diff = offsetof( V3F_C4B_T2F, vertices);
-    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
 
     // texCoods
     diff = offsetof( V3F_C4B_T2F, texCoords);
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
 
     // color
     diff = offsetof( V3F_C4B_T2F, colors);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     
-    ccGLBindTexture2DN(0, 0);
+    GL::bindTexture2DN(0, 0);
 }
 
 void ControlSwitchSprite::needsLayout()
 {
-    _onSprite->setPosition(ccp(_onSprite->getContentSize().width / 2 + _sliderXPosition,
+    _onSprite->setPosition(Point(_onSprite->getContentSize().width / 2 + _sliderXPosition,
         _onSprite->getContentSize().height / 2));
-    _offSprite->setPosition(ccp(_onSprite->getContentSize().width + _offSprite->getContentSize().width / 2 + _sliderXPosition, 
+    _offSprite->setPosition(Point(_onSprite->getContentSize().width + _offSprite->getContentSize().width / 2 + _sliderXPosition, 
         _offSprite->getContentSize().height / 2));
-    _thumbSprite->setPosition(ccp(_onSprite->getContentSize().width + _sliderXPosition,
+    _thumbSprite->setPosition(Point(_onSprite->getContentSize().width + _sliderXPosition,
         _maskTexture->getContentSize().height / 2));
 
     if (_onLabel)
     {
-        _onLabel->setPosition(ccp(_onSprite->getPosition().x - _thumbSprite->getContentSize().width / 6,
+        _onLabel->setPosition(Point(_onSprite->getPosition().x - _thumbSprite->getContentSize().width / 6,
             _onSprite->getContentSize().height / 2));
     }
     if (_offLabel)
     {
-        _offLabel->setPosition(ccp(_offSprite->getPosition().x + _thumbSprite->getContentSize().width / 6,
+        _offLabel->setPosition(Point(_offSprite->getPosition().x + _thumbSprite->getContentSize().width / 6,
             _offSprite->getContentSize().height / 2));
     }
 
@@ -301,10 +301,10 @@ bool ControlSwitch::initWithMaskSprite(Sprite *maskSprite, Sprite * onSprite, Sp
 {
     if (Control::init())
     {
-        CCAssert(maskSprite,    "Mask must not be nil.");
-        CCAssert(onSprite,      "onSprite must not be nil.");
-        CCAssert(offSprite,     "offSprite must not be nil.");
-        CCAssert(thumbSprite,   "thumbSprite must not be nil.");
+        CCASSERT(maskSprite,    "Mask must not be nil.");
+        CCASSERT(onSprite,      "onSprite must not be nil.");
+        CCASSERT(offSprite,     "offSprite must not be nil.");
+        CCASSERT(thumbSprite,   "thumbSprite must not be nil.");
         
         setTouchEnabled(true);
         _on = true;
@@ -316,11 +316,11 @@ bool ControlSwitch::initWithMaskSprite(Sprite *maskSprite, Sprite * onSprite, Sp
                                            thumbSprite,
                                            onLabel,
                                            offLabel);
-        _switchSprite->setPosition(ccp (_switchSprite->getContentSize().width / 2, _switchSprite->getContentSize().height / 2));
+        _switchSprite->setPosition(Point(_switchSprite->getContentSize().width / 2, _switchSprite->getContentSize().height / 2));
         addChild(_switchSprite);
         
         ignoreAnchorPointForPosition(false);
-        setAnchorPoint(ccp (0.5f, 0.5f));
+        setAnchorPoint(Point(0.5f, 0.5f));
         setContentSize(_switchSprite->getContentSize());
         return true;
     }
@@ -366,7 +366,7 @@ void ControlSwitch::setOn(bool isOn, bool animated)
         _switchSprite->setSliderXPosition((_on) ? _switchSprite->getOnPosition() : _switchSprite->getOffPosition());
     }
     
-    sendActionsForControlEvents(ControlEventValueChanged);
+    sendActionsForControlEvents(Control::EventType::VALUE_CHANGED);
 }
 
 void ControlSwitch::setEnabled(bool enabled)
@@ -408,7 +408,7 @@ bool ControlSwitch::ccTouchBegan(Touch *pTouch, Event *pEvent)
 void ControlSwitch::ccTouchMoved(Touch *pTouch, Event *pEvent)
 {
     Point location    = this->locationFromTouch(pTouch);
-    location            = ccp (location.x - _initialTouchXPosition, 0);
+    location            = Point(location.x - _initialTouchXPosition, 0);
     
     _moved              = true;
     

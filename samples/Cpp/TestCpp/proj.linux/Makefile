@@ -52,13 +52,14 @@ SOURCES = ../Classes/AccelerometerTest/AccelerometerTest.cpp \
 	../Classes/ExtensionsTest/ExtensionsTest.cpp \
 	../Classes/ExtensionsTest/NotificationCenterTest/NotificationCenterTest.cpp \
 	../Classes/ExtensionsTest/NetworkTest/HttpClientTest.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/ComponentsTestScene.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/EnemyController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/GameOverScene.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/PlayerController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/ProjectileController.cpp \
-    ../Classes/ExtensionsTest/ComponentsTest/SceneController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/ComponentsTestScene.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/EnemyController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/GameOverScene.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/PlayerController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/ProjectileController.cpp \
+	../Classes/ExtensionsTest/ComponentsTest/SceneController.cpp \
 	../Classes/ExtensionsTest/ArmatureTest/ArmatureScene.cpp \
+	../Classes/ExtensionsTest/Scale9SpriteTest/Scale9SpriteTest.cpp \
 	../Classes/FontTest/FontTest.cpp \
 	../Classes/IntervalTest/IntervalTest.cpp \
 	../Classes/KeyboardTest/KeyboardTest.cpp \
@@ -105,7 +106,7 @@ SOURCES = ../Classes/AccelerometerTest/AccelerometerTest.cpp \
 	../Classes/VisibleRect.cpp \
 	main.cpp
 
-SHAREDLIBS = -lcocos2d -lcocosdenshion -lcurl
+SHAREDLIBS = -lcocos2d -lcocosdenshion -lcurl -lpng
 COCOS_LIBS = $(LIB_DIR)/libcocos2d.so $(LIB_DIR)/libcocosdenshion.so
 
 include ../../../../cocos2dx/proj.linux/cocos2dx.mk

@@ -8,26 +8,26 @@ enum
 
 void ClickAndMoveTestScene::runThisTest()
 {
-    Layer* pLayer = new MainLayer();
-    pLayer->autorelease();
+    Layer* layer = new MainLayer();
+    layer->autorelease();
 
-    addChild(pLayer);
-    Director::sharedDirector()->replaceScene(this);
+    addChild(layer);
+    Director::getInstance()->replaceScene(this);
 }
 
 MainLayer::MainLayer()
 {
     setTouchEnabled(true);
     
-    Sprite* sprite = Sprite::create(s_pPathGrossini);
+    Sprite* sprite = Sprite::create(s_pathGrossini);
     
     Layer* layer = LayerColor::create(Color4B(255,255,0,255));
     addChild(layer, -1);
         
     addChild(sprite, 0, kTagSprite);
-    sprite->setPosition( ccp(20,150) );
+    sprite->setPosition( Point(20,150) );
     
-    sprite->runAction( JumpTo::create(4, ccp(300,48), 100, 4) );
+    sprite->runAction( JumpTo::create(4, Point(300,48), 100, 4) );
     
     layer->runAction( RepeatForever::create(
                                 Sequence::create(
@@ -37,15 +37,15 @@ MainLayer::MainLayer()
                       )); 
 }
 
-void MainLayer::ccTouchesEnded(Set *pTouches, Event *pEvent)
+void MainLayer::ccTouchesEnded(Set  *touches, Event  *event)
 {
-    Touch* touch = (Touch*) pTouches->anyObject();
+    Touch* touch = static_cast<Touch*>( touches->anyObject() );
     
     Point location = touch->getLocation();
 
     Node* s = getChildByTag(kTagSprite);
     s->stopAllActions();
-    s->runAction( MoveTo::create(1, ccp(location.x, location.y) ) );
+    s->runAction( MoveTo::create(1, Point(location.x, location.y) ) );
     float o = location.x - s->getPosition().x;
     float a = location.y - s->getPosition().y;
     float at = (float) CC_RADIANS_TO_DEGREES( atanf( o/a) );

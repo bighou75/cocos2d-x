@@ -43,7 +43,7 @@ public:
 
     /**
     @brief    Callback by Director to limit FPS.
-    @interval       The time, expressed in seconds, between current frame and next. 
+    @param interval The time, expressed in seconds, between current frame and next.
     */
     void setAnimationInterval(double interval);
     long getAnimationInterval();
@@ -57,18 +57,21 @@ public:
     @brief    Get current application instance.
     @return Current application instance pointer.
     */
-    static Application* sharedApplication();
+    static Application* getInstance();
 
+    /** @deprecated Use getInstance() instead */
+    CC_DEPRECATED_ATTRIBUTE static Application* sharedApplication();
+    
     /**
     @brief Get current language config
     @return Current language config
     */
-    virtual ccLanguageType getCurrentLanguage();
+    virtual LanguageType getCurrentLanguage();
     
     /**
      @brief Get target platform
      */
-    virtual TargetPlatform getTargetPlatform();
+    virtual Platform getTargetPlatform();
 
 protected:
     static Application * sm_pSharedApplication;

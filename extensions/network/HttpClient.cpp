@@ -30,6 +30,8 @@
 
 #include "curl/curl.h"
 
+#include "platform/CCFileUtils.h"
+
 NS_CC_EXT_BEGIN
 
 static std::mutex       s_requestQueueMutex;
@@ -44,7 +46,7 @@ static unsigned long    s_asyncRequestCount = 0;
 typedef int int32_t;
 #endif
 
-static bool need_quit = false;
+static bool s_need_quit = false;
 
 static Array* s_requestQueue = NULL;
 static Array* s_responseQueue = NULL;
@@ -54,6 +56,8 @@ static HttpClient *s_pHttpClient = NULL; // pointer to singleton
 static char s_errorBuffer[CURL_ERROR_SIZE];
 
 typedef size_t (*write_callback)(void *ptr, size_t size, size_t nmemb, void *stream);
+
+static std::string s_cookieFilename = "";
 
 // Callback function used by libcurl for collect response data
 static size_t writeData(void *ptr, size_t size, size_t nmemb, void *stream)
@@ -96,7 +100,7 @@ static void networkThread(void)
     
     while (true) 
     {
-        if (need_quit)
+        if (s_need_quit)
         {
             break;
         }
@@ -139,7 +143,7 @@ static void networkThread(void)
         // Process the request -> get response packet
         switch (request->getRequestType())
         {
-            case HttpRequest::kHttpGet: // HTTP GET
+            case HttpRequest::Type::GET: // HTTP GET
                 retValue = processGetTask(request,
                                           writeData, 
                                           response->getResponseData(), 
@@ -148,7 +152,7 @@ static void networkThread(void)
                                           response->getResponseHeader());
                 break;
             
-            case HttpRequest::kHttpPost: // HTTP POST
+            case HttpRequest::Type::POST: // HTTP POST
                 retValue = processPostTask(request,
                                            writeData, 
                                            response->getResponseData(), 
@@ -157,7 +161,7 @@ static void networkThread(void)
                                            response->getResponseHeader());
                 break;
 
-            case HttpRequest::kHttpPut:
+            case HttpRequest::Type::PUT:
                 retValue = processPutTask(request,
                                           writeData,
                                           response->getResponseData(),
@@ -166,7 +170,7 @@ static void networkThread(void)
                                           response->getResponseHeader());
                 break;
 
-            case HttpRequest::kHttpDelete:
+            case HttpRequest::Type::DELETE:
                 retValue = processDeleteTask(request,
                                              writeData,
                                              response->getResponseData(),
@@ -176,7 +180,7 @@ static void networkThread(void)
                 break;
             
             default:
-                CCAssert(true, "CCHttpClient: unkown request type, only GET and POSt are supported");
+                CCASSERT(true, "CCHttpClient: unkown request type, only GET and POSt are supported");
                 break;
         }
                 
@@ -200,7 +204,7 @@ static void networkThread(void)
         s_responseQueueMutex.unlock();
         
         // resume dispatcher selector
-        Director::sharedDirector()->getScheduler()->resumeTarget(HttpClient::getInstance());
+        Director::getInstance()->getScheduler()->resumeTarget(HttpClient::getInstance());
     }
     
     // cleanup: if worker thread received quit signal, clean up un-completed request queue
@@ -298,6 +302,14 @@ public:
             if (!setOption(CURLOPT_HTTPHEADER, _headers))
                 return false;
         }
+        if (!s_cookieFilename.empty()) {
+            if (!setOption(CURLOPT_COOKIEFILE, s_cookieFilename.c_str())) {
+                return false;
+            }
+            if (!setOption(CURLOPT_COOKIEJAR, s_cookieFilename.c_str())) {
+                return false;
+            }
+        }
 
         return setOption(CURLOPT_URL, request->getUrl())
                 && setOption(CURLOPT_WRITEFUNCTION, callback)
@@ -313,11 +325,10 @@ public:
         if (CURLE_OK != curl_easy_perform(_curl))
             return false;
         CURLcode code = curl_easy_getinfo(_curl, CURLINFO_RESPONSE_CODE, responseCode);
-
-// <!> dwkim 서버의 응답이 이상하게도 0으로 온다. 하지만 responseCode는 큰 의미가 없다.
-//      if (code != CURLE_OK || *responseCode != 200)
-//          return false;
-        
+        if (code != CURLE_OK || *responseCode != 200) {
+            CCLOGERROR("Curl curl_easy_getinfo failed: %s", curl_easy_strerror(code));
+            return false;
+        }
         // Get some mor data.
         
         return true;
@@ -330,7 +341,6 @@ static int processGetTask(HttpRequest *request, write_callback callback, void *s
     CURLRaii curl;
     bool ok = curl.init(request, callback, stream, headerCallback, headerStream)
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
-            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -343,7 +353,6 @@ static int processPostTask(HttpRequest *request, write_callback callback, void *
             && curl.setOption(CURLOPT_POST, 1)
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
-            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -356,7 +365,6 @@ static int processPutTask(HttpRequest *request, write_callback callback, void *s
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "PUT")
             && curl.setOption(CURLOPT_POSTFIELDS, request->getRequestData())
             && curl.setOption(CURLOPT_POSTFIELDSIZE, request->getRequestDataSize())
-            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -368,7 +376,6 @@ static int processDeleteTask(HttpRequest *request, write_callback callback, void
     bool ok = curl.init(request, callback, stream, headerCallback, headerStream)
             && curl.setOption(CURLOPT_CUSTOMREQUEST, "DELETE")
             && curl.setOption(CURLOPT_FOLLOWLOCATION, true)
-            && curl.setOption(CURLOPT_TIMEOUT, 5)
             && curl.perform(responseCode);
     return ok ? 0 : 1;
 }
@@ -385,23 +392,32 @@ HttpClient* HttpClient::getInstance()
 
 void HttpClient::destroyInstance()
 {
-    CCAssert(s_pHttpClient, "");
-    Director::sharedDirector()->getScheduler()->unscheduleSelector(schedule_selector(HttpClient::dispatchResponseCallbacks), s_pHttpClient);
+    CCASSERT(s_pHttpClient, "");
+    Director::getInstance()->getScheduler()->unscheduleSelector(schedule_selector(HttpClient::dispatchResponseCallbacks), s_pHttpClient);
     s_pHttpClient->release();
+}
+
+void HttpClient::enableCookies(const char* cookieFile) {
+    if (cookieFile) {
+        s_cookieFilename = std::string(cookieFile);
+    }
+    else {
+        s_cookieFilename = (FileUtils::getInstance()->getWritablePath() + "cookieFile.txt");
+    }
 }
 
 HttpClient::HttpClient()
 : _timeoutForConnect(30)
 , _timeoutForRead(60)
 {
-    Director::sharedDirector()->getScheduler()->scheduleSelector(
+    Director::getInstance()->getScheduler()->scheduleSelector(
                     schedule_selector(HttpClient::dispatchResponseCallbacks), this, 0, false);
-    Director::sharedDirector()->getScheduler()->pauseTarget(this);
+    Director::getInstance()->getScheduler()->pauseTarget(this);
 }
 
 HttpClient::~HttpClient()
 {
-    need_quit = true;
+    s_need_quit = true;
     
     if (s_requestQueue != NULL) {
     	s_SleepCondition.notify_one();
@@ -427,7 +443,7 @@ bool HttpClient::lazyInitThreadSemphore()
         auto t = std::thread(&networkThread);
         t.detach();
         
-        need_quit = false;
+        s_need_quit = false;
     }
     
     return true;
@@ -461,7 +477,7 @@ void HttpClient::send(HttpRequest* request)
 // Poll and notify main thread if responses exists in queue
 void HttpClient::dispatchResponseCallbacks(float delta)
 {
-    // CCLog("CCHttpClient::dispatchResponseCallbacks is running");
+    // log("CCHttpClient::dispatchResponseCallbacks is running");
     
     HttpResponse* response = NULL;
     
@@ -493,7 +509,7 @@ void HttpClient::dispatchResponseCallbacks(float delta)
     
     if (0 == s_asyncRequestCount) 
     {
-        Director::sharedDirector()->getScheduler()->pauseTarget(this);
+        Director::getInstance()->getScheduler()->pauseTarget(this);
     }
     
 }

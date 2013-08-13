@@ -24,13 +24,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 
-#ifndef __CCCAMERA_H__
-#define __CCCAMERA_H__
+#ifndef __COCOS2DX_CAMERA_H__
+#define __COCOS2DX_CAMERA_H__
+
+#include <string>
 
 #include "cocoa/CCObject.h"
 #include "ccMacros.h"
 #include "kazmath/mat4.h"
-#include <string>
+
 
 NS_CC_BEGIN
 
@@ -63,22 +65,10 @@ using the camera.
 */
 class CC_DLL Camera : public Object
 {
-protected:
-    float _eyeX;
-    float _eyeY;
-    float _eyeZ;
-
-    float _centerX;
-    float _centerY;
-    float _centerZ;
-
-    float _upX;
-    float _upY;
-    float _upZ;
-
-    bool _dirty;
-    kmMat4    _lookupMatrix;
 public:
+    /** returns the Z eye */
+    static float getZEye();
+
     Camera(void);
     ~Camera(void);
 
@@ -108,10 +98,22 @@ public:
     void getCenterXYZ(float *pCenterX, float *pCenterY, float *pCenterZ) const;
     /** get the up vector values */
     void getUpXYZ(float *pUpX, float *pUpY, float *pUpZ) const;
-public:
-    /** returns the Z eye */
-    static float getZEye();
-    
+
+protected:
+    float _eyeX;
+    float _eyeY;
+    float _eyeZ;
+
+    float _centerX;
+    float _centerY;
+    float _centerZ;
+
+    float _upX;
+    float _upY;
+    float _upZ;
+
+    bool _dirty;
+    kmMat4    _lookupMatrix;
 
 private:
     DISALLOW_COPY_AND_ASSIGN(Camera);
@@ -122,4 +124,4 @@ private:
 
 NS_CC_END
 
-#endif // __CCCAMERA_H__
+#endif // __COCOS2DX_CAMERA_H__

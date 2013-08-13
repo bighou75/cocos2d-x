@@ -32,7 +32,7 @@ Point::Point(void) : x(0), y(0)
 {
 }
 
-Point::Point(float x, float y) : x(x), y(y)
+Point::Point(float xx, float yy) : x(xx), y(yy)
 {
 }
 
@@ -78,14 +78,14 @@ Point Point::operator*(float a) const
 
 Point Point::operator/(float a) const
 {
-	CCAssert(a, "CCPoint division by 0.");
+	CCASSERT(a!=0, "CCPoint division by 0.");
     return Point(this->x / a, this->y / a);
 }
 
-void Point::setPoint(float x, float y)
+void Point::setPoint(float xx, float yy)
 {
-    this->x = x;
-    this->y = y;
+    this->x = xx;
+    this->y = yy;
 }
 
 bool Point::equals(const Point& target) const
@@ -116,13 +116,87 @@ Point Point::rotateByAngle(const Point& pivot, float angle) const
     return pivot + (*this - pivot).rotate(Point::forAngle(angle));
 }
 
+bool Point::isLineIntersect(const Point& A, const Point& B,
+                            const Point& C, const Point& D,
+                            float *S, float *T)
+{
+    // FAIL: Line undefined
+    if ( (A.x==B.x && A.y==B.y) || (C.x==D.x && C.y==D.y) )
+    {
+        return false;
+    }
+    const float BAx = B.x - A.x;
+    const float BAy = B.y - A.y;
+    const float DCx = D.x - C.x;
+    const float DCy = D.y - C.y;
+    const float ACx = A.x - C.x;
+    const float ACy = A.y - C.y;
+    
+    const float denom = DCy*BAx - DCx*BAy;
+    
+    *S = DCx*ACy - DCy*ACx;
+    *T = BAx*ACy - BAy*ACx;
+    
+    if (denom == 0)
+    {
+        if (*S == 0 || *T == 0)
+        {
+            // Lines incident
+            return true;
+        }
+        // Lines parallel and not incident
+        return false;
+    }
+    
+    *S = *S / denom;
+    *T = *T / denom;
+    
+    // Point of intersection
+    // CGPoint P;
+    // P.x = A.x + *S * (B.x - A.x);
+    // P.y = A.y + *S * (B.y - A.y);
+    
+    return true;
+}
+
+bool Point::isSegmentIntersect(const Point& A, const Point& B, const Point& C, const Point& D)
+{
+    float S, T;
+    
+    if (isLineIntersect(A, B, C, D, &S, &T )&&
+       (S >= 0.0f && S <= 1.0f && T >= 0.0f && T <= 1.0f))
+    {
+        return true;
+    }  
+    
+    return false;
+}
+
+Point Point::getIntersectPoint(const Point& A, const Point& B, const Point& C, const Point& D)
+{
+    float S, T;
+    
+    if (isLineIntersect(A, B, C, D, &S, &T))
+    {
+        // Point of intersection
+        Point P;
+        P.x = A.x + S * (B.x - A.x);
+        P.y = A.y + S * (B.y - A.y);
+        return P;
+    }
+    
+    return Point::ZERO;
+}
+
+const Point Point::ZERO = Point(0, 0);
+
 // implementation of Size
 
 Size::Size(void) : width(0), height(0)
 {
 }
 
-Size::Size(float width, float height) : width(width), height(height)
+Size::Size(float w, float h) : width(w), height(h)
 {
 }
 
@@ -163,14 +237,14 @@ Size Size::operator*(float a) const
 
 Size Size::operator/(float a) const
 {
-	CCAssert(a, "CCSize division by 0.");
+	CCASSERT(a!=0, "CCSize division by 0.");
     return Size(this->width / a, this->height / a);
 }
 
-void Size::setSize(float width, float height)
+void Size::setSize(float w, float h)
 {
-    this->width = width;
-    this->height = height;
+    this->width = w;
+    this->height = h;
 }
 
 bool Size::equals(const Size& target) const
@@ -178,6 +252,8 @@ bool Size::equals(const Size& target) const
     return (fabs(this->width  - target.width)  < FLT_EPSILON)
         && (fabs(this->height - target.height) < FLT_EPSILON);
 }
+
+const Size Size::ZERO = Size(0, 0);
 
 // implementation of Rect
 
@@ -205,7 +281,7 @@ Rect& Rect::operator= (const Rect& other)
 void Rect::setRect(float x, float y, float width, float height)
 {
     // CGRect can support width<0 or height<0
-    // CCAssert(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
+    // CCASSERT(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
 
     origin.x = x;
     origin.y = y;
@@ -310,5 +386,7 @@ Rect Rect::unionWithRect(const Rect & rect) const
     
     return Rect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);
 }
+
+const Rect Rect::ZERO = Rect(0, 0, 0, 0);
 
 NS_CC_END

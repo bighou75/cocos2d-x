@@ -72,18 +72,24 @@ long Application::getAnimationInterval()
 //////////////////////////////////////////////////////////////////////////
 // static member function
 //////////////////////////////////////////////////////////////////////////
-Application* Application::sharedApplication()
+Application* Application::getInstance()
 {
     CCAssert(sm_pSharedApplication, "");
     return sm_pSharedApplication;
 }
 
-ccLanguageType Application::getCurrentLanguage()
+// @deprecated Use getInstance() instead
+Application* Application::sharedApplication()
+{
+    return Application::getInstance();
+}
+
+LanguageType Application::getCurrentLanguage()
 {
     result r = E_SUCCESS;
     int index = 0;
     Tizen::Base::String localelanguageCode, languageCode;
-    ccLanguageType ret = kLanguageEnglish;
+    LanguageType ret = LanguageType::ENGLISH;
 
     r = SettingInfo::GetValue(L"http://tizen.org/setting/locale.language", localelanguageCode);
     TryLog(!IsFailed(r), "[%s] Cannot get the current language setting", GetErrorMessage(r));
@@ -92,66 +98,66 @@ ccLanguageType Application::getCurrentLanguage()
 
     if (0 == languageCode.CompareTo(L"zho"))
     {
-        ret = kLanguageChinese;
+        ret = LanguageType::CHINESE;
     }
     else if (0 == languageCode.CompareTo(L"eng"))
     {
-        ret = kLanguageEnglish;
+        ret = LanguageType::ENGLISH;
     }
     else if (0 == languageCode.CompareTo(L"fre"))
     {
-        ret = kLanguageFrench;
+        ret = LanguageType::FRENCH;
     }
     else if (0 == languageCode.CompareTo(L"ita"))
     {
-        ret = kLanguageItalian;
+        ret = LanguageType::ITALIAN;
     }
     else if (0 == languageCode.CompareTo(L"deu"))
     {
-        ret = kLanguageGerman;
+        ret = LanguageType::GERMAN;
     }
     else if (0 == languageCode.CompareTo(L"spa"))
     {
-        ret = kLanguageSpanish;
+        ret = LanguageType::SPANISH;
     }
     else if (0 == languageCode.CompareTo(L"rus"))
     {
-        ret = kLanguageRussian;
+        ret = LanguageType::RUSSIAN;
     }
     else if (0 == languageCode.CompareTo(L"kor"))
     {
-        ret = kLanguageKorean;
+        ret = LanguageType::KOREAN;
     }
     else if (0 == languageCode.CompareTo(L"jpn"))
     {
-        ret = kLanguageJapanese;
+        ret = LanguageType::JAPANESE;
     }
     else if (0 == languageCode.CompareTo(L"hun"))
     {
-        ret = kLanguageHungarian;
+        ret = LanguageType::HUNGARIAN;
     }
     else if (0 == languageCode.CompareTo(L"por"))
     {
-        ret = kLanguagePortuguese;
+        ret = LanguageType::PORTUGUESE;
     }
     else if (0 == languageCode.CompareTo(L"ara"))
     {
-        ret = kLanguageArabic;
+        ret = LanguageType::ARABIC;
     }
     else if (0 == languageCode.CompareTo(L"nor"))
     {
-        ret = kLanguageNorwegian;
+        ret = LanguageType::NORWEGIAN;
     }
     else if (0 == languageCode.CompareTo(L"pol"))
     {
-        ret = kLanguagePolish;
+        ret = LanguageType::POLISH;
     }
     return ret;
 }
 
-TargetPlatform Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
-    return kTargetTizen;
+    return Platform::OS_TIZEN;
 }
 
 NS_CC_END

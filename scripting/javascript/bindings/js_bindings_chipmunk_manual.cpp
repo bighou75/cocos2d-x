@@ -242,7 +242,7 @@ void JSB_CCPhysicsDebugNode_createClass(JSContext *cx, JSObject* globalObj, cons
 	JSB_CCPhysicsDebugNode_class = (JSClass *)calloc(1, sizeof(JSClass));
 	JSB_CCPhysicsDebugNode_class->name = name;
 	JSB_CCPhysicsDebugNode_class->addProperty = JS_PropertyStub;
-	JSB_CCPhysicsDebugNode_class->delProperty = JS_PropertyStub;
+	JSB_CCPhysicsDebugNode_class->delProperty = JS_DeletePropertyStub;
 	JSB_CCPhysicsDebugNode_class->getProperty = JS_PropertyStub;
 	JSB_CCPhysicsDebugNode_class->setProperty = JS_StrictPropertyStub;
 	JSB_CCPhysicsDebugNode_class->enumerate = JS_EnumerateStub;
@@ -423,7 +423,7 @@ void JSPROXY_CCPhysicsSprite_createClass(JSContext *cx, JSObject* globalObj)
 	JSPROXY_CCPhysicsSprite_class = (JSClass *)calloc(1, sizeof(JSClass));
 	JSPROXY_CCPhysicsSprite_class->name = "PhysicsSprite";
 	JSPROXY_CCPhysicsSprite_class->addProperty = JS_PropertyStub;
-	JSPROXY_CCPhysicsSprite_class->delProperty = JS_PropertyStub;
+	JSPROXY_CCPhysicsSprite_class->delProperty = JS_DeletePropertyStub;
 	JSPROXY_CCPhysicsSprite_class->getProperty = JS_PropertyStub;
 	JSPROXY_CCPhysicsSprite_class->setProperty = JS_StrictPropertyStub;
 	JSPROXY_CCPhysicsSprite_class->enumerate = JS_EnumerateStub;
@@ -1426,7 +1426,7 @@ JSBool JSB_cpCentroidForPoly(JSContext *cx, uint32_t argc, jsval *vp)
 // void cpRecenterPoly(const int numVerts, cpVect *verts);
 JSBool JSB_cpRecenterPoly(JSContext *cx, uint32_t argc, jsval *vp)
 {
-	CCAssert(false, "NOT IMPLEMENTED");
+	CCASSERT(false, "NOT IMPLEMENTED");
 	return JS_FALSE;
 }
 
@@ -1508,7 +1508,7 @@ void JSB_cpBase_createClass(JSContext *cx, JSObject* globalObj, const char* name
 	JSB_cpBase_class = (JSClass *)calloc(1, sizeof(JSClass));
 	JSB_cpBase_class->name = name;
 	JSB_cpBase_class->addProperty = JS_PropertyStub;
-	JSB_cpBase_class->delProperty = JS_PropertyStub;
+	JSB_cpBase_class->delProperty = JS_DeletePropertyStub;
 	JSB_cpBase_class->getProperty = JS_PropertyStub;
 	JSB_cpBase_class->setProperty = JS_StrictPropertyStub;
 	JSB_cpBase_class->enumerate = JS_EnumerateStub;

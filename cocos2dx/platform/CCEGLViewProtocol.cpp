@@ -46,7 +46,7 @@ EGLViewProtocol::EGLViewProtocol()
 : _delegate(NULL)
 , _scaleX(1.0f)
 , _scaleY(1.0f)
-, _resolutionPolicy(kResolutionUnKnown)
+, _resolutionPolicy(ResolutionPolicy::UNKNOWN)
 {
 }
 
@@ -55,9 +55,13 @@ EGLViewProtocol::~EGLViewProtocol()
 
 }
 
+void EGLViewProtocol::pollInputEvents()
+{
+}
+
 void EGLViewProtocol::setDesignResolutionSize(float width, float height, ResolutionPolicy resolutionPolicy)
 {
-    CCAssert(resolutionPolicy != kResolutionUnKnown, "should set resolutionPolicy");
+    CCASSERT(resolutionPolicy != ResolutionPolicy::UNKNOWN, "should set resolutionPolicy");
     
     if (width == 0.0f || height == 0.0f)
     {
@@ -69,22 +73,22 @@ void EGLViewProtocol::setDesignResolutionSize(float width, float height, Resolut
     _scaleX = (float)_screenSize.width / _designResolutionSize.width;
     _scaleY = (float)_screenSize.height / _designResolutionSize.height;
     
-    if (resolutionPolicy == kResolutionNoBorder)
+    if (resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
         _scaleX = _scaleY = MAX(_scaleX, _scaleY);
     }
     
-    if (resolutionPolicy == kResolutionShowAll)
+    if (resolutionPolicy == ResolutionPolicy::SHOW_ALL)
     {
         _scaleX = _scaleY = MIN(_scaleX, _scaleY);
     }
 
-    if ( resolutionPolicy == kResolutionFixedHeight) {
+    if ( resolutionPolicy == ResolutionPolicy::FIXED_HEIGHT) {
     	_scaleX = _scaleY;
     	_designResolutionSize.width = ceilf(_screenSize.width/_scaleX);
     }
 
-    if ( resolutionPolicy == kResolutionFixedWidth) {
+    if ( resolutionPolicy == ResolutionPolicy::FIXED_WIDTH) {
     	_scaleY = _scaleX;
     	_designResolutionSize.height = ceilf(_screenSize.height/_scaleY);
     }
@@ -98,9 +102,9 @@ void EGLViewProtocol::setDesignResolutionSize(float width, float height, Resolut
     _resolutionPolicy = resolutionPolicy;
     
 	// reset director's member variables to fit visible rect
-    Director::sharedDirector()->_winSizeInPoints = getDesignResolutionSize();
-    Director::sharedDirector()->createStatsLabel();
-    Director::sharedDirector()->setGLDefaultValues();
+    Director::getInstance()->_winSizeInPoints = getDesignResolutionSize();
+    Director::getInstance()->createStatsLabel();
+    Director::getInstance()->setGLDefaultValues();
 }
 
 const Size& EGLViewProtocol::getDesignResolutionSize() const 
@@ -115,14 +119,14 @@ const Size& EGLViewProtocol::getFrameSize() const
 
 void EGLViewProtocol::setFrameSize(float width, float height)
 {
-    _designResolutionSize = _screenSize = CCSizeMake(width, height);
+    _designResolutionSize = _screenSize = Size(width, height);
 }
 
 Size  EGLViewProtocol::getVisibleSize() const
 {
-    if (_resolutionPolicy == kResolutionNoBorder)
+    if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
-        return CCSizeMake(_screenSize.width/_scaleX, _screenSize.height/_scaleY);
+        return Size(_screenSize.width/_scaleX, _screenSize.height/_scaleY);
     }
     else 
     {
@@ -132,14 +136,14 @@ Size  EGLViewProtocol::getVisibleSize() const
 
 Point EGLViewProtocol::getVisibleOrigin() const
 {
-    if (_resolutionPolicy == kResolutionNoBorder)
+    if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
-        return CCPointMake((_designResolutionSize.width - _screenSize.width/_scaleX)/2, 
+        return Point((_designResolutionSize.width - _screenSize.width/_scaleX)/2, 
                            (_designResolutionSize.height - _screenSize.height/_scaleY)/2);
     }
     else 
     {
-        return PointZero;
+        return Point::ZERO;
     }
 }
 
@@ -177,7 +181,7 @@ Rect EGLViewProtocol::getScissorRect()
 	float y = (params[1] - _viewPortRect.origin.y) / _scaleY;
 	float w = params[2] / _scaleX;
 	float h = params[3] / _scaleY;
-	return CCRectMake(x, y, w, h);
+	return Rect(x, y, w, h);
 }
 
 void EGLViewProtocol::setViewName(const char* pszViewName)

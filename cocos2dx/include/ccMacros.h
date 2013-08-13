@@ -34,20 +34,22 @@ THE SOFTWARE.
 #include "platform/CCCommon.h"
 #include "CCStdC.h"
 
-#ifndef CCAssert
+#ifndef CCASSERT
 #if COCOS2D_DEBUG > 0
 extern bool CC_DLL cc_assert_script_compatible(const char *msg);
-#define CCAssert(cond, msg) do {                              \
+#define CCASSERT(cond, msg) do {                              \
       if (!(cond)) {                                          \
         if (!cc_assert_script_compatible(msg) && strlen(msg)) \
-          cocos2d::CCLog("Assert failed: %s", msg);           \
+          cocos2d::log("Assert failed: %s", msg);             \
         CC_ASSERT(cond);                                      \
       } \
     } while (0)
 #else
-#define CCAssert(cond, msg)
+#define CCASSERT(cond, msg)
 #endif
-#endif  // CCAssert
+// XXX: Backward compatible
+#define CCAssert CCASSERT
+#endif  // CCASSERT
 
 #include "ccConfig.h"
 
@@ -95,8 +97,7 @@ default gl blend src function. Compatible with premultiplied alpha images.
  */
 #define CC_NODE_DRAW_SETUP() \
 do { \
-    ccGLEnable(_GLServerState); \
-    CCAssert(getShaderProgram(), "No shader program set for this node"); \
+    CCASSERT(getShaderProgram(), "No shader program set for this node"); \
     { \
         getShaderProgram()->use(); \
         getShaderProgram()->setUniformsForBuiltins(); \
@@ -110,17 +111,17 @@ do { \
 
   @since v0.99.4
   */
-#define CC_DIRECTOR_END()                                        \
+#define CC_DIRECTOR_END()                                       \
 do {                                                            \
-    Director *__director = Director::sharedDirector();        \
-    __director->end();                                            \
+    Director *__director = Director::getInstance();             \
+    __director->end();                                          \
 } while(0)
 
 /** @def CC_CONTENT_SCALE_FACTOR
 On Mac it returns 1;
 On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
 */
-#define CC_CONTENT_SCALE_FACTOR() Director::sharedDirector()->getContentScaleFactor()
+#define CC_CONTENT_SCALE_FACTOR() Director::getInstance()->getContentScaleFactor()
 
 /****************************/
 /** RETINA DISPLAY ENABLED **/
@@ -130,39 +131,39 @@ On iPhone it returns 2 if RetinaDisplay is On. Otherwise it returns 1
  Converts a rect in pixels to points
  */
 #define CC_RECT_PIXELS_TO_POINTS(__rect_in_pixels__)                                                                        \
-    CCRectMake( (__rect_in_pixels__).origin.x / CC_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).origin.y / CC_CONTENT_SCALE_FACTOR(),    \
+    Rect( (__rect_in_pixels__).origin.x / CC_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).origin.y / CC_CONTENT_SCALE_FACTOR(),    \
             (__rect_in_pixels__).size.width / CC_CONTENT_SCALE_FACTOR(), (__rect_in_pixels__).size.height / CC_CONTENT_SCALE_FACTOR() )
 
 /** @def CC_RECT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
 #define CC_RECT_POINTS_TO_PIXELS(__rect_in_points_points__)                                                                        \
-    CCRectMake( (__rect_in_points_points__).origin.x * CC_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).origin.y * CC_CONTENT_SCALE_FACTOR(),    \
+    Rect( (__rect_in_points_points__).origin.x * CC_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).origin.y * CC_CONTENT_SCALE_FACTOR(),    \
             (__rect_in_points_points__).size.width * CC_CONTENT_SCALE_FACTOR(), (__rect_in_points_points__).size.height * CC_CONTENT_SCALE_FACTOR() )
 
 /** @def CC_POINT_PIXELS_TO_POINTS
  Converts a rect in pixels to points
  */
 #define CC_POINT_PIXELS_TO_POINTS(__pixels__)                                                                        \
-CCPointMake( (__pixels__).x / CC_CONTENT_SCALE_FACTOR(), (__pixels__).y / CC_CONTENT_SCALE_FACTOR())
+Point( (__pixels__).x / CC_CONTENT_SCALE_FACTOR(), (__pixels__).y / CC_CONTENT_SCALE_FACTOR())
 
 /** @def CC_POINT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
 #define CC_POINT_POINTS_TO_PIXELS(__points__)                                                                        \
-CCPointMake( (__points__).x * CC_CONTENT_SCALE_FACTOR(), (__points__).y * CC_CONTENT_SCALE_FACTOR())
+Point( (__points__).x * CC_CONTENT_SCALE_FACTOR(), (__points__).y * CC_CONTENT_SCALE_FACTOR())
 
 /** @def CC_POINT_PIXELS_TO_POINTS
  Converts a rect in pixels to points
  */
 #define CC_SIZE_PIXELS_TO_POINTS(__size_in_pixels__)                                                                        \
-CCSizeMake( (__size_in_pixels__).width / CC_CONTENT_SCALE_FACTOR(), (__size_in_pixels__).height / CC_CONTENT_SCALE_FACTOR())
+Size( (__size_in_pixels__).width / CC_CONTENT_SCALE_FACTOR(), (__size_in_pixels__).height / CC_CONTENT_SCALE_FACTOR())
 
 /** @def CC_POINT_POINTS_TO_PIXELS
  Converts a rect in points to pixels
  */
 #define CC_SIZE_POINTS_TO_PIXELS(__size_in_points__)                                                                        \
-CCSizeMake( (__size_in_points__).width * CC_CONTENT_SCALE_FACTOR(), (__size_in_points__).height * CC_CONTENT_SCALE_FACTOR())
+Size( (__size_in_points__).width * CC_CONTENT_SCALE_FACTOR(), (__size_in_points__).height * CC_CONTENT_SCALE_FACTOR())
 
 
 #ifndef FLT_EPSILON
@@ -194,8 +195,8 @@ It should work same as apples CFSwapInt32LittleToHost(..)
 /**********************/
 #if CC_ENABLE_PROFILERS
 
-#define CC_PROFILER_DISPLAY_TIMERS() Profiler::sharedProfiler()->displayTimers()
-#define CC_PROFILER_PURGE_ALL() Profiler::sharedProfiler()->releaseAllTimers()
+#define CC_PROFILER_DISPLAY_TIMERS() Profiler::getInstance()->displayTimers()
+#define CC_PROFILER_PURGE_ALL() Profiler::getInstance()->releaseAllTimers()
 
 #define CC_PROFILER_START(__name__) ProfilingBeginTimingBlock(__name__)
 #define CC_PROFILER_STOP(__name__) ProfilingEndTimingBlock(__name__)
@@ -236,7 +237,7 @@ It should work same as apples CFSwapInt32LittleToHost(..)
     do { \
         GLenum __error = glGetError(); \
         if(__error) { \
-            CCLog("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
+            cocos2d::log("OpenGL error 0x%04X in %s %s %d\n", __error, __FILE__, __FUNCTION__, __LINE__); \
         } \
     } while (false)
 #endif

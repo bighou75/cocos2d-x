@@ -57,7 +57,6 @@ SOURCES = ../actions/CCAction.cpp \
 ../particle_nodes/CCParticleBatchNode.cpp \
 ../platform/CCSAXParser.cpp \
 ../platform/CCThread.cpp \
-../platform/platform.cpp \
 ../platform/CCImageCommonWebp.cpp \
 ../platform/CCEGLViewProtocol.cpp \
 ../platform/CCFileUtils.cpp \
@@ -76,7 +75,6 @@ SOURCES = ../actions/CCAction.cpp \
 ../sprite_nodes/CCSpriteFrame.cpp \
 ../sprite_nodes/CCSpriteFrameCache.cpp \
 ../support/tinyxml2/tinyxml2.cpp \
-../support/CCPointExtension.cpp \
 ../support/CCProfiling.cpp \
 ../support/user_default/CCUserDefault.cpp \
 ../support/TransformUtils.cpp \
@@ -132,7 +130,8 @@ SOURCES = ../actions/CCAction.cpp \
 ../CCScheduler.cpp \
 ../ccFPSImages.c \
 ../ccTypes.cpp \
-../cocos2d.cpp
+../cocos2d.cpp \
+../CCDeprecated.cpp
 
 include cocos2dx.mk
 

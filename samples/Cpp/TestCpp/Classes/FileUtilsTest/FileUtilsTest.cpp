@@ -23,11 +23,11 @@ static Layer* nextAction()
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* backAction()
@@ -37,28 +37,28 @@ static Layer* backAction()
     if( sceneIdx < 0 )
         sceneIdx += total;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* restartAction()
 {
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->init();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->init();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 void FileUtilsTestScene::runThisTest()
 {
-    Layer* pLayer = nextAction();
-    addChild(pLayer);
+    Layer* layer = nextAction();
+    addChild(layer);
     
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }
 
 // #pragma mark - FileUtilsDemo
@@ -68,34 +68,34 @@ void FileUtilsDemo::onEnter()
     BaseTest::onEnter();    
 }
 
-void FileUtilsDemo::backCallback(Object* pSender)
+void FileUtilsDemo::backCallback(Object* sender)
 {
-    Scene* pScene = new FileUtilsTestScene();
-    Layer* pLayer = backAction();
+    Scene* scene = new FileUtilsTestScene();
+    Layer* layer = backAction();
     
-    pScene->addChild(pLayer);
-    Director::sharedDirector()->replaceScene(pScene);
-    pScene->release();
+    scene->addChild(layer);
+    Director::getInstance()->replaceScene(scene);
+    scene->release();
 }
 
-void FileUtilsDemo::nextCallback(Object* pSender)
+void FileUtilsDemo::nextCallback(Object* sender)
 {
-    Scene* pScene = new FileUtilsTestScene();
-    Layer* pLayer = nextAction();
+    Scene* scene = new FileUtilsTestScene();
+    Layer* layer = nextAction();
     
-    pScene->addChild(pLayer);
-    Director::sharedDirector()->replaceScene(pScene);
-    pScene->release();
+    scene->addChild(layer);
+    Director::getInstance()->replaceScene(scene);
+    scene->release();
 }
 
-void FileUtilsDemo::restartCallback(Object* pSender)
+void FileUtilsDemo::restartCallback(Object* sender)
 {
-    Scene* pScene = new FileUtilsTestScene();
-    Layer* pLayer = restartAction();
+    Scene* scene = new FileUtilsTestScene();
+    Layer* layer = restartAction();
     
-    pScene->addChild(pLayer);
-    Director::sharedDirector()->replaceScene(pScene);
-    pScene->release();
+    scene->addChild(layer);
+    Director::getInstance()->replaceScene(scene);
+    scene->release();
 }
 
 string FileUtilsDemo::title()
@@ -113,7 +113,7 @@ string FileUtilsDemo::subtitle()
 void TestResolutionDirectories::onEnter()
 {
     FileUtilsDemo::onEnter();
-    FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+    FileUtils *sharedFileUtils = FileUtils::getInstance();
 
     string ret;
     
@@ -138,13 +138,13 @@ void TestResolutionDirectories::onEnter()
     for( int i=1; i<7; i++) {
         String *filename = String::createWithFormat("test%d.txt", i);
         ret = sharedFileUtils->fullPathForFilename(filename->getCString());
-        CCLog("%s -> %s", filename->getCString(), ret.c_str());
+        log("%s -> %s", filename->getCString(), ret.c_str());
     }
 }
 
 void TestResolutionDirectories::onExit()
 {
-    FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+    FileUtils *sharedFileUtils = FileUtils::getInstance();
     
 	// reset search path
 	sharedFileUtils->setSearchPaths(_defaultSearchPathArray);
@@ -167,7 +167,7 @@ string TestResolutionDirectories::subtitle()
 void TestSearchPath::onEnter()
 {
     FileUtilsDemo::onEnter();
-    FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+    FileUtils *sharedFileUtils = FileUtils::getInstance();
     
     string ret;
     
@@ -181,10 +181,10 @@ void TestSearchPath::onEnter()
     if (fp)
     {
         size_t ret = fwrite(szBuf, 1, strlen(szBuf), fp);
-        CCAssert(ret == 0, "fwrite function returned nonzero value");
+        CCASSERT(ret != 0, "fwrite function returned zero value");
         fclose(fp);
-        if (ret == 0)
-            CCLog("Writing file to writable path succeed.");
+        if (ret != 0)
+            log("Writing file to writable path succeed.");
     }
     
     searchPaths.insert(searchPaths.begin(), writablePath);
@@ -201,12 +201,12 @@ void TestSearchPath::onEnter()
     for( int i=1; i<3; i++) {
         String *filename = String::createWithFormat("file%d.txt", i);
         ret = sharedFileUtils->fullPathForFilename(filename->getCString());
-        CCLog("%s -> %s", filename->getCString(), ret.c_str());
+        log("%s -> %s", filename->getCString(), ret.c_str());
     }
     
     // Gets external.txt from writable path
     string fullPath = sharedFileUtils->fullPathForFilename("external.txt");
-    CCLog("external file path = %s", fullPath.c_str());
+    log("external file path = %s", fullPath.c_str());
     if (fullPath.length() > 0)
     {
         fp = fopen(fullPath.c_str(), "rb");
@@ -215,7 +215,7 @@ void TestSearchPath::onEnter()
             char szReadBuf[100] = {0};
             int read = fread(szReadBuf, 1, strlen(szBuf), fp);
             if (read > 0)
-                CCLog("The content of file from writable path: %s", szReadBuf);
+                log("The content of file from writable path: %s", szReadBuf);
             fclose(fp);
         }
     }
@@ -223,7 +223,7 @@ void TestSearchPath::onEnter()
 
 void TestSearchPath::onExit()
 {
-	FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+	FileUtils *sharedFileUtils = FileUtils::getInstance();
 
 	// reset search path
 	sharedFileUtils->setSearchPaths(_defaultSearchPathArray);
@@ -247,7 +247,7 @@ void TestFilenameLookup::onEnter()
 {
     FileUtilsDemo::onEnter();
 		
-    FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+    FileUtils *sharedFileUtils = FileUtils::getInstance();
 
     Dictionary *dict = Dictionary::create();
     dict->setObject(String::create("Images/grossini.png"), "grossini.bmp");
@@ -260,14 +260,14 @@ void TestFilenameLookup::onEnter()
     Sprite *sprite = Sprite::create("grossini.xcf");
     this->addChild(sprite);
     
-    Size s = Director::sharedDirector()->getWinSize();
-    sprite->setPosition(ccp(s.width/2, s.height/2));
+    Size s = Director::getInstance()->getWinSize();
+    sprite->setPosition(Point(s.width/2, s.height/2));
 }
 
 void TestFilenameLookup::onExit()
 {
 	
-	FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+	FileUtils *sharedFileUtils = FileUtils::getInstance();
 	
 	// reset filename lookup
     sharedFileUtils->setFilenameLookupDictionary(Dictionary::create());
@@ -290,8 +290,8 @@ string TestFilenameLookup::subtitle()
 void TestIsFileExist::onEnter()
 {
     FileUtilsDemo::onEnter();
-    Size s = Director::sharedDirector()->getWinSize();
-    FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+    Size s = Director::getInstance()->getWinSize();
+    FileUtils *sharedFileUtils = FileUtils::getInstance();
     
     LabelTTF* pTTF = NULL;
     bool isExist = false;
@@ -299,19 +299,19 @@ void TestIsFileExist::onEnter()
     isExist = sharedFileUtils->isFileExist("Images/grossini.png");
     
     pTTF = LabelTTF::create(isExist ? "Images/grossini.png exists" : "Images/grossini.png doesn't exist", "", 20);
-    pTTF->setPosition(ccp(s.width/2, s.height/3));
+    pTTF->setPosition(Point(s.width/2, s.height/3));
     this->addChild(pTTF);
     
     isExist = sharedFileUtils->isFileExist("Images/grossini.xcf");
     pTTF = LabelTTF::create(isExist ? "Images/grossini.xcf exists" : "Images/grossini.xcf doesn't exist", "", 20);
-    pTTF->setPosition(ccp(s.width/2, s.height/3*2));
+    pTTF->setPosition(Point(s.width/2, s.height/3*2));
     this->addChild(pTTF);
 }
 
 void TestIsFileExist::onExit()
 {
 	
-	FileUtils *sharedFileUtils = FileUtils::sharedFileUtils();
+	FileUtils *sharedFileUtils = FileUtils::getInstance();
 	
 	// reset filename lookup
     sharedFileUtils->setFilenameLookupDictionary(Dictionary::create());
@@ -360,17 +360,17 @@ void TextWritePlist::onEnter()
     root->setObject(dictInDict, "dictInDict");
     
     // end with /
-    std::string writablePath = FileUtils::sharedFileUtils()->getWritablePath();
+    std::string writablePath = FileUtils::getInstance()->getWritablePath();
     std::string fullPath = writablePath + "text.plist";
     if(root->writeToFile(fullPath.c_str()))
-        CCLog("see the plist file at %s", fullPath.c_str());
+        log("see the plist file at %s", fullPath.c_str());
     else
-        CCLog("write plist file failed");
+        log("write plist file failed");
     
     LabelTTF *label = LabelTTF::create(fullPath.c_str(), "Thonburi", 6);
     this->addChild(label);
-    Size winSize = Director::sharedDirector()->getWinSize();
-    label->setPosition(ccp(winSize.width/2, winSize.height/3));
+    Size winSize = Director::getInstance()->getWinSize();
+    label->setPosition(Point(winSize.width/2, winSize.height/3));
 }
 
 void TextWritePlist::onExit()
@@ -385,6 +385,6 @@ string TextWritePlist::title()
 
 string TextWritePlist::subtitle()
 {
-    std::string writablePath = FileUtils::sharedFileUtils()->getWritablePath().c_str();
+    std::string writablePath = FileUtils::getInstance()->getWritablePath().c_str();
     return ("See plist file at your writablePath");
 }

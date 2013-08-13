@@ -29,7 +29,7 @@ using namespace std;
 NS_CC_BEGIN
 
 //#pragma mark - Profiling Categories
-/* set to NO the categories that you don't want to profile */
+/* set to false the categories that you don't want to profile */
 bool kProfilerCategorySprite = false;
 bool kProfilerCategoryBatchSprite = false;
 bool kProfilerCategoryParticles = false;
@@ -37,7 +37,7 @@ bool kProfilerCategoryParticles = false;
 
 static Profiler* g_sSharedProfiler = NULL;
 
-Profiler* Profiler::sharedProfiler(void)
+Profiler* Profiler::getInstance()
 {
     if (! g_sSharedProfiler)
     {
@@ -46,6 +46,12 @@ Profiler* Profiler::sharedProfiler(void)
     }
 
     return g_sSharedProfiler;
+}
+
+// XXX: deprecated
+Profiler* Profiler::sharedProfiler(void)
+{
+    return Profiler::getInstance();
 }
 
 ProfilingTimer* Profiler::createAndAddTimerWithName(const char* timerName)
@@ -85,7 +91,7 @@ void Profiler::displayTimers()
     CCDICT_FOREACH(_activeTimers, pElement)
     {
         ProfilingTimer* timer = static_cast<ProfilingTimer*>(pElement->getObject());
-        CCLog("%s", timer->description());
+        log("%s", timer->description());
     }
 }
 
@@ -128,29 +134,30 @@ void ProfilingTimer::reset()
 
 void ProfilingBeginTimingBlock(const char *timerName)
 {
-    Profiler* p = Profiler::sharedProfiler();
+    Profiler* p = Profiler::getInstance();
     ProfilingTimer* timer = (ProfilingTimer*)p->_activeTimers->objectForKey(timerName);
     if( ! timer )
     {
         timer = p->createAndAddTimerWithName(timerName);
     }
 
-    gettimeofday((struct timeval *)&timer->_startTime, NULL);
+    gettimeofday(&timer->_startTime, NULL);
 
     timer->numberOfCalls++;
 }
 
 void ProfilingEndTimingBlock(const char *timerName)
 {
-    Profiler* p = Profiler::sharedProfiler();
+    Profiler* p = Profiler::getInstance();
     ProfilingTimer* timer = (ProfilingTimer*)p->_activeTimers->objectForKey(timerName);
 
-    CCAssert(timer, "CCProfilingTimer  not found");
+    CCASSERT(timer, "CCProfilingTimer  not found");
 
     struct timeval currentTime;
     gettimeofday(&currentTime, NULL);
 
-    double duration = Time::timersubCocos2d((struct cc_timeval *)&timer->_startTime, (struct cc_timeval *)&currentTime);
+    double duration = (currentTime.tv_sec*1000.0 + currentTime.tv_usec/1000.0) -
+                      (timer->_startTime.tv_sec*1000.0 + timer->_startTime.tv_usec/1000.0);
 
     // milliseconds
     timer->_averageTime = (timer->_averageTime + duration) / 2.0f;
@@ -162,10 +169,10 @@ void ProfilingEndTimingBlock(const char *timerName)
 
 void ProfilingResetTimingBlock(const char *timerName)
 {
-    Profiler* p = Profiler::sharedProfiler();
+    Profiler* p = Profiler::getInstance();
     ProfilingTimer *timer = (ProfilingTimer*)p->_activeTimers->objectForKey(timerName);
 
-    CCAssert(timer, "CCProfilingTimer not found");
+    CCASSERT(timer, "CCProfilingTimer not found");
 
     timer->reset();
 }

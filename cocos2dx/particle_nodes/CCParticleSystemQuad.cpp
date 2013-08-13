@@ -63,15 +63,16 @@ bool ParticleSystemQuad::initWithTotalParticles(unsigned int numberOfParticles)
         setupVBO();
 #endif
 
-        setShaderProgram(ShaderCache::sharedShaderCache()->programForKey(kShader_PositionTextureColor));
+        setShaderProgram(ShaderCache::getInstance()->programForKey(GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR));
         
-        
+#if CC_ENABLE_CACHE_TEXTURE_DATA
         // Need to listen the event only when not use batchnode, because it will use VBO
-        NotificationCenter::sharedNotificationCenter()->addObserver(this,
+        NotificationCenter::getInstance()->addObserver(this,
                                                                       callfuncO_selector(ParticleSystemQuad::listenBackToForeground),
                                                                       EVNET_COME_TO_FOREGROUND,
                                                                       NULL);
-        
+#endif
+
         return true;
     }
     return false;
@@ -96,10 +97,13 @@ ParticleSystemQuad::~ParticleSystemQuad()
         glDeleteBuffers(2, &_buffersVBO[0]);
 #if CC_TEXTURE_ATLAS_USE_VAO
         glDeleteVertexArrays(1, &_VAOname);
+        GL::bindVAO(0);
 #endif
     }
     
-    NotificationCenter::sharedNotificationCenter()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    NotificationCenter::getInstance()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
+#endif
 }
 
 // implementation ParticleSystemQuad
@@ -133,7 +137,7 @@ void ParticleSystemQuad::initTexCoordsWithRect(const Rect& pointRect)
 {
     // convert to Tex coords
 
-    Rect rect = CCRectMake(
+    Rect rect = Rect(
         pointRect.origin.x * CC_CONTENT_SCALE_FACTOR(),
         pointRect.origin.y * CC_CONTENT_SCALE_FACTOR(),
         pointRect.size.width * CC_CONTENT_SCALE_FACTOR(),
@@ -207,11 +211,11 @@ void ParticleSystemQuad::setTextureWithRect(Texture2D *texture, const Rect& rect
 void ParticleSystemQuad::setTexture(Texture2D* texture)
 {
     const Size& s = texture->getContentSize();
-    this->setTextureWithRect(texture, CCRectMake(0, 0, s.width, s.height));
+    this->setTextureWithRect(texture, Rect(0, 0, s.width, s.height));
 }
 void ParticleSystemQuad::setDisplayFrame(SpriteFrame *spriteFrame)
 {
-    CCAssert(spriteFrame->getOffsetInPixels().equals(PointZero), 
+    CCASSERT(spriteFrame->getOffsetInPixels().equals(Point::ZERO), 
              "QuadParticle only supports SpriteFrames with no offsets");
 
     // update texture before updating texture rect
@@ -342,20 +346,20 @@ void ParticleSystemQuad::postStep()
 // overriding draw method
 void ParticleSystemQuad::draw()
 {    
-    CCAssert(!_batchNode,"draw should not be called when added to a particleBatchNode");
+    CCASSERT(!_batchNode,"draw should not be called when added to a particleBatchNode");
 
     CC_NODE_DRAW_SETUP();
 
-    ccGLBindTexture2D( _texture->getName() );
-    ccGLBlendFunc( _blendFunc.src, _blendFunc.dst );
+    GL::bindTexture2D( _texture->getName() );
+    GL::blendFunc( _blendFunc.src, _blendFunc.dst );
 
-    CCAssert( _particleIdx == _particleCount, "Abnormal error in particle quad");
+    CCASSERT( _particleIdx == _particleCount, "Abnormal error in particle quad");
 
 #if CC_TEXTURE_ATLAS_USE_VAO
     //
     // Using VBO and VAO
     //
-    ccGLBindVAO(_VAOname);
+    GL::bindVAO(_VAOname);
 
 #if CC_REBIND_INDICES_BUFFER
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
@@ -374,15 +378,15 @@ void ParticleSystemQuad::draw()
 
     #define kQuadSize sizeof(_quads[0].bl)
 
-    ccGLEnableVertexAttribs( kVertexAttribFlag_PosColorTex );
+    GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX );
 
     glBindBuffer(GL_ARRAY_BUFFER, _buffersVBO[0]);
     // vertices
-    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
     // colors
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, colors));
     // tex coords
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
     
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
 
@@ -470,9 +474,10 @@ void ParticleSystemQuad::setupVBOandVAO()
     // clean VAO
     glDeleteBuffers(2, &_buffersVBO[0]);
     glDeleteVertexArrays(1, &_VAOname);
+    GL::bindVAO(0);
     
     glGenVertexArrays(1, &_VAOname);
-    ccGLBindVAO(_VAOname);
+    GL::bindVAO(_VAOname);
 
 #define kQuadSize sizeof(_quads[0].bl)
 
@@ -482,22 +487,22 @@ void ParticleSystemQuad::setupVBOandVAO()
     glBufferData(GL_ARRAY_BUFFER, sizeof(_quads[0]) * _totalParticles, _quads, GL_DYNAMIC_DRAW);
 
     // vertices
-    glEnableVertexAttribArray(kVertexAttrib_Position);
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, vertices));
 
     // colors
-    glEnableVertexAttribArray(kVertexAttrib_Color);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, colors));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, colors));
 
     // tex coords
-    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (GLvoid*) offsetof( V3F_C4B_T2F, texCoords));
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _buffersVBO[1]);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indices[0]) * _totalParticles * 6, _indices, GL_STATIC_DRAW);
 
     // Must unbind the VAO before changing the element buffer.
-    ccGLBindVAO(0);
+    GL::bindVAO(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
@@ -535,8 +540,8 @@ void ParticleSystemQuad::listenBackToForeground(Object *obj)
 
 bool ParticleSystemQuad::allocMemory()
 {
-    CCAssert( ( !_quads && !_indices), "Memory already alloced");
-    CCAssert( !_batchNode, "Memory should not be alloced when not using batchNode");
+    CCASSERT( ( !_quads && !_indices), "Memory already alloced");
+    CCASSERT( !_batchNode, "Memory should not be alloced when not using batchNode");
 
     CC_SAFE_FREE(_quads);
     CC_SAFE_FREE(_indices);
@@ -591,8 +596,11 @@ void ParticleSystemQuad::setBatchNode(ParticleBatchNode * batchNode)
             CC_SAFE_FREE(_indices);
 
             glDeleteBuffers(2, &_buffersVBO[0]);
+            memset(_buffersVBO, 0, sizeof(_buffersVBO));
 #if CC_TEXTURE_ATLAS_USE_VAO
             glDeleteVertexArrays(1, &_VAOname);
+            GL::bindVAO(0);
+            _VAOname = 0;
 #endif
         }
     }

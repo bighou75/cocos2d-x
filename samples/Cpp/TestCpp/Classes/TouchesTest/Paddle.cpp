@@ -11,7 +11,7 @@ Paddle::~Paddle(void)
 Rect Paddle::getRect()
 {
     Size s = getTexture()->getContentSize();
-    return CCRectMake(-s.width / 2, -s.height / 2, s.width, s.height);
+    return Rect(-s.width / 2, -s.height / 2, s.width, s.height);
 }
 
 Paddle* Paddle::createWithTexture(Texture2D* aTexture)
@@ -35,15 +35,15 @@ bool Paddle::initWithTexture(Texture2D* aTexture)
 
 void Paddle::onEnter()
 {
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->addTargetedDelegate(this, 0, true);
     Sprite::onEnter();
 }
 
 void Paddle::onExit()
 {
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->removeDelegate(this);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->removeDelegate(this);
     Sprite::onExit();
 }    
 
@@ -70,11 +70,11 @@ void Paddle::ccTouchMoved(Touch* touch, Event* event)
     // you get Sets instead of 1 UITouch, so you'd need to loop through the set
     // in each touchXXX method.
     
-    CCAssert(_state == kPaddleStateGrabbed, "Paddle - Unexpected state!");    
+    CCASSERT(_state == kPaddleStateGrabbed, "Paddle - Unexpected state!");    
     
     Point touchPoint = touch->getLocation();
     
-    setPosition( ccp(touchPoint.x, getPosition().y) );
+    setPosition( Point(touchPoint.x, getPosition().y) );
 }
 
 Paddle* Paddle::clone() const
@@ -88,7 +88,7 @@ Paddle* Paddle::clone() const
 
 void Paddle::ccTouchEnded(Touch* touch, Event* event)
 {
-    CCAssert(_state == kPaddleStateGrabbed, "Paddle - Unexpected state!");    
+    CCASSERT(_state == kPaddleStateGrabbed, "Paddle - Unexpected state!");    
     
     _state = kPaddleStateUngrabbed;
 } 

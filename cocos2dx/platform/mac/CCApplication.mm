@@ -36,13 +36,13 @@ Application* Application::sm_pSharedApplication = 0;
 
 Application::Application()
 {
-    CCAssert(! sm_pSharedApplication, "sm_pSharedApplication already exist");
+    CCASSERT(! sm_pSharedApplication, "sm_pSharedApplication already exist");
     sm_pSharedApplication = this;
 }
 
 Application::~Application()
 {
-    CCAssert(this == sm_pSharedApplication, "sm_pSharedApplication != this");
+    CCASSERT(this == sm_pSharedApplication, "sm_pSharedApplication != this");
     sm_pSharedApplication = 0;
 }
 
@@ -60,22 +60,28 @@ void Application::setAnimationInterval(double interval)
     [[CCDirectorCaller sharedDirectorCaller] setAnimationInterval: interval ];
 }
 
-TargetPlatform Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
-    return kTargetMacOS;
+    return Platform::OS_MAC;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 // static member function
 //////////////////////////////////////////////////////////////////////////////////////////////////
 
-Application* Application::sharedApplication()
+Application* Application::getInstance()
 {
-    CCAssert(sm_pSharedApplication, "sm_pSharedApplication not set");
+    CCASSERT(sm_pSharedApplication, "sm_pSharedApplication not set");
     return sm_pSharedApplication;
 }
 
-ccLanguageType Application::getCurrentLanguage()
+// @deprecated Use getInstance() instead
+Application* Application::sharedApplication()
+{
+    return Application::getInstance();
+}
+
+LanguageType Application::getCurrentLanguage()
 {
     // get the current language and country config
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -86,52 +92,52 @@ ccLanguageType Application::getCurrentLanguage()
     NSDictionary* temp = [NSLocale componentsFromLocaleIdentifier:currentLanguage];
     NSString * languageCode = [temp objectForKey:NSLocaleLanguageCode];
 
-    ccLanguageType ret = kLanguageEnglish;
+    LanguageType ret = LanguageType::ENGLISH;
     if ([languageCode isEqualToString:@"zh"])
     {
-        ret = kLanguageChinese;
+        ret = LanguageType::CHINESE;
     }
     else if ([languageCode isEqualToString:@"en"])
     {
-        ret = kLanguageEnglish;
+        ret = LanguageType::ENGLISH;;
     }
     else if ([languageCode isEqualToString:@"fr"]){
-        ret = kLanguageFrench;
+        ret = LanguageType::FRENCH;
     }
     else if ([languageCode isEqualToString:@"it"]){
-        ret = kLanguageItalian;
+        ret = LanguageType::ITALIAN;
     }
     else if ([languageCode isEqualToString:@"de"]){
-        ret = kLanguageGerman;
+        ret = LanguageType::GERMAN;
     }
     else if ([languageCode isEqualToString:@"es"]){
-        ret = kLanguageSpanish;
+        ret = LanguageType::SPANISH;
     }
     else if ([languageCode isEqualToString:@"ru"]){
-        ret = kLanguageRussian;
+        ret = LanguageType::RUSSIAN;
     }
     else if ([languageCode isEqualToString:@"ko"]){
-        ret = kLanguageKorean;
+        ret = LanguageType::KOREAN;
     }
     else if ([languageCode isEqualToString:@"ja"]){
-        ret = kLanguageJapanese;
+        ret = LanguageType::JAPANESE;
     }
     else if ([languageCode isEqualToString:@"hu"]){
-        ret = kLanguageHungarian;
+        ret = LanguageType::HUNGARIAN;
     }
     else if ([languageCode isEqualToString:@"pt"])
     {
-        ret = kLanguagePortuguese;
+        ret = LanguageType::PORTUGUESE;
     }
     else if ([languageCode isEqualToString:@"ar"])
     {
-        ret = kLanguageArabic;
+        ret = LanguageType::ARABIC;
     }
     else if ([languageCode isEqualToString:@"nb"]){
-        ret = kLanguageNorwegian;
+        ret = LanguageType::NORWEGIAN;
     }
     else if ([languageCode isEqualToString:@"pl"]){
-        ret = kLanguagePolish;
+        ret = LanguageType::POLISH;
     }
     return ret;
 }
@@ -143,7 +149,7 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::sharedFileUtils();
+    FileUtils* pFileUtils = FileUtils::getInstance();
     std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
     pFileUtils->setSearchPaths(searchPaths);

@@ -214,7 +214,7 @@ public:
      * while -1 means fail
      *
      */
-    int computeLineStart(FT_Face face, Image::ETextAlign eAlignMask, FT_UInt unicode,
+    int computeLineStart(FT_Face face, Image::TextAlign eAlignMask, FT_UInt unicode,
             int iLineIndex)
     {
         int iRet;
@@ -223,11 +223,11 @@ public:
             return -1;
         }
 
-        if (eAlignMask == Image::kAlignCenter) {
+        if (eAlignMask == Image::TextAlign::CENTER) {
             iRet = (iMaxLineWidth - vLines[iLineIndex].iLineWidth) / 2
             - SHIFT6(face->glyph->metrics.horiBearingX );
 
-        } else if (eAlignMask == Image::kAlignRight) {
+        } else if (eAlignMask == Image::TextAlign::RIGHT) {
             iRet = (iMaxLineWidth - vLines[iLineIndex].iLineWidth)
             - SHIFT6(face->glyph->metrics.horiBearingX );
         } else {
@@ -237,17 +237,17 @@ public:
         return iRet;
     }
 
-    int computeLineStartY(FT_Face face, Image::ETextAlign eAlignMask, int txtHeight, int borderHeight)
+    int computeLineStartY(FT_Face face, Image::TextAlign eAlignMask, int txtHeight, int borderHeight)
     {
         int iRet = 0;
-        if (eAlignMask == Image::kAlignCenter || eAlignMask == Image::kAlignLeft ||
-            eAlignMask == Image::kAlignRight ) {
+        if (eAlignMask == Image::TextAlign::CENTER || eAlignMask == Image::TextAlign::LEFT ||
+            eAlignMask == Image::TextAlign::RIGHT ) {
             //vertical center
             iRet = (borderHeight - txtHeight)/2;
 
-        } else if (eAlignMask == Image::kAlignBottomRight ||
-                   eAlignMask == Image::kAlignBottom ||
-                   eAlignMask == Image::kAlignBottomLeft ) {
+        } else if (eAlignMask == Image::TextAlign::BOTTOM_RIGHT ||
+                   eAlignMask == Image::TextAlign::BOTTOM ||
+                   eAlignMask == Image::TextAlign::BOTTOM_LEFT ) {
             //vertical bottom
             iRet = borderHeight - txtHeight;
         }
@@ -310,7 +310,7 @@ public:
         return true;
     }
 
-    bool renderLines(FT_Face face, Image::ETextAlign eAlignMask, int iCurYCursor)
+    bool renderLines(FT_Face face, Image::TextAlign eAlignMask, int iCurYCursor)
     {
         size_t lines = vLines.size();
         for (size_t i = 0; i < lines; i++)
@@ -328,7 +328,7 @@ public:
         return true;
     }
 
-    bool getBitmap(const char *text, int nWidth, int nHeight, Image::ETextAlign eAlignMask, const char * pFontName, float fontSize)
+    bool getBitmap(const char *text, int nWidth, int nHeight, Image::TextAlign eAlignMask, const char * pFontName, float fontSize)
     {
         FT_Error iError;
         if (libError)
@@ -452,7 +452,7 @@ bool Image::initWithString(
 
         BitmapDC &dc = sharedBitmapDC();
 
-        //const char* pFullFontName = FileUtils::sharedFileUtils()->fullPathFromRelativePath(pFontName);
+        //const char* pFullFontName = FileUtils::getInstance()->fullPathFromRelativePath(pFontName);
 
         CC_BREAK_IF(! dc.getBitmap(pText, nWidth, nHeight, eAlignMask, pFontName, nSize));
 
@@ -462,9 +462,8 @@ bool Image::initWithString(
 
         _width = (short)dc.iMaxLineWidth;
         _height = (short)dc.iMaxLineHeight;
-        _hasAlpha = true;
         _preMulti = true;
-        _bitsPerComponent = 8;
+        _renderFormat = Texture2D::PixelFormat::RGBA8888;
 
         bRet = true;
 

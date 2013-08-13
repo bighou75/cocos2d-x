@@ -8,53 +8,6 @@
 USING_NS_CC;
 
 
-enum
-{
-    ACTION_MANUAL_LAYER = 0,
-    ACTION_MOVE_LAYER,
-    ACTION_SCALE_LAYER,
-    ACTION_ROTATE_LAYER,
-    ACTION_SKEW_LAYER,
-    ACTION_ROTATIONAL_SKEW_LAYER,
-    ACTION_ROTATIONAL_SKEW_VS_STANDARD_SKEW_LAYER,
-    ACTION_SKEWROTATE_LAYER,
-    ACTION_JUMP_LAYER,
-    ACTION_CARDINALSPLINE_LAYER,
-    ACTION_CATMULLROM_LAYER,
-    ACTION_BEZIER_LAYER,
-    ACTION_BLINK_LAYER,
-    ACTION_FADE_LAYER,
-    ACTION_TINT_LAYER,
-    ACTION_ANIMATE_LAYER,
-    ACTION_SEQUENCE_LAYER,
-    ACTION_SEQUENCE2_LAYER,
-    ACTION_SPAWN_LAYER,
-    ACTION_REVERSE,
-    ACTION_DELAYTIME_LAYER,
-    ACTION_REPEAT_LAYER,
-    ACTION_REPEATEFOREVER_LAYER,
-    ACTION_ROTATETOREPEATE_LAYER,
-    ACTION_ROTATEJERK_LAYER,
-    ACTION_CALLFUNC_LAYER,
-    ACTION_CALLFUNCND_LAYER,
-    ACTION_CALLFUNCTION_LAYER,
-    ACTION_REVERSESEQUENCE_LAYER,
-    ACTION_REVERSESEQUENCE2_LAYER,
-    ACTION_ORBIT_LAYER,
-    ACTION_FLLOW_LAYER,
-    ACTION_TARGETED_LAYER,
-    PAUSERESUMEACTIONS_LAYER,
-    ACTION_ISSUE1305_LAYER,
-    ACTION_ISSUE1305_2_LAYER,
-    ACTION_ISSUE1288_LAYER,
-    ACTION_ISSUE1288_2_LAYER,
-    ACTION_ISSUE1327_LAYER,
-    ACTION_ISSUE1398_LAYER,
-    ACTION_LAYER_COUNT,
-	ACTION_REMOVE_SELF,
-};
-
-
 // the class inherit from TestScene
 // every Scene each test used must inherit from TestScene,
 // make sure the test have the menu item for back to main menu
@@ -79,9 +32,9 @@ public:
     virtual std::string title();
     virtual std::string subtitle();
 
-    void restartCallback(Object* pSender);
-    void nextCallback(Object* pSender);
-    void backCallback(Object* pSender);
+    void restartCallback(Object* sender);
+    void nextCallback(Object* sender);
+    void backCallback(Object* sender);
 };
 
 class ActionManual : public ActionsDemo
@@ -287,7 +240,7 @@ public:
     virtual void onEnter();
     virtual std::string title();
     virtual std::string subtitle();
-    void callback(Node* pSender);
+    void callback(Node* sender);
 };
 
 class ActionCallFuncND : public ActionsDemo
@@ -296,7 +249,7 @@ public:
     virtual void onEnter();
     virtual std::string title();
     virtual std::string subtitle();
-    void removeFromParentAndCleanup(Node* pSender, bool cleanup);
+    void doRemoveFromParentAndCleanup(Node* sender, bool cleanup);
 };
 
 class ActionCallFuncO : public ActionsDemo
@@ -329,6 +282,14 @@ public:
 };
 
 class ActionTargeted : public ActionsDemo
+{
+public:
+    virtual void onEnter();
+    virtual std::string title();
+    virtual std::string subtitle();
+};
+
+class ActionTargetedReverse : public ActionsDemo
 {
 public:
     virtual void onEnter();
@@ -398,7 +359,7 @@ class Issue1305 : public ActionsDemo
 public:
     virtual void onEnter();
     virtual void onExit();
-    void log(Node* pSender);
+    void log(Node* sender);
     void addSprite(float dt);
     virtual std::string title();
     virtual std::string subtitle();
@@ -440,7 +401,7 @@ public:
     virtual void onEnter();
     virtual std::string subtitle();
     virtual std::string title();
-    void logSprRotation(Sprite* pSender);
+    void logSprRotation(Sprite* sender);
 };
 
 class Issue1398 : public ActionsDemo

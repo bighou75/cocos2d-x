@@ -30,7 +30,6 @@ THE SOFTWARE.
 #include "keypad_dispatcher/CCKeypadDispatcher.h"
 #include "CCAccelerometer.h"
 #include "CCDirector.h"
-#include "support/CCPointExtension.h"
 #include "script_support/CCScriptSupport.h"
 #include "shaders/CCShaderCache.h"
 #include "shaders/CCGLProgram.h"
@@ -48,21 +47,17 @@ Layer::Layer()
 , _accelerometerEnabled(false)
 , _keyboardEnabled(false)
 , _keypadEnabled(false)
-, _scriptTouchHandlerEntry(NULL)
-, _scriptKeypadHandlerEntry(NULL)
-, _scriptAccelerateHandlerEntry(NULL)
 , _touchPriority(0)
-, _touchMode(kTouchesAllAtOnce)
+, _touchMode(Touch::DispatchMode::ALL_AT_ONCE)
+, _swallowsTouches(true)
 {
     _ignoreAnchorPointForPosition = true;
-    setAnchorPoint(ccp(0.5f, 0.5f));
+    setAnchorPoint(Point(0.5f, 0.5f));
 }
 
 Layer::~Layer()
 {
-    unregisterScriptTouchHandler();
-    unregisterScriptKeypadHandler();
-    unregisterScriptAccelerateHandler();
+
 }
 
 bool Layer::init()
@@ -71,7 +66,7 @@ bool Layer::init()
     do 
     {        
         Director * pDirector;
-        CC_BREAK_IF(!(pDirector = Director::sharedDirector()));
+        CC_BREAK_IF(!(pDirector = Director::getInstance()));
         this->setContentSize(pDirector->getWinSize());
         _touchEnabled = false;
         _accelerometerEnabled = false;
@@ -100,76 +95,37 @@ Layer *Layer::create()
 
 void Layer::registerWithTouchDispatcher()
 {
-    TouchDispatcher* pDispatcher = Director::sharedDirector()->getTouchDispatcher();
+    TouchDispatcher* pDispatcher = Director::getInstance()->getTouchDispatcher();
 
-    // Using LuaBindings
-    if (_scriptTouchHandlerEntry)
-    {
-	    if (_scriptTouchHandlerEntry->isMultiTouches())
-	    {
-	       pDispatcher->addStandardDelegate(this, 0);
-	       LUALOG("[LUA] Add multi-touches event handler: %d", _scriptTouchHandlerEntry->getHandler());
-	    }
-	    else
-	    {
-	       pDispatcher->addTargetedDelegate(this,
-						_scriptTouchHandlerEntry->getPriority(),
-						_scriptTouchHandlerEntry->getSwallowsTouches());
-	       LUALOG("[LUA] Add touch event handler: %d", _scriptTouchHandlerEntry->getHandler());
-	    }
-    }
-    else
-    {
-        if( _touchMode == kTouchesAllAtOnce ) {
-            pDispatcher->addStandardDelegate(this, 0);
-        } else {
-            pDispatcher->addTargetedDelegate(this, _touchPriority, true);
-        }
+    if( _touchMode == Touch::DispatchMode::ALL_AT_ONCE ) {
+        pDispatcher->addStandardDelegate(this, 0);
+    } else {
+        pDispatcher->addTargetedDelegate(this, _touchPriority, _swallowsTouches);
     }
 }
 
-void Layer::registerScriptTouchHandler(int nHandler, bool bIsMultiTouches, int nPriority, bool bSwallowsTouches)
+int Layer::executeScriptTouchHandler(int eventType, Touch* touch)
 {
-    unregisterScriptTouchHandler();
-    _scriptTouchHandlerEntry = TouchScriptHandlerEntry::create(nHandler, bIsMultiTouches, nPriority, bSwallowsTouches);
-    _scriptTouchHandlerEntry->retain();
-}
-
-void Layer::unregisterScriptTouchHandler(void)
-{
-    CC_SAFE_RELEASE_NULL(_scriptTouchHandlerEntry);
+    if (kScriptTypeNone != _scriptType)
+    {
+        TouchScriptData data(eventType, this, touch);
+        ScriptEvent event(kTouchEvent, &data);
+        return ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);        
     }
 
-int Layer::excuteScriptTouchHandler(int nEventType, Touch *pTouch)
-{
-    if (kScriptTypeLua == _scriptType)
-    {
-        Set touches;
-        touches.addObject((Object*)pTouch);
-        TouchesScriptData data(nEventType,kLayerTouches,(void*)this,&touches);
-        ScriptEvent event(kTouchesEvent,&data);
-        return ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&event);        
-    }
-    else if(kScriptTypeJavascript == _scriptType)
-    {
-        return ScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchEvent(this, nEventType, pTouch);
-    }
     //can not reach it
     return 0;
 }
 
-int Layer::excuteScriptTouchHandler(int nEventType, Set *pTouches)
+int Layer::executeScriptTouchesHandler(int eventType, Set* touches)
 {
-    if (kScriptTypeLua == _scriptType)
+    if (kScriptTypeNone != _scriptType)
     {
-        TouchesScriptData data(nEventType,kLayerTouches,(void*)this,pTouches);
-        ScriptEvent event(kTouchesEvent,&data);
-        return ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&event);
+        TouchesScriptData data(eventType, this, touches);
+        ScriptEvent event(kTouchesEvent, &data);
+        return ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
-    else if(kScriptTypeJavascript == _scriptType)
-    {
-        return ScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerTouchesEvent(this, nEventType, pTouches);
-    }
+
     return 0;
 }
 
@@ -178,6 +134,7 @@ bool Layer::isTouchEnabled() const
 {
     return _touchEnabled;
 }
+
 /// isTouchEnabled setter
 void Layer::setTouchEnabled(bool enabled)
 {
@@ -193,13 +150,13 @@ void Layer::setTouchEnabled(bool enabled)
             else
             {
                 // have problems?
-                Director::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+                Director::getInstance()->getTouchDispatcher()->removeDelegate(this);
             }
         }
     }
 }
 
-void Layer::setTouchMode(ccTouchesMode mode)
+void Layer::setTouchMode(Touch::DispatchMode mode)
 {
     if(_touchMode != mode)
     {
@@ -227,15 +184,37 @@ void Layer::setTouchPriority(int priority)
     }
 }
 
+void Layer::setSwallowsTouches(bool swallowsTouches)
+{
+    if (_swallowsTouches != swallowsTouches)
+    {
+        _swallowsTouches = swallowsTouches;
+        
+        if( _touchEnabled)
+        {
+            setTouchEnabled(false);
+            setTouchEnabled(true);
+        }
+    }
+}
+
+
 int Layer::getTouchPriority() const
 {
     return _touchPriority;
 }
 
-int Layer::getTouchMode() const
+Touch::DispatchMode Layer::getTouchMode() const
 {
     return _touchMode;
 }
+
+bool Layer::isSwallowsTouches() const
+{
+	return _swallowsTouches;
+}
+
+
 
 /// isAccelerometerEnabled getter
 bool Layer::isAccelerometerEnabled() const
@@ -251,7 +230,7 @@ void Layer::setAccelerometerEnabled(bool enabled)
 
         if (_running)
         {
-            Director* pDirector = Director::sharedDirector();
+            Director* pDirector = Director::getInstance();
             if (enabled)
             {
                 pDirector->getAccelerometer()->setDelegate(CC_CALLBACK_1(Layer::didAccelerate, this));
@@ -270,7 +249,7 @@ void Layer::setAccelerometerInterval(double interval) {
     {
         if (_running)
         {
-            Director* pDirector = Director::sharedDirector();
+            Director* pDirector = Director::getInstance();
             pDirector->getAccelerometer()->setAccelerometerInterval(interval);
         }
     }
@@ -279,29 +258,14 @@ void Layer::setAccelerometerInterval(double interval) {
 
 void Layer::didAccelerate(Acceleration* pAccelerationValue)
 {
-   CC_UNUSED_PARAM(pAccelerationValue);
-    if (kScriptTypeJavascript == _scriptType)
+    CC_UNUSED_PARAM(pAccelerationValue);
+    
+    if(kScriptTypeNone != _scriptType)
     {
-        ScriptEngineManager::sharedManager()->getScriptEngine()->executeAccelerometerEvent(this, pAccelerationValue);
-    }
-    else if(kScriptTypeLua == _scriptType)
-    {
-        BasicScriptData data((void*)this,(void*)pAccelerationValue);
+        BasicScriptData data(this,(void*)pAccelerationValue);
         ScriptEvent event(kAccelerometerEvent,&data);
-        ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&event);
+        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
-}
-
-void Layer::registerScriptAccelerateHandler(int nHandler)
-{
-    unregisterScriptAccelerateHandler();
-    _scriptAccelerateHandlerEntry = ScriptHandlerEntry::create(nHandler);
-    _scriptAccelerateHandlerEntry->retain();
-}
-
-void Layer::unregisterScriptAccelerateHandler(void)
-{
-    CC_SAFE_RELEASE_NULL(_scriptAccelerateHandlerEntry);
 }
 
 /// isKeyboardEnabled getter
@@ -316,7 +280,7 @@ void Layer::setKeyboardEnabled(bool enabled)
     {
         _keyboardEnabled = enabled;
 
-        Director* pDirector = Director::sharedDirector();
+        Director* pDirector = Director::getInstance();
         if (enabled)
         {
             pDirector->getKeyboardDispatcher()->setKeyPressDelegate( CC_CALLBACK_1(Layer::keyPressed, this) );
@@ -344,7 +308,7 @@ void Layer::setKeypadEnabled(bool enabled)
 
         if (_running)
         {
-            Director* pDirector = Director::sharedDirector();
+            Director* pDirector = Director::getInstance();
             if (enabled)
             {
                 pDirector->getKeypadDispatcher()->addDelegate(this);
@@ -357,46 +321,30 @@ void Layer::setKeypadEnabled(bool enabled)
     }
 }
 
-void Layer::registerScriptKeypadHandler(int nHandler)
-{
-    unregisterScriptKeypadHandler();
-    _scriptKeypadHandlerEntry = ScriptHandlerEntry::create(nHandler);
-    _scriptKeypadHandlerEntry->retain();
-}
-
-void Layer::unregisterScriptKeypadHandler(void)
-{
-    CC_SAFE_RELEASE_NULL(_scriptKeypadHandlerEntry);
-}
-
 void Layer::keyBackClicked(void)
 {
-    if (NULL != _scriptKeypadHandlerEntry && 0 != _scriptKeypadHandlerEntry->getHandler())
+    if (kScriptTypeNone != _scriptType)
     {
-        KeypadScriptData data(kTypeBackClicked,kLayerKeypad,(void*)this);
+        KeypadScriptData data(kTypeBackClicked, this);
         ScriptEvent event(kKeypadEvent,(void*)&data);
-        ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&event);
-    }
-    else if(kScriptTypeJavascript == _scriptType)
-    {
-        ScriptEngineManager::sharedManager()->getScriptEngine()->executeLayerKeypadEvent(this, kTypeBackClicked);
+        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 }
 
 void Layer::keyMenuClicked(void)
 {
-    if (NULL != _scriptKeypadHandlerEntry && 0 != _scriptKeypadHandlerEntry->getHandler())
+    if (kScriptTypeLua == _scriptType)
     {
-        KeypadScriptData data(kTypeMenuClicked,kLayerKeypad,(void*)this);
+        KeypadScriptData data(kTypeMenuClicked, this);
         ScriptEvent event(kKeypadEvent,(void*)&data);
-        ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&event);
+        ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&event);
     }
 }
 
 /// Callbacks
 void Layer::onEnter()
 {
-    Director* pDirector = Director::sharedDirector();
+    Director* pDirector = Director::getInstance();
     // register 'parent' nodes first
     // since events are propagated in reverse order
     if (_touchEnabled)
@@ -422,12 +370,10 @@ void Layer::onEnter()
 
 void Layer::onExit()
 {
-    Director* pDirector = Director::sharedDirector();
+    Director* pDirector = Director::getInstance();
     if( _touchEnabled )
     {
         pDirector->getTouchDispatcher()->removeDelegate(this);
-        // [lua]:don't unregister script touch handler, or the handler will be destroyed
-        // unregisterScriptTouchHandler();
     }
 
     // remove this layer from the delegates who concern Accelerometer Sensor
@@ -449,7 +395,7 @@ void Layer::onEnterTransitionDidFinish()
 {
     if (_accelerometerEnabled)
     {
-        Director* pDirector = Director::sharedDirector();
+        Director* pDirector = Director::getInstance();
         pDirector->getAccelerometer()->setDelegate(CC_CALLBACK_1(Layer::didAccelerate, this));
     }
     
@@ -460,12 +406,12 @@ bool Layer::ccTouchBegan(Touch *pTouch, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        return excuteScriptTouchHandler(CCTOUCHBEGAN, pTouch) == 0 ? false : true;
+        return executeScriptTouchHandler(CCTOUCHBEGAN, pTouch) == 0 ? false : true;
     }
 
     CC_UNUSED_PARAM(pTouch);
     CC_UNUSED_PARAM(pEvent);
-    CCAssert(false, "Layer#ccTouchBegan override me");
+    CCASSERT(false, "Layer#ccTouchBegan override me");
     return true;
 }
 
@@ -473,7 +419,7 @@ void Layer::ccTouchMoved(Touch *pTouch, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHMOVED, pTouch);
+        executeScriptTouchHandler(CCTOUCHMOVED, pTouch);
         return;
     }
 
@@ -485,7 +431,7 @@ void Layer::ccTouchEnded(Touch *pTouch, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHENDED, pTouch);
+        executeScriptTouchHandler(CCTOUCHENDED, pTouch);
         return;
     }
 
@@ -497,7 +443,7 @@ void Layer::ccTouchCancelled(Touch *pTouch, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHCANCELLED, pTouch);
+        executeScriptTouchHandler(CCTOUCHCANCELLED, pTouch);
         return;
     }
 
@@ -509,7 +455,7 @@ void Layer::ccTouchesBegan(Set *pTouches, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHBEGAN, pTouches);
+        executeScriptTouchesHandler(CCTOUCHBEGAN, pTouches);
         return;
     }
 
@@ -521,7 +467,7 @@ void Layer::ccTouchesMoved(Set *pTouches, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHMOVED, pTouches);
+        executeScriptTouchesHandler(CCTOUCHMOVED, pTouches);
         return;
     }
 
@@ -533,7 +479,7 @@ void Layer::ccTouchesEnded(Set *pTouches, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHENDED, pTouches);
+        executeScriptTouchesHandler(CCTOUCHENDED, pTouches);
         return;
     }
 
@@ -545,7 +491,7 @@ void Layer::ccTouchesCancelled(Set *pTouches, Event *pEvent)
 {
     if (kScriptTypeNone != _scriptType)
     {
-        excuteScriptTouchHandler(CCTOUCHCANCELLED, pTouches);
+        executeScriptTouchesHandler(CCTOUCHCANCELLED, pTouches);
         return;
     }
 
@@ -699,8 +645,7 @@ void LayerRGBA::setCascadeColorEnabled(bool cascadeColorEnabled)
 LayerColor::LayerColor()
 {
     // default blend function
-    _blendFunc.src = CC_BLEND_SRC;
-    _blendFunc.dst = CC_BLEND_DST;
+    _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 }
     
 LayerColor::~LayerColor()
@@ -758,7 +703,7 @@ LayerColor * LayerColor::create(const Color4B& color)
 
 bool LayerColor::init()
 {
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     return initWithColor(Color4B(0,0,0,0), s.width, s.height);
 }
 
@@ -768,8 +713,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
     {
 
         // default blend function
-        _blendFunc.src = GL_SRC_ALPHA;
-        _blendFunc.dst = GL_ONE_MINUS_SRC_ALPHA;
+        _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
 
         _displayedColor.r = _realColor.r = color.r;
         _displayedColor.g = _realColor.g = color.g;
@@ -783,9 +727,9 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
         }
 
         updateColor();
-        setContentSize(CCSizeMake(w, h));
+        setContentSize(Size(w, h));
 
-        setShaderProgram(ShaderCache::sharedShaderCache()->programForKey(kShader_PositionColor));
+        setShaderProgram(ShaderCache::getInstance()->programForKey(GLProgram::SHADER_NAME_POSITION_COLOR));
         return true;
     }
     return false;
@@ -793,7 +737,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
 
 bool LayerColor::initWithColor(const Color4B& color)
 {
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     this->initWithColor(color, s.width, s.height);
     return true;
 }
@@ -811,17 +755,17 @@ void LayerColor::setContentSize(const Size & size)
 
 void LayerColor::changeWidthAndHeight(GLfloat w ,GLfloat h)
 {
-    this->setContentSize(CCSizeMake(w, h));
+    this->setContentSize(Size(w, h));
 }
 
 void LayerColor::changeWidth(GLfloat w)
 {
-    this->setContentSize(CCSizeMake(w, _contentSize.height));
+    this->setContentSize(Size(w, _contentSize.height));
 }
 
 void LayerColor::changeHeight(GLfloat h)
 {
-    this->setContentSize(CCSizeMake(_contentSize.width, h));
+    this->setContentSize(Size(_contentSize.width, h));
 }
 
 void LayerColor::updateColor()
@@ -839,23 +783,23 @@ void LayerColor::draw()
 {
     CC_NODE_DRAW_SETUP();
 
-    ccGLEnableVertexAttribs( kVertexAttribFlag_Position | kVertexAttribFlag_Color );
+    GL::enableVertexAttribs( GL::VERTEX_ATTRIB_FLAG_POSITION | GL::VERTEX_ATTRIB_FLAG_COLOR );
 
     //
     // Attributes
     //
 #ifdef EMSCRIPTEN
     setGLBufferData(_squareVertices, 4 * sizeof(Vertex2F), 0);
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
     setGLBufferData(_squareColors, 4 * sizeof(Color4F), 1);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, 0);
 #else
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, _squareVertices);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_FLOAT, GL_FALSE, 0, _squareColors);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, _squareVertices);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_FLOAT, GL_FALSE, 0, _squareColors);
 #endif // EMSCRIPTEN
 
-    ccGLBlendFunc( _blendFunc.src, _blendFunc.dst );
+    GL::blendFunc( _blendFunc.src, _blendFunc.dst );
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
@@ -922,7 +866,7 @@ bool LayerGradient::init()
 
 bool LayerGradient::initWithColor(const Color4B& start, const Color4B& end)
 {
-    return initWithColor(start, end, ccp(0, -1));
+    return initWithColor(start, end, Point(0, -1));
 }
 
 bool LayerGradient::initWithColor(const Color4B& start, const Color4B& end, const Point& v)
@@ -944,18 +888,18 @@ void LayerGradient::updateColor()
 {
     LayerColor::updateColor();
 
-    float h = ccpLength(_alongVector);
+    float h = _alongVector.getLength();
     if (h == 0)
         return;
 
     float c = sqrtf(2.0f);
-    Point u = ccp(_alongVector.x / h, _alongVector.y / h);
+    Point u = Point(_alongVector.x / h, _alongVector.y / h);
 
     // Compressed Interpolation mode
     if (_compressedInterpolation)
     {
         float h2 = 1 / ( fabsf(u.x) + fabsf(u.y) );
-        u = ccpMult(u, h2 * (float)c);
+        u = u * (h2 * (float)c);
     }
 
     float opacityf = (float)_displayedOpacity / 255.0f;
@@ -1023,7 +967,7 @@ void LayerGradient::setStartOpacity(GLubyte o)
     updateColor();
 }
 
-GLubyte LayerGradient::getStartOpacity()
+GLubyte LayerGradient::getStartOpacity() const
 {
     return _startOpacity;
 }
@@ -1034,7 +978,7 @@ void LayerGradient::setEndOpacity(GLubyte o)
     updateColor();
 }
 
-GLubyte LayerGradient::getEndOpacity()
+GLubyte LayerGradient::getEndOpacity() const
 {
     return _endOpacity;
 }
@@ -1125,7 +1069,7 @@ LayerMultiplex* LayerMultiplex::createWithArray(Array* arrayOfLayers)
 
 void LayerMultiplex::addLayer(Layer* layer)
 {
-    CCAssert(_layers, "");
+    CCASSERT(_layers, "");
     _layers->addObject(layer);
 }
 
@@ -1168,7 +1112,7 @@ bool LayerMultiplex::initWithArray(Array* arrayOfLayers)
 
 void LayerMultiplex::switchTo(unsigned int n)
 {
-    CCAssert( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
 
     this->removeChild((Node*)_layers->objectAtIndex(_enabledLayer), true);
 
@@ -1179,7 +1123,7 @@ void LayerMultiplex::switchTo(unsigned int n)
 
 void LayerMultiplex::switchToAndReleaseMe(unsigned int n)
 {
-    CCAssert( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
+    CCASSERT( n < _layers->count(), "Invalid index in MultiplexLayer switchTo message" );
 
     this->removeChild((Node*)_layers->objectAtIndex(_enabledLayer), true);
 

@@ -31,11 +31,11 @@
 NS_CC_EXT_BEGIN
 
 ControlPotentiometer::ControlPotentiometer()
-: _thumbSprite(NULL)
-, _progressTimer(NULL)
-, _value(0.0f)
+: _value(0.0f)
 , _minimumValue(0.0f)
 , _maximumValue(0.0f)
+, _thumbSprite(NULL)
+, _progressTimer(NULL)
 {
 
 }
@@ -59,7 +59,7 @@ ControlPotentiometer* ControlPotentiometer::create(const char* backgroundFile, c
 
         // Prepare progress for potentiometer
         ProgressTimer *progressTimer  = ProgressTimer::create(Sprite::create(progressFile));
-        //progressTimer.type              = kProgressTimerTypeRadialCW;
+        //progressTimer.type              = ProgressTimer::RADIALCW;
         if (pRet->initWithTrackSprite_ProgressTimer_ThumbSprite(backgroundSprite, progressTimer, thumbSprite))
         {
             pRet->autorelease();
@@ -126,7 +126,7 @@ void ControlPotentiometer::setValue(float value)
     _progressTimer->setPercentage(percent * 100.0f);
     _thumbSprite->setRotation(percent * 360.0f);
     
-    sendActionsForControlEvents(ControlEventValueChanged);    
+    sendActionsForControlEvents(Control::EventType::VALUE_CHANGED);    
 }
 
 float ControlPotentiometer::getValue()
@@ -200,7 +200,7 @@ void ControlPotentiometer::ccTouchMoved(Touch *pTouch, Event *pEvent)
 
 void ControlPotentiometer::ccTouchEnded(Touch *pTouch, Event *pEvent)
 {
-    this->potentiometerEnded(PointZero);
+    this->potentiometerEnded(Point::ZERO);
 }
 
 float ControlPotentiometer::distanceBetweenPointAndPoint(Point point1, Point point2)

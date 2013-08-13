@@ -28,6 +28,7 @@ THE SOFTWARE.
 #define __CCDIRECTOR_H__
 
 #include "platform/CCPlatformMacros.h"
+
 #include "cocoa/CCObject.h"
 #include "ccTypes.h"
 #include "cocoa/CCGeometry.h"
@@ -44,23 +45,6 @@ NS_CC_BEGIN
  * @addtogroup base_nodes
  * @{
  */
-
-/** @typedef ccDirectorProjection
- Possible OpenGL projections used by director
- */
-typedef enum {
-    /// sets a 2D projection (orthogonal projection)
-    kDirectorProjection2D,
-    
-    /// sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
-    kDirectorProjection3D,
-    
-    /// it calls "updateProjection" on the projection delegate.
-    kDirectorProjectionCustom,
-    
-    /// Default projection is 3D projection
-    kDirectorProjectionDefault = kDirectorProjection3D,
-} ccDirectorProjection;
 
 /* Forward declarations. */
 class LabelAtlas;
@@ -87,7 +71,7 @@ and when to execute the Scenes.
   - setting the orientation (default one is Portrait)
  
  Since the Director is a singleton, the standard way to use it is by calling:
-  _ Director::sharedDirector()->methodName();
+  _ Director::getInstance()->methodName();
  
  The Director also sets the default OpenGL context:
   - GL_TEXTURE_2D is enabled
@@ -98,6 +82,30 @@ and when to execute the Scenes.
 class CC_DLL Director : public Object, public TypeInfo
 {
 public:
+    /** @typedef ccDirectorProjection
+     Possible OpenGL projections used by director
+     */
+    enum class Projection
+    {
+        /// sets a 2D projection (orthogonal projection)
+        _2D,
+        
+        /// sets a 3D projection with a fovy=60, znear=0.5f and zfar=1500.
+        _3D,
+        
+        /// it calls "updateProjection" on the projection delegate.
+        CUSTOM,
+        
+        /// Default projection is 3D projection
+        DEFAULT = _3D,
+    };
+    
+    /** returns a shared instance of the director */
+    static Director* getInstance();
+
+    /** @deprecated Use getInstance() instead */
+    CC_DEPRECATED_ATTRIBUTE static Director* sharedDirector() { return Director::getInstance(); }
+
     Director(void);
     virtual ~Director(void);
     virtual bool init(void);
@@ -109,39 +117,39 @@ public:
     // attribute
 
     /** Get current running Scene. Director can only run one Scene at the time */
-    inline Scene* getRunningScene(void) { return _runningScene; }
+    inline Scene* getRunningScene() { return _runningScene; }
 
     /** Get the FPS value */
-    inline double getAnimationInterval(void) { return _animationInterval; }
+    inline double getAnimationInterval() { return _animationInterval; }
     /** Set the FPS value. */
     virtual void setAnimationInterval(double dValue) = 0;
 
     /** Whether or not to display the FPS on the bottom-left corner */
-    inline bool isDisplayStats(void) { return _displayStats; }
+    inline bool isDisplayStats() { return _displayStats; }
     /** Display the FPS on the bottom-left corner */
-    inline void setDisplayStats(bool bDisplayStats) { _displayStats = bDisplayStats; }
+    inline void setDisplayStats(bool displayStats) { _displayStats = displayStats; }
     
     /** seconds per frame */
     inline float getSecondsPerFrame() { return _secondsPerFrame; }
 
     /** Get the EGLView, where everything is rendered */
-    inline EGLView* getOpenGLView(void) { return _openGLView; }
+    inline EGLView* getOpenGLView() { return _openGLView; }
     void setOpenGLView(EGLView *pobOpenGLView);
 
-    inline bool isNextDeltaTimeZero(void) { return _nextDeltaTimeZero; }
-    void setNextDeltaTimeZero(bool bNextDeltaTimeZero);
+    inline bool isNextDeltaTimeZero() { return _nextDeltaTimeZero; }
+    void setNextDeltaTimeZero(bool nextDeltaTimeZero);
 
     /** Whether or not the Director is paused */
-    inline bool isPaused(void) { return _paused; }
+    inline bool isPaused() { return _paused; }
 
     /** How many frames were called since the director started */
-    inline unsigned int getTotalFrames(void) { return _totalFrames; }
+    inline unsigned int getTotalFrames() { return _totalFrames; }
     
     /** Sets an OpenGL projection
      @since v0.8.2
      */
-    inline ccDirectorProjection getProjection(void) { return _projection; }
-    void setProjection(ccDirectorProjection kProjection);
+    inline Projection getProjection() { return _projection; }
+    void setProjection(Projection projection);
     
     /** Sets the glViewport*/
     void setViewport();
@@ -154,7 +162,7 @@ public:
      If the new scene replaces the old one, the it will receive the "cleanup" message.
      @since v0.99.0
      */
-    inline bool isSendCleanupToScene(void) { return _sendCleanupToScene; }
+    inline bool isSendCleanupToScene() { return _sendCleanupToScene; }
 
     /** This object will be visited after the main scene is visited.
      This object MUST implement the "visit" selector.
@@ -168,17 +176,17 @@ public:
      @since v0.99.5
      */
     DirectorDelegate* getDelegate() const;
-    void setDelegate(DirectorDelegate* pDelegate);
+    void setDelegate(DirectorDelegate* delegate);
 
     // window size
 
     /** returns the size of the OpenGL view in points.
     */
-    const Size& getWinSize(void) const;
+    const Size& getWinSize() const;
 
     /** returns the size of the OpenGL view in pixels.
     */
-    Size getWinSizeInPixels(void) const;
+    Size getWinSizeInPixels() const;
     
     /** returns visible size of the OpenGL view in points.
      *  the value is equal to getWinSize if don't invoke
@@ -193,15 +201,15 @@ public:
     /** converts a UIKit coordinate to an OpenGL coordinate
      Useful to convert (multi) touch coordinates to the current layout (portrait or landscape)
      */
-    Point convertToGL(const Point& obPoint);
+    Point convertToGL(const Point& point);
 
     /** converts an OpenGL coordinate to a UIKit coordinate
      Useful to convert node points to window points for calls such as glScissor
      */
-    Point convertToUI(const Point& obPoint);
+    Point convertToUI(const Point& point);
 
     /// XXX: missing description 
-    float getZEye(void) const;
+    float getZEye() const;
 
     // Scene Management
 
@@ -211,27 +219,27 @@ public:
      *
      * It will call pushScene: and then it will call startAnimation
      */
-    void runWithScene(Scene *pScene);
+    void runWithScene(Scene *scene);
 
     /** Suspends the execution of the running scene, pushing it on the stack of suspended scenes.
      * The new scene will be executed.
      * Try to avoid big stacks of pushed scenes to reduce memory allocation. 
      * ONLY call it if there is a running scene.
      */
-    void pushScene(Scene *pScene);
+    void pushScene(Scene *scene);
 
     /** Pops out a scene from the queue.
      * This scene will replace the running one.
      * The running scene will be deleted. If there are no more scenes in the stack the execution is terminated.
      * ONLY call it if there is a running scene.
      */
-    void popScene(void);
+    void popScene();
 
     /** Pops out all scenes from the queue until the root scene in the queue.
      * This scene will replace the running one.
      * Internally it will call `popToSceneStackLevel(1)`
      */
-    void popToRootScene(void);
+    void popToRootScene();
 
     /** Pops out all scenes from the queue until it reaches `level`.
      If level is 0, it will end the director.
@@ -243,40 +251,40 @@ public:
     /** Replaces the running scene with a new one. The running scene is terminated.
      * ONLY call it if there is a running scene.
      */
-    void replaceScene(Scene *pScene);
+    void replaceScene(Scene *scene);
 
     /** Ends the execution, releases the running scene.
      It doesn't remove the OpenGL view from its parent. You have to do it manually.
      */
-    void end(void);
+    void end();
 
     /** Pauses the running scene.
      The running scene will be _drawed_ but all scheduled timers will be paused
      While paused, the draw rate will be 4 FPS to reduce CPU consumption
      */
-    void pause(void);
+    void pause();
 
     /** Resumes the paused scene
      The scheduled timers will be activated again.
      The "delta time" will be 0 (as if the game wasn't paused)
      */
-    void resume(void);
+    void resume();
 
     /** Stops the animation. Nothing will be drawn. The main loop won't be triggered anymore.
      If you don't want to pause your animation call [pause] instead.
      */
-    virtual void stopAnimation(void) = 0;
+    virtual void stopAnimation() = 0;
 
     /** The main loop is triggered again.
      Call this function only if [stopAnimation] was called earlier
      @warning Don't call this function to start the main loop. To run the main loop call runWithScene
      */
-    virtual void startAnimation(void) = 0;
+    virtual void startAnimation() = 0;
 
     /** Draw the scene.
     This method is called every frame. Don't call it manually.
     */
-    void drawScene(void);
+    void drawScene();
 
     // Memory Helper
 
@@ -284,23 +292,23 @@ public:
      It will purge the TextureCache, SpriteFrameCache, LabelBMFont cache
      @since v0.99.3
      */
-    void purgeCachedData(void);
+    void purgeCachedData();
 
 	/** sets the default values based on the Configuration info */
-    void setDefaultValues(void);
+    void setDefaultValues();
 
     // OpenGL Helper
 
     /** sets the OpenGL default values */
-    void setGLDefaultValues(void);
+    void setGLDefaultValues();
 
     /** enables/disables OpenGL alpha blending */
-    void setAlphaBlending(bool bOn);
+    void setAlphaBlending(bool on);
 
     /** enables/disables OpenGL depth test */
-    void setDepthTest(bool bOn);
+    void setDepthTest(bool on);
 
-    virtual void mainLoop(void) = 0;
+    virtual void mainLoop() = 0;
 
     /** The size in pixels of the surface. It could be different than the screen size.
     High-res devices might have a higher surface size than the screen size.
@@ -308,53 +316,79 @@ public:
     @since v0.99.4
     */
     void setContentScaleFactor(float scaleFactor);
-    float getContentScaleFactor(void) const;
+    float getContentScaleFactor() const;
 
 public:
-    /** Scheduler associated with this director
+    /** Gets the Scheduler associated with this director
      @since v2.0
      */
-    CC_PROPERTY(Scheduler*, _scheduler, Scheduler);
-
-    /** ActionManager associated with this director
+    Scheduler* getScheduler() const;
+    
+    /** Sets the Scheduler associated with this director
      @since v2.0
      */
-    CC_PROPERTY(ActionManager*, _actionManager, ActionManager);
+    void setScheduler(Scheduler* scheduler);
 
-    /** TouchDispatcher associated with this director
+    /** Gets the ActionManager associated with this director
      @since v2.0
      */
-    CC_PROPERTY(TouchDispatcher*, _touchDispatcher, TouchDispatcher);
+    ActionManager* getActionManager() const;
+    
+    /** Sets the ActionManager associated with this director
+     @since v2.0
+     */
+    void setActionManager(ActionManager* actionManager);
+    
+    /** Gets the TouchDispatcher associated with this director
+     @since v2.0
+     */
+    TouchDispatcher* getTouchDispatcher() const;
+    
+    /** Sets the TouchDispatcher associated with this director
+     @since v2.0
+     */
+    void setTouchDispatcher(TouchDispatcher* touchDispatcher);
 
-    /** KeyboardDispatcher associated with this director
+    /** Gets the KeyboardDispatcher associated with this director
      @note Supported on Mac and Linux only now.
      @since v3.0
      */
-    CC_PROPERTY(KeyboardDispatcher*, _keyboardDispatcher, KeyboardDispatcher);
+    KeyboardDispatcher* getKeyboardDispatcher() const;
 
-    /** KeypadDispatcher associated with this director
+    /** Sets the KeyboardDispatcher associated with this director
+     @note Supported on Mac and Linux only now.
+     @since v3.0
+     */
+    void setKeyboardDispatcher(KeyboardDispatcher* keyboardDispatcher);
+    
+    /** Gets the KeypadDispatcher associated with this director
      @since v2.0
      */
-    CC_PROPERTY(KeypadDispatcher*, _keypadDispatcher, KeypadDispatcher);
+    KeypadDispatcher* getKeypadDispatcher() const;
 
-    /** Accelerometer associated with this director
+    /** Sets the KeypadDispatcher associated with this director
      @since v2.0
      */
-    CC_PROPERTY(Accelerometer*, _accelerometer, Accelerometer);
+    void setKeypadDispatcher(KeypadDispatcher* keypadDispatcher);
+    
+    /** Gets Accelerometer associated with this director
+     @since v2.0
+     */
+    Accelerometer* getAccelerometer() const;
+    
+    /** Sets Accelerometer associated with this director
+     @since v2.0
+     */
+    void setAccelerometer(Accelerometer* acc);
 
-    /* delta time since last tick to main loop */
-	CC_PROPERTY_READONLY(float, _deltaTime, DeltaTime);
-	
-public:
-    /** returns a shared instance of the director */
-    static Director* sharedDirector(void);
+    /* Gets delta time since last tick to main loop */
+	float getDeltaTime() const;
 
 protected:
-
     void purgeDirector();
     bool _purgeDirecotorInNextLoop; // this flag will be set to true in end()
     
-    void setNextScene(void);
+    void setNextScene();
     
     void showStats();
     void createStatsLabel();
@@ -363,7 +397,42 @@ protected:
     
     /** calculates delta time since last time it was called */    
     void calculateDeltaTime();
+
 protected:
+    /** Scheduler associated with this director
+     @since v2.0
+     */
+    Scheduler* _scheduler;
+    
+    /** ActionManager associated with this director
+     @since v2.0
+     */
+    ActionManager* _actionManager;
+    
+    /** TouchDispatcher associated with this director
+     @since v2.0
+     */
+    TouchDispatcher* _touchDispatcher;
+    
+    /** KeyboardDispatcher associated with this director
+     @note Supported on Mac and Linux only now.
+     @since v3.0
+     */
+    KeyboardDispatcher* _keyboardDispatcher;
+    
+    /** KeypadDispatcher associated with this director
+     @since v2.0
+     */
+    KeypadDispatcher* _keypadDispatcher;
+    
+    /** Accelerometer associated with this director
+     @since v2.0
+     */
+    Accelerometer* _accelerometer;
+    
+    /* delta time since last tick to main loop */
+	float _deltaTime;
+    
     /* The EGLView, where everything is rendered */
     EGLView    *_openGLView;
 
@@ -396,20 +465,20 @@ protected:
      nextScene is a weak reference. */
     Scene *_nextScene;
     
-    /* If YES, then "old" scene will receive the cleanup message */
+    /* If true, then "old" scene will receive the cleanup message */
     bool    _sendCleanupToScene;
 
     /* scheduled scenes */
     Array* _scenesStack;
     
     /* last time the main loop was updated */
-    struct cc_timeval *_lastUpdate;
+    struct timeval *_lastUpdate;
 
     /* whether or not the next delta time will be zero */
     bool _nextDeltaTimeZero;
     
     /* projection used */
-    ccDirectorProjection _projection;
+    Projection _projection;
 
     /* window size in points */
     Size    _winSizeInPoints;
@@ -442,14 +511,17 @@ protected:
 class DisplayLinkDirector : public Director
 {
 public:
-    DisplayLinkDirector(void) 
+    DisplayLinkDirector() 
         : _invalid(false)
     {}
 
-    virtual void mainLoop(void);
-    virtual void setAnimationInterval(double dValue);
-    virtual void startAnimation(void);
-    virtual void stopAnimation();
+    //
+    // Overrides
+    //
+    virtual void mainLoop() override;
+    virtual void setAnimationInterval(double value) override;
+    virtual void startAnimation() override;
+    virtual void stopAnimation() override;
 
 protected:
     bool _invalid;

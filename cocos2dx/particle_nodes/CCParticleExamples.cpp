@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include "CCParticleExamples.h"
 #include "CCDirector.h"
 #include "textures/CCTextureCache.h"
-#include "support/CCPointExtension.h"
 #include "firePngData.h"
 #include "platform/CCImage.h"
 
@@ -37,26 +36,26 @@ NS_CC_BEGIN
 
 static Texture2D* getDefaultTexture()
 {
-    Texture2D* pTexture = NULL;
+    Texture2D* texture = NULL;
     Image* pImage = NULL;
     do 
     {
         bool bRet = false;
         const char* key = "__firePngData";
-        pTexture = TextureCache::sharedTextureCache()->textureForKey(key);
-        CC_BREAK_IF(pTexture != NULL);
+        texture = TextureCache::getInstance()->textureForKey(key);
+        CC_BREAK_IF(texture != NULL);
 
         pImage = new Image();
         CC_BREAK_IF(NULL == pImage);
-        bRet = pImage->initWithImageData((void*)__firePngData, sizeof(__firePngData), Image::kFmtPng);
+        bRet = pImage->initWithImageData((void*)__firePngData, sizeof(__firePngData));
         CC_BREAK_IF(!bRet);
 
-        pTexture = TextureCache::sharedTextureCache()->addUIImage(pImage, key);
+        texture = TextureCache::getInstance()->addUIImage(pImage, key);
     } while (0);
 
     CC_SAFE_RELEASE(pImage);
 
-    return pTexture;
+    return texture;
 }
 
 ParticleFire* ParticleFire::create()
@@ -92,13 +91,13 @@ bool ParticleFire::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        this->_emitterMode = kParticleModeGravity;
+        this->_emitterMode = Mode::GRAVITY;
 
         // Gravity Mode: gravity
-        this->modeA.gravity = ccp(0,0);
+        this->modeA.gravity = Point(0,0);
 
         // Gravity Mode: radial acceleration
         this->modeA.radialAccel = 0;
@@ -113,9 +112,9 @@ bool ParticleFire::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 10;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, 60));
-        this->_posVar = ccp(40, 20);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, 60));
+        this->_posVar = Point(40, 20);
 
         // life of particles
         _life = 3;
@@ -125,7 +124,7 @@ bool ParticleFire::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 54.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per frame
         _emissionRate = _totalParticles/_life;
@@ -148,10 +147,10 @@ bool ParticleFire::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
         
         // additive
@@ -197,13 +196,13 @@ bool ParticleFireworks::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration= kParticleDurationInfinity;
+        _duration= DURATION_INFINITY;
 
         // Gravity Mode
-        this->_emitterMode = kParticleModeGravity;
+        this->_emitterMode = Mode::GRAVITY;
 
         // Gravity Mode: gravity
-        this->modeA.gravity = ccp(0,-90);
+        this->modeA.gravity = Point(0,-90);
 
         // Gravity Mode:  radial
         this->modeA.radialAccel = 0;
@@ -214,8 +213,8 @@ bool ParticleFireworks::initWithTotalParticles(unsigned int numberOfParticles)
         this->modeA.speedVar = 50;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
 
         // angle
         this->_angle= 90;
@@ -249,12 +248,12 @@ bool ParticleFireworks::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 8.0f;
         _startSizeVar = 2.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
         // additive
         this->setBlendAdditive(false);
@@ -301,13 +300,13 @@ bool ParticleSun::initWithTotalParticles(unsigned int numberOfParticles)
         this->setBlendAdditive(true);
 
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity mode: radial acceleration
         setRadialAccel(0);
@@ -323,9 +322,9 @@ bool ParticleSun::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 360;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 1;
@@ -334,7 +333,7 @@ bool ParticleSun::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 30.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per seconds
         _emissionRate = _totalParticles/_life;
@@ -357,10 +356,10 @@ bool ParticleSun::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         return true;
@@ -405,13 +404,13 @@ bool ParticleGalaxy::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity Mode: speed of particles
         setSpeed(60);
@@ -430,9 +429,9 @@ bool ParticleGalaxy::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 360;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 4;
@@ -441,7 +440,7 @@ bool ParticleGalaxy::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 37.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = _totalParticles/_life;
@@ -464,10 +463,10 @@ bool ParticleGalaxy::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -514,13 +513,13 @@ bool ParticleFlower::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity Mode: speed of particles
         setSpeed(80);
@@ -539,9 +538,9 @@ bool ParticleFlower::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 360;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 4;
@@ -550,7 +549,7 @@ bool ParticleFlower::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 30.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = _totalParticles/_life;
@@ -573,10 +572,10 @@ bool ParticleFlower::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -622,13 +621,13 @@ bool ParticleMeteor::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(-200,200));
+        setGravity(Point(-200,200));
 
         // Gravity Mode: speed of particles
         setSpeed(15);
@@ -647,9 +646,9 @@ bool ParticleMeteor::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 360;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 2;
@@ -658,7 +657,7 @@ bool ParticleMeteor::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 60.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = _totalParticles/_life;
@@ -681,10 +680,10 @@ bool ParticleMeteor::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -731,13 +730,13 @@ bool ParticleSpiral::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) ) 
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity Mode: speed of particles
         setSpeed(150);
@@ -756,9 +755,9 @@ bool ParticleSpiral::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 0;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 12;
@@ -767,7 +766,7 @@ bool ParticleSpiral::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 20.0f;
         _startSizeVar = 0.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = _totalParticles/_life;
@@ -790,10 +789,10 @@ bool ParticleSpiral::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.5f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -842,10 +841,10 @@ bool ParticleExplosion::initWithTotalParticles(unsigned int numberOfParticles)
         // duration
         _duration = 0.1f;
 
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity Mode: speed of particles
         setSpeed(70);
@@ -864,9 +863,9 @@ bool ParticleExplosion::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 360;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height/2));
-        setPosVar(PointZero);
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height/2));
+        setPosVar(Point::ZERO);
 
         // life of particles
         _life = 5.0f;
@@ -875,7 +874,7 @@ bool ParticleExplosion::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 15.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = _totalParticles/_duration;
@@ -898,10 +897,10 @@ bool ParticleExplosion::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.5f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -948,13 +947,13 @@ bool ParticleSmoke::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // Emitter mode: Gravity Mode
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,0));
+        setGravity(Point(0,0));
 
         // Gravity Mode: radial acceleration
         setRadialAccel(0);
@@ -969,9 +968,9 @@ bool ParticleSmoke::initWithTotalParticles(unsigned int numberOfParticles)
         _angleVar = 5;
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, 0));
-        setPosVar(ccp(20, 0));
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, 0));
+        setPosVar(Point(20, 0));
 
         // life of particles
         _life = 4;
@@ -980,7 +979,7 @@ bool ParticleSmoke::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 60.0f;
         _startSizeVar = 10.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per frame
         _emissionRate = _totalParticles/_life;
@@ -1003,10 +1002,10 @@ bool ParticleSmoke::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -1053,13 +1052,13 @@ bool ParticleSnow::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) ) 
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
         // set gravity mode.
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(0,-1));
+        setGravity(Point(0,-1));
 
         // Gravity Mode: speed of particles
         setSpeed(5);
@@ -1074,9 +1073,9 @@ bool ParticleSnow::initWithTotalParticles(unsigned int numberOfParticles)
         setTangentialAccelVar(1);
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height + 10));
-        setPosVar(ccp(winSize.width/2, 0));
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height + 10));
+        setPosVar(Point(winSize.width/2, 0));
 
         // angle
         _angle = -90;
@@ -1089,7 +1088,7 @@ bool ParticleSnow::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 10.0f;
         _startSizeVar = 5.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = 10;
@@ -1112,10 +1111,10 @@ bool ParticleSnow::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive
@@ -1161,12 +1160,12 @@ bool ParticleRain::initWithTotalParticles(unsigned int numberOfParticles)
     if( ParticleSystemQuad::initWithTotalParticles(numberOfParticles) )
     {
         // duration
-        _duration = kParticleDurationInfinity;
+        _duration = DURATION_INFINITY;
 
-        setEmitterMode(kParticleModeGravity);
+        setEmitterMode(Mode::GRAVITY);
 
         // Gravity Mode: gravity
-        setGravity(ccp(10,-10));
+        setGravity(Point(10,-10));
 
         // Gravity Mode: radial
         setRadialAccel(0);
@@ -1186,9 +1185,9 @@ bool ParticleRain::initWithTotalParticles(unsigned int numberOfParticles)
 
 
         // emitter position
-        Size winSize = Director::sharedDirector()->getWinSize();
-        this->setPosition(ccp(winSize.width/2, winSize.height));
-        setPosVar(ccp(winSize.width/2, 0));
+        Size winSize = Director::getInstance()->getWinSize();
+        this->setPosition(Point(winSize.width/2, winSize.height));
+        setPosVar(Point(winSize.width/2, 0));
 
         // life of particles
         _life = 4.5f;
@@ -1197,7 +1196,7 @@ bool ParticleRain::initWithTotalParticles(unsigned int numberOfParticles)
         // size, in pixels
         _startSize = 4.0f;
         _startSizeVar = 2.0f;
-        _endSize = kParticleStartSizeEqualToEndSize;
+        _endSize = START_SIZE_EQUAL_TO_END_SIZE;
 
         // emits per second
         _emissionRate = 20;
@@ -1220,10 +1219,10 @@ bool ParticleRain::initWithTotalParticles(unsigned int numberOfParticles)
         _endColorVar.b = 0.0f;
         _endColorVar.a = 0.0f;
 
-        Texture2D* pTexture = getDefaultTexture();
-        if (pTexture != NULL)
+        Texture2D* texture = getDefaultTexture();
+        if (texture != NULL)
         {
-            setTexture(pTexture);
+            setTexture(texture);
         }
 
         // additive

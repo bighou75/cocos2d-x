@@ -50,21 +50,21 @@ public:
      *
      * @return The Color3B contains R,G,B bytes.
      */
-    virtual const Color3B& getColor(void) const = 0;
+    virtual const Color3B& getColor() const = 0;
     
     /**
      * Returns the displayed color.
      *
      * @return The Color3B contains R,G,B bytes.
      */
-    virtual const Color3B& getDisplayedColor(void) const = 0;
+    virtual const Color3B& getDisplayedColor() const = 0;
     
     /**
      * Returns the displayed opacity.
      *
      * @return  The opacity of sprite, from 0 ~ 255
      */
-    virtual GLubyte getDisplayedOpacity(void) const = 0;
+    virtual GLubyte getDisplayedOpacity() const = 0;
     /**
      * Returns the opacity.
      *
@@ -73,12 +73,12 @@ public:
      *
      * @return  The opacity of sprite, from 0 ~ 255
      */
-    virtual GLubyte getOpacity(void) const = 0;
+    virtual GLubyte getOpacity() const = 0;
 
     /**
      * Changes the opacity.
      *
-     * @param   value   Goes from 0 to 255, where 255 means fully opaque and 0 means fully transparent.
+     * @param opacity   Goes from 0 to 255, where 255 means fully opaque and 0 means fully transparent.
      */
     virtual void setOpacity(GLubyte opacity) = 0;
 
@@ -89,10 +89,10 @@ public:
      * If thie property is set to true, then the rendered color will be affected by opacity.
      * Normally, r = r * opacity/255, g = g * opacity/255, b = b * opacity/255.
      *
-     * @param   bValue  true then the opacity will be applied as: glColor(R,G,B,opacity);
-     *                  false then the opacity will be applied as: glColor(opacity, opacity, opacity, opacity);
+     * @param value If true, then the opacity will be applied as: glColor(R,G,B,opacity);
+     *              If false, then the opacity will be applied as: glColor(opacity, opacity, opacity, opacity);
      */
-    virtual void setOpacityModifyRGB(bool bValue) = 0;
+    virtual void setOpacityModifyRGB(bool value) = 0;
 
     /**
      * Returns whether or not the opacity will be applied using glColor(R,G,B,opacity) 
@@ -100,12 +100,12 @@ public:
      *
      * @return  Returns opacity modify flag.
      */
-    virtual bool isOpacityModifyRGB(void) const = 0;
+    virtual bool isOpacityModifyRGB() const = 0;
     
     /**
      *  whether or not color should be propagated to its children.
      */
-    virtual bool isCascadeColorEnabled(void) const = 0;
+    virtual bool isCascadeColorEnabled() const = 0;
     virtual void setCascadeColorEnabled(bool cascadeColorEnabled) = 0;
     
     /** 
@@ -116,7 +116,7 @@ public:
     /** 
      *  whether or not opacity should be propagated to its children.
      */
-    virtual bool isCascadeOpacityEnabled(void) const = 0;
+    virtual bool isCascadeOpacityEnabled() const = 0;
     virtual void setCascadeOpacityEnabled(bool cascadeOpacityEnabled) = 0;
     
     /**
@@ -147,7 +147,7 @@ public:
      * 
      * @return A BlendFunc structure with source and destination factor which specified pixel arithmetic.
      */
-    virtual const BlendFunc &getBlendFunc(void) const = 0;
+    virtual const BlendFunc &getBlendFunc() const = 0;
 };
 
 /** 
@@ -167,7 +167,7 @@ public:
      *
      * @return  The texture that is currenlty being used.
      */
-    virtual Texture2D* getTexture(void) = 0;
+    virtual Texture2D* getTexture() const = 0;
 
     /**
      * Sets a new texuture. It will be retained.
@@ -186,7 +186,7 @@ public:
     /**
      * Sets a new label using an string
      *
-     * @param A null terminated string 
+     * @param label A null terminated string
      */
     virtual void setString(const char *label) = 0;
 
@@ -195,7 +195,7 @@ public:
      *
      * @return The string that is currently being used in this label
      */
-    virtual const char* getString(void) const = 0;
+    virtual const char* getString() const = 0;
 };
 
 /** 
@@ -207,7 +207,7 @@ public:
     /** 
      * Will be called by Director when the projection is updated, and "custom" projection is used
      */
-    virtual void updateProjection(void) = 0;
+    virtual void updateProjection() = 0;
 };
 
 NS_CC_END

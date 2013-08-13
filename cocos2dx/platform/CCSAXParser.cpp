@@ -53,14 +53,14 @@ private:
 
 bool XmlSaxHander::VisitEnter( const tinyxml2::XMLElement& element, const tinyxml2::XMLAttribute* firstAttribute )
 {
-	//CCLog(" VisitEnter %s",element.Value());
+	//log(" VisitEnter %s",element.Value());
 
 	std::vector<const char*> attsVector;
 	for( const tinyxml2::XMLAttribute* attrib = firstAttribute; attrib; attrib = attrib->Next() )
 	{
-		//CCLog("%s", attrib->Name());
+		//log("%s", attrib->Name());
 		attsVector.push_back(attrib->Name());
-		//CCLog("%s",attrib->Value());
+		//log("%s",attrib->Value());
 		attsVector.push_back(attrib->Value());
 	}
     
@@ -73,7 +73,7 @@ bool XmlSaxHander::VisitEnter( const tinyxml2::XMLElement& element, const tinyxm
 }
 bool XmlSaxHander::VisitExit( const tinyxml2::XMLElement& element )
 {
-	//CCLog("VisitExit %s",element.Value());
+	//log("VisitExit %s",element.Value());
 
 	SAXParser::endElement(_ccsaxParserImp, (const CC_XML_CHAR *)element.Value());
 	return true;
@@ -81,7 +81,7 @@ bool XmlSaxHander::VisitExit( const tinyxml2::XMLElement& element )
 
 bool XmlSaxHander::Visit( const tinyxml2::XMLText& text )
 {
-	//CCLog("Visit %s",text.Value());
+	//log("Visit %s",text.Value());
 	SAXParser::textHandler(_ccsaxParserImp, (const CC_XML_CHAR *)text.Value(), strlen(text.Value()));
 	return true;
 }
@@ -116,7 +116,7 @@ bool SAXParser::parse(const char *pszFile)
 {
     bool bRet = false;
     unsigned long size = 0;
-    char* pBuffer = (char*)FileUtils::sharedFileUtils()->getFileData(pszFile, "rt", &size);
+    char* pBuffer = (char*)FileUtils::getInstance()->getFileData(pszFile, "rt", &size);
     if (pBuffer != NULL && size > 0)
     {
         bRet = parse(pBuffer, size);

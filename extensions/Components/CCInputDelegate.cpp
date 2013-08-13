@@ -31,7 +31,7 @@ InputDelegate::InputDelegate(void)
 , _accelerometerEnabled(false)
 , _keypadEnabled(false)
 , _touchPriority(0)
-, _touchMode(kTouchesAllAtOnce)
+, _touchMode(Touch::DispatchMode::ALL_AT_ONCE)
 {
 
 }
@@ -94,7 +94,7 @@ void InputDelegate::didAccelerate(Acceleration* pAccelerationValue)
    CC_UNUSED_PARAM(pAccelerationValue);
 }
 
-bool InputDelegate::isTouchEnabled()
+bool InputDelegate::isTouchEnabled() const
 {
     return _touchEnabled;
 }
@@ -106,23 +106,23 @@ void InputDelegate::setTouchEnabled(bool enabled)
         _touchEnabled = enabled;
         if (enabled)
         {
-            if( _touchMode == kTouchesAllAtOnce )
+            if( _touchMode == Touch::DispatchMode::ALL_AT_ONCE )
             {
-                Director::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this, 0);
+                Director::getInstance()->getTouchDispatcher()->addStandardDelegate(this, 0);
             }
             else
             {
-                Director::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, _touchPriority, true);
+                Director::getInstance()->getTouchDispatcher()->addTargetedDelegate(this, _touchPriority, true);
             }
         }
         else
         {
-            Director::sharedDirector()->getTouchDispatcher()->removeDelegate(this);
+            Director::getInstance()->getTouchDispatcher()->removeDelegate(this);
         }
     }
 }
 
-void InputDelegate::setTouchMode(ccTouchesMode mode)
+void InputDelegate::setTouchMode(Touch::DispatchMode mode)
 {
     if(_touchMode != mode)
     {
@@ -150,17 +150,17 @@ void InputDelegate::setTouchPriority(int priority)
     }
 }
 
-int InputDelegate::getTouchPriority()
+int InputDelegate::getTouchPriority() const
 {
     return _touchPriority;
 }
 
-int InputDelegate::getTouchMode()
+Touch::DispatchMode InputDelegate::getTouchMode() const
 {
     return _touchMode;
 }
 
-bool InputDelegate::isAccelerometerEnabled()
+bool InputDelegate::isAccelerometerEnabled() const
 {
     return _accelerometerEnabled;
 }
@@ -171,7 +171,7 @@ void InputDelegate::setAccelerometerEnabled(bool enabled)
     {
         _accelerometerEnabled = enabled;
 
-        Director* pDirector = Director::sharedDirector();
+        Director* pDirector = Director::getInstance();
         if (enabled)
         {
             pDirector->getAccelerometer()->setDelegate(CC_CALLBACK_1(InputDelegate::didAccelerate, this));
@@ -183,7 +183,7 @@ void InputDelegate::setAccelerometerEnabled(bool enabled)
     }
 }
 
-bool InputDelegate::isKeypadEnabled()
+bool InputDelegate::isKeypadEnabled() const
 {
     return _keypadEnabled;
 }
@@ -194,7 +194,7 @@ void InputDelegate::setKeypadEnabled(bool enabled)
     {
         _keypadEnabled = enabled;
 
-        Director* pDirector = Director::sharedDirector();
+        Director* pDirector = Director::getInstance();
         if (enabled)
         {
             pDirector->getKeypadDispatcher()->addDelegate(this);

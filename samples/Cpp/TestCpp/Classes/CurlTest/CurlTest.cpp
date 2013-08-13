@@ -7,7 +7,7 @@ CurlTest::CurlTest()
 {
     LabelTTF* label = LabelTTF::create("Curl Test", "Arial", 28);
     addChild(label, 0);
-    label->setPosition( ccp(VisibleRect::center().x, VisibleRect::top().y-50) );
+    label->setPosition( Point(VisibleRect::center().x, VisibleRect::top().y-50) );
 
     setTouchEnabled(true);
 
@@ -22,7 +22,7 @@ CurlTest::CurlTest()
 
 // the test code is
 // http://curl.haxx.se/mail/lib-2009-12/0071.html
-void CurlTest::ccTouchesEnded(Set *pTouches, Event *pEvent)
+void CurlTest::ccTouchesEnded(Set  *touches, Event  *event)
 {
     CURL *curl;
     CURLcode res;
@@ -58,9 +58,9 @@ CurlTest::~CurlTest()
 
 void CurlTestScene::runThisTest()
 {
-    Layer* pLayer = new CurlTest();
-    addChild(pLayer);
+    Layer* layer = new CurlTest();
+    addChild(layer);
 
-    Director::sharedDirector()->replaceScene(this);
-    pLayer->release();
+    Director::getInstance()->replaceScene(this);
+    layer->release();
 }

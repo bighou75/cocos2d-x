@@ -30,7 +30,7 @@ TileMapTest::TileMapTest()
     
     addChild(map, 0, kTagTileMap);
     
-    map->setAnchorPoint( ccp(0, 0.5f) );
+    map->setAnchorPoint( Point(0, 0.5f) );
 
     ScaleBy *scale = ScaleBy::create(4, 0.8f);
     ActionInterval *scaleBack = scale->reverse();
@@ -66,8 +66,8 @@ TileMapEditTest::TileMapEditTest()
     
     addChild(map, 0, kTagTileMap);
     
-    map->setAnchorPoint( ccp(0, 0) );
-    map->setPosition( ccp(-20,-200) );
+    map->setAnchorPoint( Point(0, 0) );
+    map->setPosition( Point(-20,-200) );
 }
 
 void TileMapEditTest::updateMap(float dt)
@@ -84,7 +84,7 @@ void TileMapEditTest::updateMap(float dt)
     // over all your tiles in every frame. It's very expensive
     //    for(int x=0; x < tilemap.tgaInfo->width; x++) {
     //        for(int y=0; y < tilemap.tgaInfo->height; y++) {
-    //            Color3B c =[tilemap tileAt:CCSizeMake(x,y));
+    //            Color3B c =[tilemap tileAt:Size(x,y));
     //            if( c.r != 0 ) {
     //                ////----CCLOG("%d,%d = %d", x,y,c.r);
     //            }
@@ -92,14 +92,14 @@ void TileMapEditTest::updateMap(float dt)
     //    }
     
     // NEW since v0.7
-    Color3B c = tilemap->tileAt(ccp(13,21));        
+    Color3B c = tilemap->getTileAt(Point(13,21));        
     c.r++;
     c.r %= 50;
     if( c.r==0)
         c.r=1;
     
     // NEW since v0.7
-    tilemap->setTile(c, ccp(13,21) );             
+    tilemap->setTile(c, Point(13,21) );             
 }
 
 std::string TileMapEditTest::title()
@@ -150,12 +150,12 @@ void TMXOrthoTest::onEnter()
 {
     TileDemo::onEnter();
 
-    Director::sharedDirector()->setProjection(kDirectorProjection3D);
+    Director::getInstance()->setProjection(Director::Projection::_3D);
 }
 
 void TMXOrthoTest::onExit()
 {
-    Director::sharedDirector()->setProjection(kDirectorProjection2D);
+    Director::getInstance()->setProjection(Director::Projection::_2D);
     TileDemo::onExit();
 }
 
@@ -225,7 +225,7 @@ TMXOrthoTest3::TMXOrthoTest3()
     }
     
     map->setScale(0.2f);
-    map->setAnchorPoint( ccp(0.5f, 0.5f) );
+    map->setAnchorPoint( Point(0.5f, 0.5f) );
 }
 
 std::string TMXOrthoTest3::title()
@@ -259,19 +259,19 @@ TMXOrthoTest4::TMXOrthoTest4()
         child->getTexture()->setAntiAliasTexParameters();
     }
     
-    map->setAnchorPoint(ccp(0, 0));
+    map->setAnchorPoint(Point(0, 0));
 
-    TMXLayer* layer = map->layerNamed("Layer 0");
+    auto layer = map->getLayer("Layer 0");
     Size s = layer->getLayerSize();
     
     Sprite* sprite;
-    sprite = layer->tileAt(ccp(0,0));
+    sprite = layer->getTileAt(Point(0,0));
     sprite->setScale(2);
-    sprite = layer->tileAt(ccp(s.width-1,0));
+    sprite = layer->getTileAt(Point(s.width-1,0));
     sprite->setScale(2);
-    sprite = layer->tileAt(ccp(0,s.height-1));
+    sprite = layer->getTileAt(Point(0,s.height-1));
     sprite->setScale(2);
-    sprite = layer->tileAt(ccp(s.width-1,s.height-1));
+    sprite = layer->getTileAt(Point(s.width-1,s.height-1));
     sprite->setScale(2);
 
     schedule( schedule_selector(TMXOrthoTest4::removeSprite), 2 );
@@ -282,11 +282,11 @@ void TMXOrthoTest4::removeSprite(float dt)
 {
     unschedule(schedule_selector(TMXOrthoTest4::removeSprite));
 
-    TMXTiledMap *map = (TMXTiledMap*)getChildByTag(kTagTileMap);
-    TMXLayer* layer = map->layerNamed("Layer 0");
+    auto map = static_cast<TMXTiledMap*>( getChildByTag(kTagTileMap) );
+    auto layer = map->getLayer("Layer 0");
     Size s = layer->getLayerSize();
 
-    Sprite* sprite = layer->tileAt( ccp(s.width-1,0) );
+    Sprite* sprite = layer->getTileAt( Point(s.width-1,0) );
     layer->removeChild(sprite, true);
 }
 
@@ -318,27 +318,27 @@ TMXReadWriteTest::TMXReadWriteTest()
     CCLOG("ContentSize: %f, %f", s.width,s.height);
 
     
-    TMXLayer* layer = map->layerNamed("Layer 0");
+    TMXLayer* layer = map->getLayer("Layer 0");
     layer->getTexture()->setAntiAliasTexParameters();
 
     map->setScale( 1 );
 
-    Sprite *tile0 = layer->tileAt(ccp(1,63));
-    Sprite *tile1 = layer->tileAt(ccp(2,63));
-    Sprite *tile2 = layer->tileAt(ccp(3,62));//ccp(1,62));
-    Sprite *tile3 = layer->tileAt(ccp(2,62));
-    tile0->setAnchorPoint( ccp(0.5f, 0.5f) );
-    tile1->setAnchorPoint( ccp(0.5f, 0.5f) );
-    tile2->setAnchorPoint( ccp(0.5f, 0.5f) );
-    tile3->setAnchorPoint( ccp(0.5f, 0.5f) );
+    Sprite *tile0 = layer->getTileAt(Point(1,63));
+    Sprite *tile1 = layer->getTileAt(Point(2,63));
+    Sprite *tile2 = layer->getTileAt(Point(3,62));//Point(1,62));
+    Sprite *tile3 = layer->getTileAt(Point(2,62));
+    tile0->setAnchorPoint( Point(0.5f, 0.5f) );
+    tile1->setAnchorPoint( Point(0.5f, 0.5f) );
+    tile2->setAnchorPoint( Point(0.5f, 0.5f) );
+    tile3->setAnchorPoint( Point(0.5f, 0.5f) );
 
-    ActionInterval* move = MoveBy::create(0.5f, ccp(0,160));
+    ActionInterval* move = MoveBy::create(0.5f, Point(0,160));
     ActionInterval* rotate = RotateBy::create(2, 360);
     ActionInterval* scale = ScaleBy::create(2, 5);
     ActionInterval* opacity = FadeOut::create(2);
     ActionInterval* fadein = FadeIn::create(2);
     ActionInterval* scaleback = ScaleTo::create(1, 1);
-    ActionInstant* finish = CallFuncN::create(this, callfuncN_selector(TMXReadWriteTest::removeSprite));
+    ActionInstant* finish = CallFuncN::create(CC_CALLBACK_1(TMXReadWriteTest::removeSprite, this));
     Sequence* seq0 = Sequence::create(move, rotate, scale, opacity, fadein, scaleback, finish, NULL);
     ActionInterval* seq1 = seq0->clone();
     ActionInterval* seq2 = seq0->clone();
@@ -350,7 +350,7 @@ TMXReadWriteTest::TMXReadWriteTest()
     tile3->runAction(seq3);
     
     
-    _gid = layer->tileGIDAt(ccp(0,63));
+    _gid = layer->getTileGIDAt(Point(0,63));
     ////----CCLOG("Tile GID at:(0,63) is: %d", _gid);
 
     schedule(schedule_selector(TMXReadWriteTest::updateCol), 2.0f); 
@@ -389,7 +389,7 @@ void TMXReadWriteTest::updateCol(float dt)
 
     for( int y=0; y< s.height; y++ ) 
     {
-        layer->setTileGID(_gid2, ccp((float)3, (float)y));
+        layer->setTileGID(_gid2, Point((float)3, (float)y));
     }
     
     _gid2 = (_gid2 + 1) % 80;
@@ -406,8 +406,8 @@ void TMXReadWriteTest::repaintWithGID(float dt)
     for( int x=0; x<s.width;x++) 
     {
         int y = (int)s.height-1;
-        unsigned int tmpgid = layer->tileGIDAt( ccp((float)x, (float)y) );
-        layer->setTileGID(tmpgid+1, ccp((float)x, (float)y));
+        unsigned int tmpgid = layer->getTileGIDAt( Point((float)x, (float)y) );
+        layer->setTileGID(tmpgid+1, Point((float)x, (float)y));
     }
 }
 
@@ -421,7 +421,7 @@ void TMXReadWriteTest::removeTiles(float dt)
 
     for( int y=0; y< s.height; y++ ) 
     {
-        layer->removeTileAt( ccp(5.0, (float)y) );
+        layer->removeTileAt( Point(5.0, (float)y) );
     }
 }
 
@@ -470,7 +470,7 @@ TMXIsoTest::TMXIsoTest()
     // move map to the center of the screen
     Size ms = map->getMapSize();
     Size ts = map->getTileSize();
-    map->runAction( MoveTo::create(1.0f, ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 )) ); 
+    map->runAction( MoveTo::create(1.0f, Point( -ms.width * ts.width/2, -ms.height * ts.height/2 )) ); 
 }
 
 std::string TMXIsoTest::title()
@@ -494,7 +494,7 @@ TMXIsoTest1::TMXIsoTest1()
     Size CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
     
-    map->setAnchorPoint(ccp(0.5f, 0.5f));
+    map->setAnchorPoint(Point(0.5f, 0.5f));
 }
 
 std::string TMXIsoTest1::title()
@@ -521,7 +521,7 @@ TMXIsoTest2::TMXIsoTest2()
     // move map to the center of the screen
     Size ms = map->getMapSize();
     Size ts = map->getTileSize();
-    map->runAction( MoveTo::create(1.0f, ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
+    map->runAction( MoveTo::create(1.0f, Point( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
 }
 
 std::string TMXIsoTest2::title()
@@ -548,7 +548,7 @@ TMXUncompressedTest::TMXUncompressedTest()
     // move map to the center of the screen
     Size ms = map->getMapSize();
     Size ts = map->getTileSize();
-    map->runAction(MoveTo::create(1.0f, ccp( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
+    map->runAction(MoveTo::create(1.0f, Point( -ms.width * ts.width/2, -ms.height * ts.height/2 ) ));
     
     // testing release map
     Array* pChildrenArray = map->getChildren();
@@ -585,13 +585,13 @@ TMXTilesetTest::TMXTilesetTest()
     CCLOG("ContentSize: %f, %f", s.width,s.height);
     
     TMXLayer* layer;
-    layer = map->layerNamed("Layer 0");
+    layer = map->getLayer("Layer 0");
     layer->getTexture()->setAntiAliasTexParameters();
     
-    layer = map->layerNamed("Layer 1");
+    layer = map->getLayer("Layer 1");
     layer->getTexture()->setAntiAliasTexParameters();
 
-    layer = map->layerNamed("Layer 2");
+    layer = map->getLayer("Layer 2");
     layer->getTexture()->setAntiAliasTexParameters();
 }
 
@@ -614,7 +614,7 @@ TMXOrthoObjectsTest::TMXOrthoObjectsTest()
     CCLOG("ContentSize: %f, %f", s.width,s.height);
     
     ////----CCLOG("----> Iterating over all the group objets");
-    TMXObjectGroup* group = map->objectGroupNamed("Object Group 1");
+    auto group = map->getObjectGroup("Object Group 1");
     Array* objects = group->getObjects();
 
     Dictionary* dict = NULL;
@@ -636,8 +636,8 @@ TMXOrthoObjectsTest::TMXOrthoObjectsTest()
 
 void TMXOrthoObjectsTest::draw()
 {
-    TMXTiledMap* map = (TMXTiledMap*) getChildByTag(kTagTileMap);
-    TMXObjectGroup* group = map->objectGroupNamed("Object Group 1");
+    auto map = static_cast<TMXTiledMap*>( getChildByTag(kTagTileMap) );
+    auto group = map->getObjectGroup("Object Group 1");
 
     Array* objects = group->getObjects();
     Dictionary* dict = NULL;
@@ -659,10 +659,10 @@ void TMXOrthoObjectsTest::draw()
         
         glLineWidth(3);
         
-        ccDrawLine( ccp((float)x, (float)y), ccp((float)(x+width), (float)y) );
-        ccDrawLine( ccp((float)(x+width), (float)y), ccp((float)(x+width), (float)(y+height)) );
-        ccDrawLine( ccp((float)(x+width), (float)(y+height)), ccp((float)x, (float)(y+height)) );
-        ccDrawLine( ccp((float)x, (float)(y+height)), ccp((float)x, (float)y) );
+        DrawPrimitives::drawLine( Point((float)x, (float)y), Point((float)(x+width), (float)y) );
+        DrawPrimitives::drawLine( Point((float)(x+width), (float)y), Point((float)(x+width), (float)(y+height)) );
+        DrawPrimitives::drawLine( Point((float)(x+width), (float)(y+height)), Point((float)x, (float)(y+height)) );
+        DrawPrimitives::drawLine( Point((float)x, (float)(y+height)), Point((float)x, (float)y) );
         
         glLineWidth(1);
     }
@@ -693,7 +693,7 @@ TMXIsoObjectsTest::TMXIsoObjectsTest()
     Size CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
 
-    TMXObjectGroup* group = map->objectGroupNamed("Object Group 1");
+    TMXObjectGroup* group = map->getObjectGroup("Object Group 1");
 
     //UxMutableArray* objects = group->objects();
     Array* objects = group->getObjects();
@@ -714,7 +714,7 @@ TMXIsoObjectsTest::TMXIsoObjectsTest()
 void TMXIsoObjectsTest::draw()
 {
     TMXTiledMap *map = (TMXTiledMap*) getChildByTag(kTagTileMap);
-    TMXObjectGroup *group = map->objectGroupNamed("Object Group 1");
+    TMXObjectGroup *group = map->getObjectGroup("Object Group 1");
 
     Array* objects = group->getObjects();
     Dictionary* dict;
@@ -736,10 +736,10 @@ void TMXIsoObjectsTest::draw()
         
         glLineWidth(3);
         
-        ccDrawLine( ccp(x,y), ccp(x+width,y) );
-        ccDrawLine( ccp(x+width,y), ccp(x+width,y+height) );
-        ccDrawLine( ccp(x+width,y+height), ccp(x,y+height) );
-        ccDrawLine( ccp(x,y+height), ccp(x,y) );
+        DrawPrimitives::drawLine( Point(x,y), Point(x+width,y) );
+        DrawPrimitives::drawLine( Point(x+width,y), Point(x+width,y+height) );
+        DrawPrimitives::drawLine( Point(x+width,y+height), Point(x,y+height) );
+        DrawPrimitives::drawLine( Point(x,y+height), Point(x,y) );
         
         glLineWidth(1);
     }
@@ -771,14 +771,14 @@ TMXResizeTest::TMXResizeTest()
     CCLOG("ContentSize: %f, %f", s.width,s.height);
 
     TMXLayer* layer;
-    layer = map->layerNamed("Layer 0");
+    layer = map->getLayer("Layer 0");
 
     Size ls = layer->getLayerSize();
     for (unsigned int y = 0; y < ls.height; y++) 
     {
         for (unsigned int x = 0; x < ls.width; x++) 
         {
-            layer->setTileGID(1, ccp( x, y ) );
+            layer->setTileGID(1, Point( x, y ) );
         }
     }        
 }
@@ -806,17 +806,17 @@ TMXIsoZorder::TMXIsoZorder()
 
     Size s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
-    map->setPosition(ccp(-s.width/2,0));
+    map->setPosition(Point(-s.width/2,0));
     
-    _tamara = Sprite::create(s_pPathSister1);
+    _tamara = Sprite::create(s_pathSister1);
     map->addChild(_tamara, map->getChildren()->count() );
     _tamara->retain();
     int mapWidth = map->getMapSize().width * map->getTileSize().width;
-    _tamara->setPosition(CC_POINT_PIXELS_TO_POINTS(ccp( mapWidth/2,0)));
-    _tamara->setAnchorPoint(ccp(0.5f,0));
+    _tamara->setPosition(CC_POINT_PIXELS_TO_POINTS(Point( mapWidth/2,0)));
+    _tamara->setAnchorPoint(Point(0.5f,0));
 
     
-    ActionInterval* move = MoveBy::create(10, ccp(300,250));
+    ActionInterval* move = MoveBy::create(10, Point(300,250));
     ActionInterval* back = move->reverse();
     Sequence* seq = Sequence::create(move, back,NULL);
     _tamara->runAction( RepeatForever::create(seq) );
@@ -876,13 +876,13 @@ TMXOrthoZorder::TMXOrthoZorder()
     Size CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
     
-    _tamara = Sprite::create(s_pPathSister1);
+    _tamara = Sprite::create(s_pathSister1);
     map->addChild(_tamara,  map->getChildren()->count());
     _tamara->retain();
-    _tamara->setAnchorPoint(ccp(0.5f,0));
+    _tamara->setAnchorPoint(Point(0.5f,0));
 
     
-    ActionInterval* move = MoveBy::create(10, ccp(400,450));
+    ActionInterval* move = MoveBy::create(10, Point(400,450));
     ActionInterval* back = move->reverse();
     Sequence* seq = Sequence::create(move, back,NULL);
     _tamara->runAction( RepeatForever::create(seq));
@@ -935,16 +935,16 @@ TMXIsoVertexZ::TMXIsoVertexZ()
     addChild(map, 0, kTagTileMap);
     
     Size s = map->getContentSize();
-    map->setPosition( ccp(-s.width/2,0) );
+    map->setPosition( Point(-s.width/2,0) );
     CCLOG("ContentSize: %f, %f", s.width,s.height);
     
     // because I'm lazy, I'm reusing a tile as an sprite, but since this method uses vertexZ, you
     // can use any Sprite and it will work OK.
-    TMXLayer* layer = map->layerNamed("Trees");
-    _tamara = layer->tileAt( ccp(29,29) );
+    TMXLayer* layer = map->getLayer("Trees");
+    _tamara = layer->getTileAt( Point(29,29) );
     _tamara->retain();
     
-    ActionInterval* move = MoveBy::create(10, ccpMult( ccp(300,250), 1/CC_CONTENT_SCALE_FACTOR() ) );
+    ActionInterval* move = MoveBy::create(10, Point(300,250) * (1/CC_CONTENT_SCALE_FACTOR()));
     ActionInterval* back = move->reverse();
     Sequence* seq = Sequence::create(move, back,NULL);
     _tamara->runAction( RepeatForever::create(seq) );
@@ -973,13 +973,13 @@ void TMXIsoVertexZ::onEnter()
     TileDemo::onEnter();
     
     // TIP: 2d projection should be used
-    Director::sharedDirector()->setProjection(kDirectorProjection2D);
+    Director::getInstance()->setProjection(Director::Projection::_2D);
 }
 
 void TMXIsoVertexZ::onExit()
 {
     // At exit use any other projection. 
-    //    Director::sharedDirector()->setProjection:kDirectorProjection3D);
+    //    Director::getInstance()->setProjection:Director::Projection::_3D);
     TileDemo::onExit();
 }
 
@@ -1009,12 +1009,12 @@ TMXOrthoVertexZ::TMXOrthoVertexZ()
     
     // because I'm lazy, I'm reusing a tile as an sprite, but since this method uses vertexZ, you
     // can use any Sprite and it will work OK.
-    TMXLayer* layer = map->layerNamed("trees");
-    _tamara = layer->tileAt(ccp(0,11));
+    TMXLayer* layer = map->getLayer("trees");
+    _tamara = layer->getTileAt(Point(0,11));
     CCLOG("%p vertexZ: %f", _tamara, _tamara->getVertexZ());
     _tamara->retain();
 
-    ActionInterval* move = MoveBy::create(10, ccpMult( ccp(400,450), 1/CC_CONTENT_SCALE_FACTOR()));
+    ActionInterval* move = MoveBy::create(10, Point(400,450) * (1/CC_CONTENT_SCALE_FACTOR()));
     ActionInterval* back = move->reverse();
     Sequence* seq = Sequence::create(move, back,NULL);
     _tamara->runAction( RepeatForever::create(seq));
@@ -1042,13 +1042,13 @@ void TMXOrthoVertexZ::onEnter()
     TileDemo::onEnter();
     
     // TIP: 2d projection should be used
-    Director::sharedDirector()->setProjection(kDirectorProjection2D);
+    Director::getInstance()->setProjection(Director::Projection::_2D);
 }
 
 void TMXOrthoVertexZ::onExit()
 {
     // At exit use any other projection. 
-    //    Director::sharedDirector()->setProjection:kDirectorProjection3D);
+    //    Director::getInstance()->setProjection:Director::Projection::_3D);
     TileDemo::onExit();
 }
 
@@ -1073,7 +1073,7 @@ TMXIsoMoveLayer::TMXIsoMoveLayer()
     TMXTiledMap* map = TMXTiledMap::create("TileMaps/iso-test-movelayer.tmx");
     addChild(map, 0, kTagTileMap);
     
-    map->setPosition(ccp(-700,-50));
+    map->setPosition(Point(-700,-50));
 
     Size CC_UNUSED s = map->getContentSize();
     CCLOG("ContentSize: %f, %f", s.width,s.height);
@@ -1126,7 +1126,7 @@ TMXTilePropertyTest::TMXTilePropertyTest()
     addChild(map ,0 ,kTagTileMap);
 
     for(int i=1;i<=20;i++){
-        CCLog("GID:%i, Properties:%p", i, map->propertiesForGID(i));
+        log("GID:%i, Properties:%p", i, map->getPropertiesForGID(i));
     }
 }
 
@@ -1152,7 +1152,7 @@ TMXOrthoFlipTest::TMXOrthoFlipTest()
     addChild(map, 0, kTagTileMap);
 
     Size CC_UNUSED s = map->getContentSize();
-    CCLog("ContentSize: %f, %f", s.width,s.height);
+    log("ContentSize: %f, %f", s.width,s.height);
 
     Object* pObj = NULL;
     CCARRAY_FOREACH(map->getChildren(), pObj)
@@ -1182,7 +1182,7 @@ TMXOrthoFlipRunTimeTest::TMXOrthoFlipRunTimeTest()
     addChild(map, 0, kTagTileMap);
 
     Size s = map->getContentSize();
-    CCLog("ContentSize: %f, %f", s.width,s.height);
+    log("ContentSize: %f, %f", s.width,s.height);
 
     Object* pObj = NULL;
     CCARRAY_FOREACH(map->getChildren(), pObj)
@@ -1210,12 +1210,12 @@ std::string TMXOrthoFlipRunTimeTest::subtitle()
 void TMXOrthoFlipRunTimeTest::flipIt(float dt)
 {
     TMXTiledMap *map = (TMXTiledMap*) getChildByTag(kTagTileMap); 
-    TMXLayer *layer = map->layerNamed("Layer 0"); 
+    TMXLayer *layer = map->getLayer("Layer 0");
 
     //blue diamond 
-    Point tileCoord = ccp(1,10);
+    Point tileCoord = Point(1,10);
     int flags;
-    unsigned int GID = layer->tileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
+    unsigned int GID = layer->getTileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
     // Vertical
     if( flags & kTMXTileVerticalFlag )
         flags &= ~kTMXTileVerticalFlag;
@@ -1224,8 +1224,8 @@ void TMXOrthoFlipRunTimeTest::flipIt(float dt)
     layer->setTileGID(GID ,tileCoord, (ccTMXTileFlags)flags);
 
 
-    tileCoord = ccp(1,8);    
-    GID = layer->tileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
+    tileCoord = Point(1,8);    
+    GID = layer->getTileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
     // Vertical
     if( flags & kTMXTileVerticalFlag )
         flags &= ~kTMXTileVerticalFlag;
@@ -1234,8 +1234,8 @@ void TMXOrthoFlipRunTimeTest::flipIt(float dt)
     layer->setTileGID(GID ,tileCoord, (ccTMXTileFlags)flags);
 
 
-    tileCoord = ccp(2,8);
-    GID = layer->tileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
+    tileCoord = Point(2,8);
+    GID = layer->getTileGIDAt(tileCoord, (ccTMXTileFlags*)&flags);
     // Horizontal
     if( flags & kTMXTileHorizontalFlag )
         flags &= ~kTMXTileHorizontalFlag;
@@ -1254,14 +1254,14 @@ TMXOrthoFromXMLTest::TMXOrthoFromXMLTest()
     string resources = "TileMaps";        // partial paths are OK as resource paths.
     string file = resources + "/orthogonal-test1.tmx";
 
-    String* str = String::createWithContentsOfFile(FileUtils::sharedFileUtils()->fullPathForFilename(file.c_str()).c_str());
-    CCAssert(str != NULL, "Unable to open file");
+    String* str = String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename(file.c_str()).c_str());
+    CCASSERT(str != NULL, "Unable to open file");
 
     TMXTiledMap *map = TMXTiledMap::createWithXML(str->getCString() ,resources.c_str());
     addChild(map, 0, kTagTileMap);
 
     Size s = map->getContentSize();
-    CCLog("ContentSize: %f, %f", s.width,s.height);
+    log("ContentSize: %f, %f", s.width,s.height);
 
     Object* pObj = NULL;
     CCARRAY_FOREACH(map->getChildren(), pObj)
@@ -1293,18 +1293,18 @@ TMXBug987::TMXBug987()
     CCLOG("ContentSize: %f, %f", s1.width,s1.height);
 
     Array* childs = map->getChildren();
-    TMXLayer* pNode;
+    TMXLayer* node;
     Object* pObject = NULL;
     CCARRAY_FOREACH(childs, pObject)
     {
-        pNode = static_cast<TMXLayer*>(pObject);
-        CC_BREAK_IF(!pNode);
-        pNode->getTexture()->setAntiAliasTexParameters();
+        node = static_cast<TMXLayer*>(pObject);
+        CC_BREAK_IF(!node);
+        node->getTexture()->setAntiAliasTexParameters();
     }
 
-    map->setAnchorPoint(ccp(0, 0));
-    TMXLayer *layer = map->layerNamed("Tile Layer 1");
-    layer->setTileGID(3, ccp(2,2));
+    map->setAnchorPoint(Point(0, 0));
+    TMXLayer *layer = map->getLayer("Tile Layer 1");
+    layer->setTileGID(3, Point(2,2));
 }
 
 std::string TMXBug987::title()
@@ -1357,7 +1357,7 @@ static int sceneIdx = -1;
 
 #define MAX_LAYER    28
 
-Layer* createTileMapLayer(int nIndex)
+Layer* createTileMalayer(int nIndex)
 {
     switch(nIndex)
     {
@@ -1399,10 +1399,10 @@ Layer* nextTileMapAction()
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
 
-    Layer* pLayer = createTileMapLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createTileMalayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 Layer* backTileMapAction()
@@ -1412,18 +1412,18 @@ Layer* backTileMapAction()
     if( sceneIdx < 0 )
         sceneIdx += total;    
     
-    Layer* pLayer = createTileMapLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createTileMalayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 Layer* restartTileMapAction()
 {
-    Layer* pLayer = createTileMapLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createTileMalayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 } 
 
 
@@ -1452,52 +1452,52 @@ void TileDemo::onEnter()
     BaseTest::onEnter();
 }
 
-void TileDemo::restartCallback(Object* pSender)
+void TileDemo::restartCallback(Object* sender)
 {
     Scene* s = new TileMapTestScene();
     s->addChild(restartTileMapAction()); 
 
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void TileDemo::nextCallback(Object* pSender)
+void TileDemo::nextCallback(Object* sender)
 {
     Scene* s = new TileMapTestScene();
     s->addChild( nextTileMapAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void TileDemo::backCallback(Object* pSender)
+void TileDemo::backCallback(Object* sender)
 {
     Scene* s = new TileMapTestScene();
     s->addChild( backTileMapAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 } 
 
-void TileDemo::ccTouchesMoved(Set *pTouches, Event *pEvent)
+void TileDemo::ccTouchesMoved(Set  *touches, Event  *event)
 {
-    Touch *touch = (Touch*)pTouches->anyObject();
+    Touch *touch = static_cast<Touch*>(touches->anyObject());
     
     Point diff = touch->getDelta();
     Node *node = getChildByTag(kTagTileMap);
     Point currentPos = node->getPosition();
-    node->setPosition( ccpAdd(currentPos, diff) );
+    node->setPosition(currentPos + diff);
 }
 
 void TileMapTestScene::runThisTest()
 {
-    Layer* pLayer = nextTileMapAction();
-    addChild(pLayer);
+    Layer* layer = nextTileMapAction();
+    addChild(layer);
 
     // fix bug #486, #419. 
     // "test" is the default value in Director::setGLDefaultValues()
     // but TransitionTest may setDepthTest(false), we should revert it here
-    Director::sharedDirector()->setDepthTest(true);
+    Director::getInstance()->setDepthTest(true);
     
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }
 
 TMXGIDObjectsTest::TMXGIDObjectsTest()
@@ -1516,7 +1516,7 @@ TMXGIDObjectsTest::TMXGIDObjectsTest()
 void TMXGIDObjectsTest::draw()
 {
     TMXTiledMap *map = (TMXTiledMap*)getChildByTag(kTagTileMap);
-    TMXObjectGroup *group = map->objectGroupNamed("Object Layer 1");
+    TMXObjectGroup *group = map->getObjectGroup("Object Layer 1");
 
     Array *array = group->getObjects();
     Dictionary* dict;
@@ -1540,10 +1540,10 @@ void TMXGIDObjectsTest::draw()
 
         glLineWidth(3);
 
-        ccDrawLine(ccp(x, y), ccp(x + width, y));
-        ccDrawLine(ccp(x + width, y), ccp(x + width, y + height));
-        ccDrawLine(ccp(x + width,y + height), ccp(x,y + height));
-        ccDrawLine(ccp(x,y + height), ccp(x,y));
+        DrawPrimitives::drawLine(Point(x, y), Point(x + width, y));
+        DrawPrimitives::drawLine(Point(x + width, y), Point(x + width, y + height));
+        DrawPrimitives::drawLine(Point(x + width,y + height), Point(x,y + height));
+        DrawPrimitives::drawLine(Point(x,y + height), Point(x,y));
 
         glLineWidth(1);
     }

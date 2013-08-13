@@ -9,12 +9,17 @@ using namespace std;
 
 NS_CC_BEGIN
 
-FileUtils* FileUtils::sharedFileUtils()
+FileUtils* FileUtils::getInstance()
 {
     if (s_sharedFileUtils == NULL)
     {
         s_sharedFileUtils = new FileUtilsEmscripten();
-        s_sharedFileUtils->init();
+        if(!s_sharedFileUtils->init())
+        {
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = NULL;
+          CCLOG("ERROR: Could not init CCFileUtilsEmscripten");
+        }
     }
     return s_sharedFileUtils;
 }
@@ -24,7 +29,7 @@ FileUtilsEmscripten::FileUtilsEmscripten()
 
 bool FileUtilsEmscripten::init()
 {
-    _defaultResRootPath = "app/native/Resources/";
+    _defaultResRootPath = "/";
     return FileUtils::init();
 }
 

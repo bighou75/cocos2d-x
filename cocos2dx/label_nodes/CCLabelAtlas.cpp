@@ -26,7 +26,6 @@ THE SOFTWARE.
 #include "CCLabelAtlas.h"
 #include "textures/CCTextureAtlas.h"
 #include "textures/CCTextureCache.h"
-#include "support/CCPointExtension.h"
 #include "draw_nodes/CCDrawingPrimitives.h"
 #include "ccConfig.h"
 #include "shaders/CCShaderCache.h"
@@ -57,13 +56,13 @@ LabelAtlas* LabelAtlas::create(const char *string, const char *charMapFile, unsi
 
 bool LabelAtlas::initWithString(const char *string, const char *charMapFile, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap)
 {
-    Texture2D *texture = TextureCache::sharedTextureCache()->addImage(charMapFile);
+    Texture2D *texture = TextureCache::getInstance()->addImage(charMapFile);
 	return initWithString(string, texture, itemWidth, itemHeight, startCharMap);
 }
 
 bool LabelAtlas::initWithString(const char *string, Texture2D* texture, unsigned int itemWidth, unsigned int itemHeight, unsigned int startCharMap)
 {
-    CCAssert(string != NULL, "");
+    CCASSERT(string != NULL, "");
     if (AtlasNode::initWithTexture(texture, itemWidth, itemHeight, strlen(string)))
     {
         _mapStartChar = startCharMap;
@@ -93,11 +92,11 @@ LabelAtlas* LabelAtlas::create(const char *string, const char *fntFile)
 
 bool LabelAtlas::initWithString(const char *theString, const char *fntFile)
 {
-  std::string pathStr = FileUtils::sharedFileUtils()->fullPathForFilename(fntFile);
+  std::string pathStr = FileUtils::getInstance()->fullPathForFilename(fntFile);
   std::string relPathStr = pathStr.substr(0, pathStr.find_last_of("/"))+"/";
   Dictionary *dict = Dictionary::createWithContentsOfFile(pathStr.c_str());
   
-  CCAssert(((String*)dict->objectForKey("version"))->intValue() == 1, "Unsupported version. Upgrade cocos2d version");
+  CCASSERT(((String*)dict->objectForKey("version"))->intValue() == 1, "Unsupported version. Upgrade cocos2d version");
     
   std::string texturePathStr = relPathStr + ((String*)dict->objectForKey("textureFilename"))->getCString();
   String *textureFilename = String::create(texturePathStr);
@@ -114,7 +113,7 @@ bool LabelAtlas::initWithString(const char *theString, const char *fntFile)
 //CCLabelAtlas - Atlas generation
 void LabelAtlas::updateAtlasValues()
 {
-    unsigned int n = _string.length();
+    int n = _string.length();
 
     const unsigned char *s = (unsigned char*)_string.c_str();
 
@@ -129,9 +128,9 @@ void LabelAtlas::updateAtlasValues()
         itemHeightInPixels = _itemHeight;
     }
 
-    CCAssert( n <= _textureAtlas->getCapacity(), "updateAtlasValues: Invalid String length");
+    CCASSERT( n <= _textureAtlas->getCapacity(), "updateAtlasValues: Invalid String length");
     V3F_C4B_T2F_Quad* quads = _textureAtlas->getQuads();
-    for(unsigned int i = 0; i < n; i++) {
+    for(int i = 0; i < n; i++) {
 
         unsigned char a = s[i] - _mapStartChar;
         float row = (float) (a % _itemsPerRow);
@@ -179,7 +178,7 @@ void LabelAtlas::updateAtlasValues()
     }
     if (n > 0 ){
         _textureAtlas->setDirty(true);
-        unsigned int totalQuads = _textureAtlas->getTotalQuads();
+        int totalQuads = _textureAtlas->getTotalQuads();
         if (n > totalQuads) {
             _textureAtlas->increaseTotalQuadsWith(n - totalQuads);
         }
@@ -189,7 +188,7 @@ void LabelAtlas::updateAtlasValues()
 //CCLabelAtlas - LabelProtocol
 void LabelAtlas::setString(const char *label)
 {
-    unsigned int len = strlen(label);
+    int len = strlen(label);
     if (len > _textureAtlas->getTotalQuads())
     {
         _textureAtlas->resizeCapacity(len);
@@ -198,7 +197,7 @@ void LabelAtlas::setString(const char *label)
     _string = label;
     this->updateAtlasValues();
 
-    Size s = CCSizeMake(len * _itemWidth, _itemHeight);
+    Size s = Size(len * _itemWidth, _itemHeight);
 
     this->setContentSize(s);
 
@@ -219,8 +218,8 @@ void LabelAtlas::draw()
 
     const Size& s = this->getContentSize();
     Point vertices[4]={
-        ccp(0,0),ccp(s.width,0),
-        ccp(s.width,s.height),ccp(0,s.height),
+        Point(0,0),Point(s.width,0),
+        Point(s.width,s.height),Point(0,s.height),
     };
     ccDrawPoly(vertices, 4, true);
 }

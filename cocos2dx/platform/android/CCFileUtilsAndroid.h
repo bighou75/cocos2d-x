@@ -33,10 +33,6 @@
 #include "jni.h"
 #include "android/asset_manager.h"
 
-extern "C" {
-    JNIEXPORT void JNICALL Java_org_cocos2dx_lib_Cocos2dxHelper_nativeSetAssetManager(JNIEnv*  env, jobject thiz, jobject java_assetmanager);
-}
-
 NS_CC_BEGIN
 
 /**
@@ -52,9 +48,11 @@ class CC_DLL FileUtilsAndroid : public FileUtils
 public:
     virtual ~FileUtilsAndroid();
 
+    static void setassetmanager(AAssetManager* a);
+
     /* override funtions */
     bool init();
-    virtual unsigned char* getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize);
+    virtual unsigned char* getFileData(const char* filename, const char* pszMode, unsigned long * pSize);
     virtual std::string getWritablePath();
     virtual bool isFileExist(const std::string& strFilePath);
     virtual bool isAbsolutePath(const std::string& strPath);
@@ -62,10 +60,11 @@ public:
     /** This function is android specific. It is used for TextureCache::addImageAsync(). 
      Don't use it in your codes.
      */
-    unsigned char* getFileDataForAsync(const char* pszFileName, const char* pszMode, unsigned long * pSize);
+    unsigned char* getFileDataForAsync(const char* filename, const char* pszMode, unsigned long * pSize);
     
 private:
-    unsigned char* doGetFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize, bool forAsync);
+    unsigned char* doGetFileData(const char* filename, const char* pszMode, unsigned long * pSize, bool forAsync);
+    static AAssetManager* assetmanager;
 };
 
 // end of platform group

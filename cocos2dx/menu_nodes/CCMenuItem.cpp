@@ -25,7 +25,6 @@ THE SOFTWARE.
 ****************************************************************************/
 
 #include "CCMenuItem.h"
-#include "support/CCPointExtension.h"
 #include "actions/CCActionInterval.h"
 #include "sprite_nodes/CCSprite.h"
 #include "label_nodes/CCLabelAtlas.h"
@@ -33,6 +32,13 @@ THE SOFTWARE.
 #include "script_support/CCScriptSupport.h"
 #include <stdarg.h>
 #include <cstring>
+
+#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 //vs 2005 or higher
+#pragma warning (push)
+#pragma warning (disable: 4996)
+#endif
 
 NS_CC_BEGIN
     
@@ -82,7 +88,7 @@ bool MenuItem::initWithTarget(cocos2d::Object *target, SEL_MenuHandler selector 
 
 bool MenuItem::initWithCallback(const ccMenuCallback& callback)
 {
-    setAnchorPoint(ccp(0.5f, 0.5f));
+    setAnchorPoint(Point(0.5f, 0.5f));
 	_callback = callback;
     _enabled = true;
     _selected = false;
@@ -92,8 +98,6 @@ bool MenuItem::initWithCallback(const ccMenuCallback& callback)
 MenuItem::~MenuItem()
 {
 	CC_SAFE_RELEASE(_target);
-
-    unregisterScriptTapHandler();
 }
 
 void MenuItem::selected()
@@ -106,23 +110,6 @@ void MenuItem::unselected()
     _selected = false;
 }
 
-void MenuItem::registerScriptTapHandler(int nHandler)
-{
-    unregisterScriptTapHandler();
-    _scriptTapHandler = nHandler;
-    LUALOG("[LUA] Add MenuItem script handler: %d", _scriptTapHandler);
-}
-
-void MenuItem::unregisterScriptTapHandler(void)
-{
-    if (_scriptTapHandler)
-    {
-        ScriptEngineManager::sharedManager()->getScriptEngine()->removeScriptHandler(_scriptTapHandler);
-        LUALOG("[LUA] Remove MenuItem script handler: %d", _scriptTapHandler);
-        _scriptTapHandler = 0;
-    }
-}
-
 void MenuItem::activate()
 {
     if (_enabled)
@@ -132,15 +119,11 @@ void MenuItem::activate()
 			_callback(this);
         }
         
-        if (kScriptTypeLua == _scriptType)
+        if (kScriptTypeNone != _scriptType)
         {
-            BasicScriptData data((void*)this);
+            BasicScriptData data(this);
             ScriptEvent scriptEvent(kMenuClickedEvent,&data);
-            ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&scriptEvent);
-        }
-        else if (kScriptTypeJavascript == _scriptType)
-        {
-            ScriptEngineManager::sharedManager()->getScriptEngine()->executeMenuItemEvent(this);
+            ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
         }
     }
 }
@@ -155,9 +138,9 @@ bool MenuItem::isEnabled() const
     return _enabled;
 }
 
-Rect MenuItem::rect()
+Rect MenuItem::rect() const
 {
-    return CCRectMake( _position.x - _contentSize.width * _anchorPoint.x,
+    return Rect( _position.x - _contentSize.width * _anchorPoint.x,
                       _position.y - _contentSize.height * _anchorPoint.y,
                       _contentSize.width, _contentSize.height);
 }
@@ -185,24 +168,12 @@ void MenuItem::setCallback(const ccMenuCallback& callback)
 //CCMenuItemLabel
 //
 
-const Color3B& MenuItemLabel::getDisabledColor() const
-{
-    return _disabledColor;
-}
-void MenuItemLabel::setDisabledColor(const Color3B& var)
-{
-    _disabledColor = var;
-}
-Node *MenuItemLabel::getLabel()
-{
-    return _label;
-}
 void MenuItemLabel::setLabel(Node* var)
 {
     if (var)
     {
         addChild(var);
-        var->setAnchorPoint(ccp(0, 0));
+        var->setAnchorPoint(Point(0, 0));
         setContentSize(var->getContentSize());
     }
     
@@ -364,7 +335,7 @@ MenuItemAtlasFont * MenuItemAtlasFont::create(const char *value, const char *cha
 // XXX: deprecated
 bool MenuItemAtlasFont::initWithString(const char *value, const char *charMapFile, int itemWidth, int itemHeight, char startCharMap, Object* target, SEL_MenuHandler selector)
 {
-    CCAssert( value != NULL && strlen(value) != 0, "value length must be greater than 0");
+    CCASSERT( value != NULL && strlen(value) != 0, "value length must be greater than 0");
 
 	_target = target;
 	CC_SAFE_RETAIN(_target);
@@ -373,7 +344,7 @@ bool MenuItemAtlasFont::initWithString(const char *value, const char *charMapFil
 
 bool MenuItemAtlasFont::initWithString(const char *value, const char *charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& callback)
 {
-    CCAssert( value != NULL && strlen(value) != 0, "value length must be greater than 0");
+    CCASSERT( value != NULL && strlen(value) != 0, "value length must be greater than 0");
     LabelAtlas *label = new LabelAtlas();
     label->initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap);
     label->autorelease();
@@ -393,7 +364,7 @@ void MenuItemFont::setFontSize(unsigned int s)
     _globalFontSize = s;
 }
 
-unsigned int MenuItemFont::fontSize()
+unsigned int MenuItemFont::getFontSize()
 {
     return _globalFontSize;
 }
@@ -408,7 +379,7 @@ void MenuItemFont::setFontName(const char *name)
     _globalFontNameRelease = true;
 }
 
-const char * MenuItemFont::fontName()
+const char * MenuItemFont::getFontName()
 {
     return _globalFontName.c_str();
 }
@@ -442,7 +413,7 @@ MenuItemFont * MenuItemFont::create(const char *value)
 // XXX: deprecated
 bool MenuItemFont::initWithString(const char *value, Object* target, SEL_MenuHandler selector)
 {
-    CCAssert( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
+    CCASSERT( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
 
 	_target = target;
     CC_SAFE_RETAIN(target);
@@ -451,7 +422,7 @@ bool MenuItemFont::initWithString(const char *value, Object* target, SEL_MenuHan
 
 bool MenuItemFont::initWithString(const char *value, const ccMenuCallback& callback)
 {
-    CCAssert( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
+    CCASSERT( value != NULL && strlen(value) != 0, "Value length must be greater than 0");
 
     _fontName = _globalFontName;
     _fontSize = _globalFontSize;
@@ -477,7 +448,7 @@ void MenuItemFont::setFontSizeObj(unsigned int s)
     recreateLabel();
 }
 
-unsigned int MenuItemFont::fontSizeObj()
+unsigned int MenuItemFont::getFontSizeObj() const
 {
     return _fontSize;
 }
@@ -488,7 +459,7 @@ void MenuItemFont::setFontNameObj(const char* name)
     recreateLabel();
 }
 
-const char* MenuItemFont::fontNameObj()
+const char* MenuItemFont::getFontNameObj() const
 {
     return _fontName.c_str();
 }
@@ -497,11 +468,6 @@ const char* MenuItemFont::fontNameObj()
 //CCMenuItemSprite
 //
 
-Node * MenuItemSprite::getNormalImage()
-{
-    return _normalImage;
-}
-
 void MenuItemSprite::setNormalImage(Node* pImage)
 {
     if (pImage != _normalImage)
@@ -509,7 +475,7 @@ void MenuItemSprite::setNormalImage(Node* pImage)
         if (pImage)
         {
             addChild(pImage, 0, kNormalTag);
-            pImage->setAnchorPoint(ccp(0, 0));
+            pImage->setAnchorPoint(Point(0, 0));
         }
 
         if (_normalImage)
@@ -523,11 +489,6 @@ void MenuItemSprite::setNormalImage(Node* pImage)
     }
 }
 
-Node * MenuItemSprite::getSelectedImage()
-{
-    return _selectedImage;
-}
-
 void MenuItemSprite::setSelectedImage(Node* pImage)
 {
     if (pImage != _normalImage)
@@ -535,7 +496,7 @@ void MenuItemSprite::setSelectedImage(Node* pImage)
         if (pImage)
         {
             addChild(pImage, 0, kSelectedTag);
-            pImage->setAnchorPoint(ccp(0, 0));
+            pImage->setAnchorPoint(Point(0, 0));
         }
 
         if (_selectedImage)
@@ -548,11 +509,6 @@ void MenuItemSprite::setSelectedImage(Node* pImage)
     }
 }
 
-Node * MenuItemSprite::getDisabledImage()
-{
-    return _disabledImage;
-}
-
 void MenuItemSprite::setDisabledImage(Node* pImage)
 {
     if (pImage != _normalImage)
@@ -560,7 +516,7 @@ void MenuItemSprite::setDisabledImage(Node* pImage)
         if (pImage)
         {
             addChild(pImage, 0, kDisableTag);
-            pImage->setAnchorPoint(ccp(0, 0));
+            pImage->setAnchorPoint(Point(0, 0));
         }
 
         if (_disabledImage)
@@ -842,18 +798,6 @@ void MenuItemImage::setDisabledSpriteFrame(SpriteFrame * frame)
 // MenuItemToggle
 //
 
-void MenuItemToggle::setSubItems(Array* var)
-{
-    CC_SAFE_RETAIN(var);
-    CC_SAFE_RELEASE(_subItems);
-    _subItems = var;
-}
-
-Array* MenuItemToggle::getSubItems()
-{
-    return _subItems;
-}
-
 // XXX: deprecated
 MenuItemToggle * MenuItemToggle::createWithTarget(Object* target, SEL_MenuHandler selector, Array* menuItems)
 {
@@ -983,6 +927,7 @@ MenuItemToggle::~MenuItemToggle()
 {
     CC_SAFE_RELEASE(_subItems);
 }
+
 void MenuItemToggle::setSelectedIndex(unsigned int index)
 {
     if( index != _selectedIndex && _subItems->count() > 0 )
@@ -998,23 +943,22 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
         this->addChild(item, 0, kCurrentItem);
         Size s = item->getContentSize();
         this->setContentSize(s);
-        item->setPosition( ccp( s.width/2, s.height/2 ) );
+        item->setPosition( Point( s.width/2, s.height/2 ) );
     }
 }
-unsigned int MenuItemToggle::getSelectedIndex()
-{
-    return _selectedIndex;
-}
+
 void MenuItemToggle::selected()
 {
     MenuItem::selected();
-    ((MenuItem*)(_subItems->objectAtIndex(_selectedIndex)))->selected();
+    static_cast<MenuItem*>(_subItems->objectAtIndex(_selectedIndex))->selected();
 }
+
 void MenuItemToggle::unselected()
 {
     MenuItem::unselected();
-    ((MenuItem*)(_subItems->objectAtIndex(_selectedIndex)))->unselected();
+    static_cast<MenuItem*>(_subItems->objectAtIndex(_selectedIndex))->unselected();
 }
+
 void MenuItemToggle::activate()
 {
     // update index
@@ -1043,9 +987,15 @@ void MenuItemToggle::setEnabled(bool enabled)
     }
 }
 
-MenuItem* MenuItemToggle::selectedItem()
+MenuItem* MenuItemToggle::getSelectedItem()
 {
-    return (MenuItem*)_subItems->objectAtIndex(_selectedIndex);
+    return static_cast<MenuItem*>(_subItems->objectAtIndex(_selectedIndex));
 }
 
 NS_CC_END
+
+#if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))
+#pragma GCC diagnostic warning "-Wdeprecated-declarations"
+#elif _MSC_VER >= 1400 //vs 2005 or higher
+#pragma warning (pop)
+#endif

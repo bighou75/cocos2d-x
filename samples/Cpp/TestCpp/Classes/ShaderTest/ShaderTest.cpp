@@ -29,10 +29,10 @@ static Layer* nextAction(void)
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
 
-    Layer* pLayer = createShaderLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createShaderLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 static Layer* backAction(void)
@@ -42,18 +42,18 @@ static Layer* backAction(void)
     if( sceneIdx < 0 )
         sceneIdx += total;    
     
-    Layer* pLayer = createShaderLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createShaderLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 static Layer* restartAction(void)
 {
-    Layer* pLayer = createShaderLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createShaderLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 
@@ -62,19 +62,19 @@ ShaderTestDemo::ShaderTestDemo()
 
 }
 
-void ShaderTestDemo::backCallback(Object* pSender)
+void ShaderTestDemo::backCallback(Object* sender)
 {
     Scene* s = new ShaderTestScene();
     s->addChild( backAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void ShaderTestDemo::nextCallback(Object* pSender)
+void ShaderTestDemo::nextCallback(Object* sender)
 {
     Scene* s = new ShaderTestScene();//CCScene::create();
     s->addChild( nextAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
@@ -88,12 +88,12 @@ std::string ShaderTestDemo::subtitle()
     return "";
 }
 
-void ShaderTestDemo::restartCallback(Object* pSender)
+void ShaderTestDemo::restartCallback(Object* sender)
 {
     Scene* s = new ShaderTestScene();
     s->addChild(restartAction()); 
 
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();    
 }
 
@@ -120,7 +120,7 @@ ShaderNode::ShaderNode()
 
 ShaderNode::~ShaderNode()
 {
-    NotificationCenter::sharedNotificationCenter()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
+    NotificationCenter::getInstance()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
 }
 
 ShaderNode* ShaderNode::shaderNodeWithVertex(const char *vert, const char *frag)
@@ -134,7 +134,7 @@ ShaderNode* ShaderNode::shaderNodeWithVertex(const char *vert, const char *frag)
 
 bool ShaderNode::initWithVertex(const char *vert, const char *frag)
 {
-    NotificationCenter::sharedNotificationCenter()->addObserver(this,
+    NotificationCenter::getInstance()->addObserver(this,
                                                                   callfuncO_selector(ShaderNode::listenBackToForeground),
                                                                   EVNET_COME_TO_FOREGROUND,
                                                                   NULL);
@@ -146,8 +146,8 @@ bool ShaderNode::initWithVertex(const char *vert, const char *frag)
 
     scheduleUpdate();
 
-    setContentSize(CCSizeMake(SIZE_X, SIZE_Y));
-    setAnchorPoint(ccp(0.5f, 0.5f));
+    setContentSize(Size(SIZE_X, SIZE_Y));
+    setAnchorPoint(Point(0.5f, 0.5f));
     
     _vertFileName = vert;
     _fragFileName = frag;
@@ -166,7 +166,7 @@ void ShaderNode::loadShaderVertex(const char *vert, const char *frag)
     GLProgram *shader = new GLProgram();
     shader->initWithVertexShaderFilename(vert, frag);
 
-    shader->addAttribute("aVertex", kVertexAttrib_Position);
+    shader->addAttribute("aVertex", GLProgram::VERTEX_ATTRIB_POSITION);
     shader->link();
 
     shader->updateUniforms();
@@ -208,9 +208,9 @@ void ShaderNode::draw()
     // time changes all the time, so it is Ok to call OpenGL directly, and not the "cached" version
     glUniform1f(_uniformTime, _time);
 
-    ccGLEnableVertexAttribs( kVertexAttribFlag_Position );
+    GL::enableVertexAttribs( cocos2d::GL::VERTEX_ATTRIB_FLAG_POSITION );
 
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, 0, vertices);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, vertices);
 
     glDrawArrays(GL_TRIANGLES, 0, 6);
     
@@ -231,8 +231,8 @@ bool ShaderMonjori::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Monjori.vsh", "Shaders/example_Monjori.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -265,8 +265,8 @@ bool ShaderMandelbrot::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Mandelbrot.vsh", "Shaders/example_Mandelbrot.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -298,8 +298,8 @@ bool ShaderJulia::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Julia.vsh", "Shaders/example_Julia.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -332,8 +332,8 @@ bool ShaderHeart::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Heart.vsh", "Shaders/example_Heart.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -365,8 +365,8 @@ bool ShaderFlower::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Flower.vsh", "Shaders/example_Flower.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -398,8 +398,8 @@ bool ShaderPlasma::init()
     {
         ShaderNode *sn = ShaderNode::shaderNodeWithVertex("Shaders/example_Plasma.vsh", "Shaders/example_Plasma.fsh");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        sn->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        sn->setPosition(Point(s.width/2, s.height/2));
 
         addChild(sn);
 
@@ -442,7 +442,7 @@ public:
 
 SpriteBlur::~SpriteBlur()
 {
-    NotificationCenter::sharedNotificationCenter()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
+    NotificationCenter::getInstance()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
 }
 
 SpriteBlur* SpriteBlur::create(const char *pszFileName)
@@ -470,14 +470,14 @@ bool SpriteBlur::initWithTexture(Texture2D* texture, const Rect& rect)
 {
     if( Sprite::initWithTexture(texture, rect) ) 
     {
-        NotificationCenter::sharedNotificationCenter()->addObserver(this,
+        NotificationCenter::getInstance()->addObserver(this,
                                                                       callfuncO_selector(SpriteBlur::listenBackToForeground),
                                                                       EVNET_COME_TO_FOREGROUND,
                                                                       NULL);
         
         Size s = getTexture()->getContentSizeInPixels();
 
-        blur_ = ccp(1/s.width, 1/s.height);
+        blur_ = Point(1/s.width, 1/s.height);
         sub_[0] = sub_[1] = sub_[2] = sub_[3] = 0;
 
         this->initProgram();
@@ -491,7 +491,7 @@ bool SpriteBlur::initWithTexture(Texture2D* texture, const Rect& rect)
 void SpriteBlur::initProgram()
 {
     GLchar * fragSource = (GLchar*) String::createWithContentsOfFile(
-                                FileUtils::sharedFileUtils()->fullPathForFilename("Shaders/example_Blur.fsh").c_str())->getCString();
+                                FileUtils::getInstance()->fullPathForFilename("Shaders/example_Blur.fsh").c_str())->getCString();
     GLProgram* pProgram = new GLProgram();
     pProgram->initWithVertexShaderByteArray(ccPositionTextureColor_vert, fragSource);
     setShaderProgram(pProgram);
@@ -499,9 +499,9 @@ void SpriteBlur::initProgram()
     
     CHECK_GL_ERROR_DEBUG();
     
-    getShaderProgram()->addAttribute(kAttributeNamePosition, kVertexAttrib_Position);
-    getShaderProgram()->addAttribute(kAttributeNameColor, kVertexAttrib_Color);
-    getShaderProgram()->addAttribute(kAttributeNameTexCoord, kVertexAttrib_TexCoords);
+    getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+    getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_COLOR, GLProgram::VERTEX_ATTRIB_COLOR);
+    getShaderProgram()->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
     
     CHECK_GL_ERROR_DEBUG();
     
@@ -521,16 +521,16 @@ void SpriteBlur::initProgram()
 
 void SpriteBlur::draw()
 {
-    ccGLEnableVertexAttribs(kVertexAttribFlag_PosColorTex );
+    GL::enableVertexAttribs(cocos2d::GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX );
     BlendFunc blend = getBlendFunc();
-    ccGLBlendFunc(blend.src, blend.dst);
+    GL::blendFunc(blend.src, blend.dst);
 
     getShaderProgram()->use();
     getShaderProgram()->setUniformsForBuiltins();
     getShaderProgram()->setUniformLocationWith2f(blurLocation, blur_.x, blur_.y);
     getShaderProgram()->setUniformLocationWith4fv(subLocation, sub_, 1);
 
-    ccGLBindTexture2D( getTexture()->getName());
+    GL::bindTexture2D( getTexture()->getName());
 
     //
     // Attributes
@@ -540,15 +540,15 @@ void SpriteBlur::draw()
 
     // vertex
     int diff = offsetof( V3F_C4B_T2F, vertices);
-    glVertexAttribPointer(kVertexAttrib_Position, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 3, GL_FLOAT, GL_FALSE, kQuadSize, (void*) (offset + diff));
 
     // texCoods
     diff = offsetof( V3F_C4B_T2F, texCoords);
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, kQuadSize, (void*)(offset + diff));
 
     // color
     diff = offsetof( V3F_C4B_T2F, colors);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, kQuadSize, (void*)(offset + diff));
 
 
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -560,8 +560,8 @@ void SpriteBlur::setBlurSize(float f)
 {
     Size s = getTexture()->getContentSizeInPixels();
 
-    blur_ = ccp(1/s.width, 1/s.height);
-    blur_ = ccpMult(blur_,f);
+    blur_ = Point(1/s.width, 1/s.height);
+    blur_ = blur_ * f;
 }
 
 // ShaderBlur
@@ -583,17 +583,17 @@ std::string ShaderBlur::subtitle()
 
 ControlSlider* ShaderBlur::createSliderCtl()
 {
-    Size screenSize = Director::sharedDirector()->getWinSize();
+    Size screenSize = Director::getInstance()->getWinSize();
 
     ControlSlider *slider = ControlSlider::create("extensions/sliderTrack.png","extensions/sliderProgress.png" ,"extensions/sliderThumb.png");
-    slider->setAnchorPoint(ccp(0.5f, 1.0f));
+    slider->setAnchorPoint(Point(0.5f, 1.0f));
     slider->setMinimumValue(0.0f); // Sets the min value of range
     slider->setMaximumValue(3.0f); // Sets the max value of range
     slider->setValue(1.0f);
-    slider->setPosition(ccp(screenSize.width / 2.0f, screenSize.height / 3.0f));
+    slider->setPosition(Point(screenSize.width / 2.0f, screenSize.height / 3.0f));
 
     // When the value of the slider will change, the given selector will be call
-    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(ShaderBlur::sliderAction), ControlEventValueChanged);
+    slider->addTargetWithActionForControlEvents(this, cccontrol_selector(ShaderBlur::sliderAction), Control::EventType::VALUE_CHANGED);
 
     return slider;
  
@@ -607,9 +607,9 @@ bool ShaderBlur::init()
 
         Sprite *sprite = Sprite::create("Images/grossini.png");
 
-        Size s = Director::sharedDirector()->getWinSize();
-        _blurSprite->setPosition(ccp(s.width/3, s.height/2));
-        sprite->setPosition(ccp(2*s.width/3, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        _blurSprite->setPosition(Point(s.width/3, s.height/2));
+        sprite->setPosition(Point(2*s.width/3, s.height/2));
 
         addChild(_blurSprite);
         addChild(sprite);
@@ -623,7 +623,7 @@ bool ShaderBlur::init()
     return false;
 }
 
-void ShaderBlur::sliderAction(Object* sender, ControlEvent controlEvent)
+void ShaderBlur::sliderAction(Object* sender, Control::EventType controlEvent)
 {
     ControlSlider* pSlider = (ControlSlider*)sender;
     _blurSprite->setBlurSize(pSlider->getValue());
@@ -642,18 +642,18 @@ bool ShaderRetroEffect::init()
 {
     if( ShaderTestDemo::init() ) {
 
-        GLchar * fragSource = (GLchar*) String::createWithContentsOfFile(FileUtils::sharedFileUtils()->fullPathForFilename("Shaders/example_HorizontalColor.fsh").c_str())->getCString();
+        GLchar * fragSource = (GLchar*) String::createWithContentsOfFile(FileUtils::getInstance()->fullPathForFilename("Shaders/example_HorizontalColor.fsh").c_str())->getCString();
         GLProgram *p = new GLProgram();
         p->initWithVertexShaderByteArray(ccPositionTexture_vert, fragSource);
 
-        p->addAttribute(kAttributeNamePosition, kVertexAttrib_Position);
-        p->addAttribute(kAttributeNameTexCoord, kVertexAttrib_TexCoords);
+        p->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+        p->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
 
         p->link();
         p->updateUniforms();
 
 
-        Director *director = Director::sharedDirector();
+        Director *director = Director::getInstance();
         Size s = director->getWinSize();
 
         _label = LabelBMFont::create("RETRO EFFECT", "fonts/west_england-64.fnt");
@@ -663,7 +663,7 @@ bool ShaderRetroEffect::init()
         p->release();
 
 
-        _label->setPosition(ccp(s.width/2,s.height/2));
+        _label->setPosition(Point(s.width/2,s.height/2));
 
         addChild(_label);
 
@@ -687,7 +687,7 @@ void ShaderRetroEffect::update(float dt)
         Sprite *sprite = static_cast<Sprite*>(pObj);
         i++;
         Point oldPosition = sprite->getPosition();
-        sprite->setPosition(ccp( oldPosition.x, sinf( _accum * 2 + i/2.0) * 20  ));
+        sprite->setPosition(Point( oldPosition.x, sinf( _accum * 2 + i/2.0) * 20  ));
 
         // add fabs() to prevent negative scaling
         float scaleY = ( sinf( _accum * 2 + i/2.0 + 0.707) );
@@ -740,8 +740,8 @@ ShaderFail::ShaderFail()
     GLProgram *p = new GLProgram();
     p->initWithVertexShaderByteArray(ccPositionTexture_vert, shader_frag_fail);
     
-    p->addAttribute(kAttributeNamePosition, kVertexAttrib_Position);
-    p->addAttribute(kAttributeNameTexCoord, kVertexAttrib_TexCoords);
+    p->addAttribute(GLProgram::ATTRIBUTE_NAME_POSITION, GLProgram::VERTEX_ATTRIB_POSITION);
+    p->addAttribute(GLProgram::ATTRIBUTE_NAME_TEX_COORD, GLProgram::VERTEX_ATTRIB_TEX_COORDS);
     
     p->link();
     p->updateUniforms();
@@ -768,5 +768,5 @@ void ShaderTestScene::runThisTest()
     sceneIdx = -1;
     addChild(nextAction());
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }

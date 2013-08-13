@@ -27,7 +27,6 @@ THE SOFTWARE.
 #include "CCAction.h"
 #include "CCActionInterval.h"
 #include "base_nodes/CCNode.h"
-#include "support/CCPointExtension.h"
 #include "CCDirector.h"
 
 NS_CC_BEGIN
@@ -123,7 +122,7 @@ Speed* Speed::create(ActionInterval* pAction, float fSpeed)
 
 bool Speed::initWithAction(ActionInterval *pAction, float fSpeed)
 {
-    CCAssert(pAction != NULL, "");
+    CCASSERT(pAction != NULL, "");
     pAction->retain();
     _innerAction = pAction;
     _speed = fSpeed;    
@@ -139,10 +138,10 @@ Speed *Speed::clone() const
 	return  a;
 }
 
-void Speed::startWithTarget(Node* pTarget)
+void Speed::startWithTarget(Node* target)
 {
-    Action::startWithTarget(pTarget);
-    _innerAction->startWithTarget(pTarget);
+    Action::startWithTarget(target);
+    _innerAction->startWithTarget(target);
 }
 
 void Speed::stop()
@@ -185,7 +184,7 @@ Follow::~Follow()
     CC_SAFE_RELEASE(_followedNode);
 }
 
-Follow* Follow::create(Node *pFollowedNode, const Rect& rect/* = RectZero*/)
+Follow* Follow::create(Node *pFollowedNode, const Rect& rect/* = Rect::ZERO*/)
 {
     Follow *pRet = new Follow();
     if (pRet && pRet->initWithTarget(pFollowedNode, rect))
@@ -206,14 +205,19 @@ Follow* Follow::clone() const
 	return a;
 }
 
-bool Follow::initWithTarget(Node *pFollowedNode, const Rect& rect/* = RectZero*/)
+Follow* Follow::reverse() const
 {
-    CCAssert(pFollowedNode != NULL, "");
+    return clone();
+}
+
+bool Follow::initWithTarget(Node *pFollowedNode, const Rect& rect/* = Rect::ZERO*/)
+{
+    CCASSERT(pFollowedNode != NULL, "");
  
     pFollowedNode->retain();
     _followedNode = pFollowedNode;
 	_worldRect = rect;
-    if (rect.equals(RectZero))
+    if (rect.equals(Rect::ZERO))
     {
         _boundarySet = false;
     }
@@ -224,9 +228,9 @@ bool Follow::initWithTarget(Node *pFollowedNode, const Rect& rect/* = RectZero*/
     
     _boundaryFullyCovered = false;
 
-    Size winSize = Director::sharedDirector()->getWinSize();
-    _fullScreenSize = CCPointMake(winSize.width, winSize.height);
-    _halfScreenSize = ccpMult(_fullScreenSize, 0.5f);
+    Size winSize = Director::getInstance()->getWinSize();
+    _fullScreenSize = Point(winSize.width, winSize.height);
+    _halfScreenSize = _fullScreenSize * 0.5f;
 
     if (_boundarySet)
     {
@@ -267,14 +271,14 @@ void Follow::step(float dt)
         if(_boundaryFullyCovered)
             return;
 
-        Point tempPos = ccpSub( _halfScreenSize, _followedNode->getPosition());
+        Point tempPos = _halfScreenSize - _followedNode->getPosition();
 
-        _target->setPosition(ccp(clampf(tempPos.x, _leftBoundary, _rightBoundary), 
+        _target->setPosition(Point(clampf(tempPos.x, _leftBoundary, _rightBoundary),
                                    clampf(tempPos.y, _bottomBoundary, _topBoundary)));
     }
     else
     {
-        _target->setPosition(ccpSub(_halfScreenSize, _followedNode->getPosition()));
+        _target->setPosition(_halfScreenSize - _followedNode->getPosition());
     }
 }
 

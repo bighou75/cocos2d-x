@@ -311,9 +311,8 @@ bool createAudioPlayerBySource(AudioPlayer* player)
 	result = (*(player->fdPlayerObject))->GetInterface(player->fdPlayerObject, getInterfaceID("SL_IID_SEEK"), &(player->fdPlayerSeek));
 	assert(SL_RESULT_SUCCESS == result);
 
-    // get the playback rate interface
-    result = (*(player->fdPlayerObject))->GetInterface(player->fdPlayerObject, getInterfaceID("SL_IID_PLAYBACKRATE"), &(player->fdPlaybackRate));
-    assert(SL_RESULT_SUCCESS == result);
+    // get the playback rate interface, if available
+    (*(player->fdPlayerObject))->GetInterface(player->fdPlayerObject, getInterfaceID("SL_IID_PLAYBACKRATE"), &(player->fdPlaybackRate));
 
 	return true;
 }
@@ -372,7 +371,7 @@ void OpenSLEngine::createEngine(void* pHandle)
 	const char* errorInfo = dlerror();
 	if (errorInfo)
 	{
-		LOGD(errorInfo);
+		LOGD("%s", errorInfo);
 		return;
 	}
 

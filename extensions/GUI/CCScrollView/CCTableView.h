@@ -37,11 +37,6 @@ NS_CC_EXT_BEGIN
 class TableView;
 class ArrayForObjectSorting;
 
-typedef enum {
-    kTableViewFillTopDown,
-    kTableViewFillBottomUp
-} TableViewVerticalFillOrder;
-
 /**
  * Sole purpose of this delegate is to single touch event in this version.
  */
@@ -109,7 +104,7 @@ public:
      * @return cell size
      */
     virtual Size cellSizeForTable(TableView *table) {
-        return SizeZero;
+        return Size::ZERO;
     };
     /**
      * a cell instance at a given index
@@ -137,9 +132,12 @@ public:
 class TableView : public ScrollView, public ScrollViewDelegate
 {
 public:
-    TableView();
-    virtual ~TableView();
-
+    
+    enum class VerticalFillOrder
+    {
+        TOP_DOWN,
+        BOTTOM_UP
+    };
     /**
      * An intialized table view object
      *
@@ -158,6 +156,11 @@ public:
      */
     static TableView* create(TableViewDataSource* dataSource, Size size, Node *container);
 
+    TableView();
+    virtual ~TableView();
+
+    bool initWithViewSize(Size size, Node* container = NULL);
+
     /**
      * data source
      */
@@ -172,11 +175,9 @@ public:
     /**
      * determines how cell is ordered and filled in the view.
      */
-    void setVerticalFillOrder(TableViewVerticalFillOrder order);
-    TableViewVerticalFillOrder getVerticalFillOrder();
+    void setVerticalFillOrder(VerticalFillOrder order);
+    VerticalFillOrder getVerticalFillOrder();
 
-
-    bool initWithViewSize(Size size, Node* container = NULL);
     /**
      * Updates the content of the cell at a given index.
      *
@@ -214,14 +215,13 @@ public:
      */
     TableViewCell *cellAtIndex(unsigned int idx);
 
-
-    virtual void scrollViewDidScroll(ScrollView* view);
-    virtual void scrollViewDidZoom(ScrollView* view) {}
-
-    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent);
-    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent);
+    // Overrides
+    virtual void scrollViewDidScroll(ScrollView* view) override;
+    virtual void scrollViewDidZoom(ScrollView* view)  override {}
+    virtual bool ccTouchBegan(Touch *pTouch, Event *pEvent) override;
+    virtual void ccTouchMoved(Touch *pTouch, Event *pEvent) override;
+    virtual void ccTouchEnded(Touch *pTouch, Event *pEvent) override;
+    virtual void ccTouchCancelled(Touch *pTouch, Event *pEvent) override;
 
 protected:
 
@@ -229,7 +229,7 @@ protected:
     /**
      * vertical direction of cell filling
      */
-    TableViewVerticalFillOrder _vordering;
+    VerticalFillOrder _vordering;
 
     /**
      * index set to query the indexes of the cells used.
@@ -258,7 +258,7 @@ protected:
      */
     TableViewDelegate* _tableViewDelegate;
 
-	ScrollViewDirection _oldDirection;
+	Direction _oldDirection;
 
     int __indexFromOffset(Point offset);
     unsigned int _indexFromOffset(Point offset);

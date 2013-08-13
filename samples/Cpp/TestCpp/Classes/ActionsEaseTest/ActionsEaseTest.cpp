@@ -21,7 +21,7 @@ void SpriteEase::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130,0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130,0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseIn::create(move->clone(), 2.5f);
@@ -73,7 +73,7 @@ void SpriteEaseInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    ActionInterval*  move = MoveBy::create(3, ccp(VisibleRect::right().x-130,0));
+    ActionInterval*  move = MoveBy::create(3, Point(VisibleRect::right().x-130,0));
 //    id move_back = move->reverse();
     
     ActionInterval*  move_ease_inout1 = EaseInOut::create(move->clone(), 0.65f);
@@ -112,7 +112,7 @@ void SpriteEaseExponential::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130,0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130,0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseExponentialIn::create(move->clone());
@@ -148,7 +148,7 @@ void SpriteEaseExponentialInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease = EaseExponentialInOut::create(move->clone() );
@@ -181,7 +181,7 @@ void SpriteEaseSine::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseSineIn::create(move->clone() );
@@ -218,7 +218,7 @@ void SpriteEaseSineInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130,0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130,0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease = EaseSineInOut::create(move->clone() );
@@ -250,7 +250,7 @@ void SpriteEaseElastic::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseElasticIn::create(move->clone() );
@@ -286,7 +286,7 @@ void SpriteEaseElasticInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
 
     ActionInterval* move_ease_inout1 = EaseElasticInOut::create(move->clone(), 0.3f);
     ActionInterval* move_ease_inout_back1 = move_ease_inout1->reverse();
@@ -325,7 +325,7 @@ void SpriteEaseBounce::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseBounceIn::create(move->clone() );
@@ -362,7 +362,7 @@ void SpriteEaseBounceInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
 
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease = EaseBounceInOut::create(move->clone() );
@@ -395,7 +395,7 @@ void SpriteEaseBack::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease_in = EaseBackIn::create(move->clone());
@@ -431,7 +431,7 @@ void SpriteEaseBackInOut::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    ActionInterval* move = MoveBy::create(3, ccp(VisibleRect::right().x-130, 0));
+    ActionInterval* move = MoveBy::create(3, Point(VisibleRect::right().x-130, 0));
     ActionInterval* move_back = move->reverse();
     
     ActionInterval* move_ease = EaseBackInOut::create(move->clone() );
@@ -464,10 +464,10 @@ void SpeedTest::onEnter()
 {
     EaseSpriteDemo::onEnter();
     
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
 
     // rotate and jump
-    ActionInterval *jump1 = JumpBy::create(4, ccp(-s.width+80, 0), 100, 4);
+    ActionInterval *jump1 = JumpBy::create(4, Point(-s.width+80, 0), 100, 4);
     ActionInterval *jump2 = jump1->reverse();
     ActionInterval *rot1 = RotateBy::create(4, 360*2);
     ActionInterval *rot2 = rot1->reverse();
@@ -552,10 +552,10 @@ Layer* nextEaseAction()
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
 
-    Layer* pLayer = createEaseLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createEaseLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 Layer* backEaseAction()
@@ -565,18 +565,18 @@ Layer* backEaseAction()
     if( sceneIdx < 0 )
         sceneIdx += total;    
     
-    Layer* pLayer = createEaseLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createEaseLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 }
 
 Layer* restartEaseAction()
 {
-    Layer* pLayer = createEaseLayer(sceneIdx);
-    pLayer->autorelease();
+    Layer* layer = createEaseLayer(sceneIdx);
+    layer->autorelease();
 
-    return pLayer;
+    return layer;
 } 
 
 
@@ -593,8 +593,8 @@ EaseSpriteDemo::~EaseSpriteDemo(void)
 
 void EaseSpriteDemo::positionForTwo()
 {    
-    _grossini->setPosition(ccp(VisibleRect::left().x+60, VisibleRect::bottom().y + VisibleRect::getVisibleRect().size.height*1/5));
-    _tamara->setPosition(ccp( VisibleRect::left().x+60, VisibleRect::bottom().y + VisibleRect::getVisibleRect().size.height*4/5));
+    _grossini->setPosition(Point(VisibleRect::left().x+60, VisibleRect::bottom().y + VisibleRect::getVisibleRect().size.height*1/5));
+    _tamara->setPosition(Point( VisibleRect::left().x+60, VisibleRect::bottom().y + VisibleRect::getVisibleRect().size.height*4/5));
     _kathia->setVisible(false);
 }
 
@@ -609,48 +609,48 @@ void EaseSpriteDemo::onEnter()
     BaseTest::onEnter();
 
     // Or you can create an sprite using a filename. PNG and BMP files are supported. Probably TIFF too
-    _grossini = Sprite::create(s_pPathGrossini); _grossini->retain();
-    _tamara = Sprite::create(s_pPathSister1); _tamara->retain();
-    _kathia = Sprite::create(s_pPathSister2); _kathia->retain();
+    _grossini = Sprite::create(s_pathGrossini); _grossini->retain();
+    _tamara = Sprite::create(s_pathSister1); _tamara->retain();
+    _kathia = Sprite::create(s_pathSister2); _kathia->retain();
     
     addChild( _grossini, 3);
     addChild( _kathia, 2);
     addChild( _tamara, 1);
 
-    _grossini->setPosition(ccp(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*1/5));
-    _kathia->setPosition(ccp(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*2.5f/5));
-    _tamara->setPosition(ccp(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*4/5));
+    _grossini->setPosition(Point(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*1/5));
+    _kathia->setPosition(Point(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*2.5f/5));
+    _tamara->setPosition(Point(VisibleRect::left().x + 60, VisibleRect::bottom().y+VisibleRect::getVisibleRect().size.height*4/5));
 }
 
-void EaseSpriteDemo::restartCallback(Object* pSender)
+void EaseSpriteDemo::restartCallback(Object* sender)
 {
     Scene* s = new ActionsEaseTestScene();//CCScene::create();
     s->addChild(restartEaseAction()); 
 
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void EaseSpriteDemo::nextCallback(Object* pSender)
+void EaseSpriteDemo::nextCallback(Object* sender)
 {
     Scene* s = new ActionsEaseTestScene();//CCScene::create();
     s->addChild( nextEaseAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
-void EaseSpriteDemo::backCallback(Object* pSender)
+void EaseSpriteDemo::backCallback(Object* sender)
 {
     Scene* s = new ActionsEaseTestScene();//CCScene::create();
     s->addChild( backEaseAction() );
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
 void ActionsEaseTestScene::runThisTest()
 {
-    Layer* pLayer = nextEaseAction();
-    addChild(pLayer);
+    Layer* layer = nextEaseAction();
+    addChild(layer);
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }

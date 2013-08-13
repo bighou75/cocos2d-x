@@ -24,18 +24,14 @@ THE SOFTWARE.
 #include "TestAdsScene.h"
 #include "PluginManager.h"
 #include "HelloWorldScene.h"
+#include "Configs.h"
 
 USING_NS_CC;
 using namespace cocos2d::plugin;
 
 const std::string s_aTestCases[] = {
 	"Admob",
-};
-
-const std::string s_aTestTypes[] = {
-	"Banner",
-	"Full Screen",
-    "More App",
+    "Flurry",
 };
 
 const std::string s_aTestPoses[] = {
@@ -72,25 +68,32 @@ bool TestAds::init()
     {
         return false;
     }
-    
+
+    _listener = new MyAdsListener();
     _admob = dynamic_cast<ProtocolAds*>(PluginManager::getInstance()->loadPlugin("AdsAdmob"));
+    _flurryAds = dynamic_cast<ProtocolAds*>(PluginManager::getInstance()->loadPlugin("AdsFlurry"));
     TAdsDeveloperInfo devInfo;
     
 #if CC_TARGET_PLATFORM == CC_PLATFORM_IOS
-    devInfo["AdmobID"] = "a1517500cc8f794";
+    devInfo["AdmobID"] = ADMOB_ID_IOS;
+    devInfo["FlurryAppKey"] = FLURRY_KEY_IOS;
 #elif CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID
-    devInfo["AdmobID"] = "a1516fb6b16b12f";
+    devInfo["AdmobID"] = ADMOB_ID_ANDROID;
+    devInfo["FlurryAppKey"] = FLURRY_KEY_ANDROID;
 #endif
     
     _admob->configDeveloperInfo(devInfo);
-    _listener = new MyAdsListener();
     _admob->setAdsListener(_listener);
     _admob->setDebugMode(true);
 
-    Size visibleSize = Director::sharedDirector()->getVisibleSize();
-    Point origin = Director::sharedDirector()->getVisibleOrigin();
-    Point posMid = ccp(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
-    Point posBR = ccp(origin.x + visibleSize.width, origin.y);
+    _flurryAds->configDeveloperInfo(devInfo);
+    _flurryAds->setAdsListener(_listener);
+    _flurryAds->setDebugMode(true);
+
+    Size visibleSize = Director::getInstance()->getVisibleSize();
+    Point origin = Director::getInstance()->getVisibleOrigin();
+    Point posMid = Point(origin.x + visibleSize.width / 2, origin.y + visibleSize.height / 2);
+    Point posBR = Point(origin.x + visibleSize.width, origin.y);
 
     /////////////////////////////
     // 2. add a menu item with "X" image, which is clicked to quit the program
@@ -99,23 +102,23 @@ bool TestAds::init()
     // add a "close" icon to exit the progress. it's an autorelease object
     MenuItemFont *pBackItem = MenuItemFont::create("Back", CC_CALLBACK_1(TestAds::menuBackCallback, this));
     Size backSize = pBackItem->getContentSize();
-    pBackItem->setPosition(ccpAdd(posBR, ccp(- backSize.width / 2, backSize.height / 2)));
+    pBackItem->setPosition(posBR + Point(- backSize.width / 2, backSize.height / 2));
 
     // create menu, it's an autorelease object
     Menu* pMenu = Menu::create(pBackItem, NULL);
-    pMenu->setPosition( PointZero );
+    pMenu->setPosition( Point::ZERO );
 
 	LabelTTF* label1 = LabelTTF::create("ShowAds", "Arial", 24);
 	MenuItemLabel* pItemShow = MenuItemLabel::create(label1, CC_CALLBACK_1(TestAds::testShow, this));
-	pItemShow->setAnchorPoint(ccp(0.5f, 0));
+	pItemShow->setAnchorPoint(Point(0.5f, 0));
 	pMenu->addChild(pItemShow, 0);
-	pItemShow->setPosition(ccpAdd(posMid, ccp(-100, -120)));
+	pItemShow->setPosition(posMid + Point(-100, -120));
 
 	LabelTTF* label2 = LabelTTF::create("HideAds", "Arial", 24);
 	MenuItemLabel* pItemHide = MenuItemLabel::create(label2, CC_CALLBACK_1(TestAds::testHide, this));
-	pItemHide->setAnchorPoint(ccp(0.5f, 0));
+	pItemHide->setAnchorPoint(Point(0.5f, 0));
 	pMenu->addChild(pItemHide, 0);
-	pItemHide->setPosition(ccpAdd(posMid, ccp(100, -120)));
+	pItemHide->setPosition(posMid + Point(100, -120));
 
 	// create optional menu
 	// cases item
@@ -127,20 +130,8 @@ bool TestAds::init()
 	{
 		_caseItem->getSubItems()->addObject( MenuItemFont::create( s_aTestCases[i].c_str() ) );
 	}
-	_caseItem->setPosition(ccpAdd(posMid, ccp(-200, 120)));
+	_caseItem->setPosition(posMid + Point(-200, 120));
 	pMenu->addChild(_caseItem);
-
-	// type item
-	_typeItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(TestAds::typeChanged, this),
-												MenuItemFont::create( s_aTestTypes[0].c_str() ),
-												NULL );
-	int typeLen = sizeof(s_aTestTypes) / sizeof(std::string);
-	for (int i = 1; i < typeLen; ++i)
-	{
-		_typeItem->getSubItems()->addObject( MenuItemFont::create( s_aTestTypes[i].c_str() ) );
-	}
-	_typeItem->setPosition(ccpAdd(posMid, ccp(0, 120)));
-	pMenu->addChild(_typeItem);
 
 	// poses item
 	_posItem = MenuItemToggle::createWithCallback(CC_CALLBACK_1(TestAds::posChanged, this),
@@ -151,13 +142,18 @@ bool TestAds::init()
 	{
 		_posItem->getSubItems()->addObject( MenuItemFont::create( s_aTestPoses[i].c_str() ) );
 	}
-	_posItem->setPosition(ccpAdd(posMid, ccp(200, 120)));
+	_posItem->setPosition(posMid + Point(200, 120));
 	pMenu->addChild(_posItem);
 
 	// init options
 	_ads = _admob;
 	_pos = ProtocolAds::kPosCenter;
-	_type = ProtocolAds::kBannerAd;
+
+    // init the AdsInfo
+    adInfo["AdmobType"] = "1";
+    adInfo["AdmobSizeEnum"] = "1";
+    adInfo["FlurryAdsID"] = "BANNER_MAIN_VC";
+    adInfo["FlurryAdsSize"] = "2";
 
     this->addChild(pMenu, 1);
 
@@ -166,30 +162,22 @@ bool TestAds::init()
 
 void TestAds::testShow(Object* pSender)
 {
-    int nSize = 0;
-	if (_ads == _admob)
-	{
-	    nSize = 0;
-	}
-
     if (_ads)
 	{
-        _ads->showAds(_type, nSize, _pos);
+        _ads->showAds(adInfo, _pos);
 	}
 }
 
 void TestAds::testHide(Object* pSender)
 {
-	_ads->hideAds(_type);
+	_ads->hideAds(adInfo);
 }
 
 void TestAds::menuBackCallback(Object* pSender)
 {
     if (_admob != NULL)
     {
-        _admob->hideAds(ProtocolAds::kBannerAd);
-        _admob->hideAds(ProtocolAds::kFullScreenAd);
-        _admob->hideAds(ProtocolAds::kMoreApp);
+        _admob->hideAds(adInfo);
     	PluginManager::getInstance()->unloadPlugin("AdsAdmob");
     	_admob = NULL;
     }
@@ -201,7 +189,7 @@ void TestAds::menuBackCallback(Object* pSender)
     }
 
     Scene* newScene = HelloWorld::scene();
-    Director::sharedDirector()->replaceScene(newScene);
+    Director::getInstance()->replaceScene(newScene);
 }
 
 void TestAds::caseChanged(Object* pSender)
@@ -213,34 +201,31 @@ void TestAds::caseChanged(Object* pSender)
 		_ads = _admob;
 		strLog = "Admob";
 		break;
+    case 1:
+        _ads = _flurryAds;
+        strLog = "Flurry Ads";
+        break;
 	default:
 		break;
 	}
-	CCLog("case selected change to : %s", strLog.c_str());
-}
-
-void TestAds::typeChanged(Object* pSender)
-{
-	int selectIndex = _typeItem->getSelectedIndex();
-	_type = (ProtocolAds::AdsType) selectIndex;
-	CCLog("type selected change to : %d", _type);
+	log("case selected change to : %s", strLog.c_str());
 }
 
 void TestAds::posChanged(Object* pSender)
 {
 	int selectIndex = _posItem->getSelectedIndex();
 	_pos = (ProtocolAds::AdsPos) selectIndex;
-	CCLog("pos selected change to : %d", _pos);
+	log("pos selected change to : %d", _pos);
 }
 
 void MyAdsListener::onAdsResult(AdsResultCode code, const char* msg)
 {
-	CCLog("OnAdsResult, code : %d, msg : %s", code, msg);
+	log("OnAdsResult, code : %d, msg : %s", code, msg);
 }
 
 void MyAdsListener::onPlayerGetPoints(cocos2d::plugin::ProtocolAds* pAdsPlugin, int points)
 {
-	CCLog("Player get points : %d", points);
+	log("Player get points : %d", points);
 
 	// @warning should add code to give game-money to player here
 

@@ -30,10 +30,10 @@ static Layer* nextAction()
     sceneIdx++;
     sceneIdx = sceneIdx % MAX_LAYER;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* backAction()
@@ -43,18 +43,18 @@ static Layer* backAction()
     if( sceneIdx < 0 )
         sceneIdx += total;
     
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 static Layer* restartAction()
 {
-    Layer* pLayer = (createFunctions[sceneIdx])();
-    pLayer->autorelease();
+    Layer* layer = (createFunctions[sceneIdx])();
+    layer->autorelease();
     
-    return pLayer;
+    return layer;
 }
 
 // BaseLayer
@@ -74,7 +74,7 @@ void BaseLayer::restartCallback(cocos2d::Object *pSender)
     Scene *s = new DrawPrimitivesTestScene();
     s->addChild(restartAction());
     
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
@@ -83,7 +83,7 @@ void BaseLayer::nextCallback(cocos2d::Object *pSender)
     Scene *s = new DrawPrimitivesTestScene();;
     s->addChild(nextAction());
     
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
@@ -92,7 +92,7 @@ void BaseLayer::backCallback(cocos2d::Object *pSender)
     Scene *s = new DrawPrimitivesTestScene();
     s->addChild(backAction());
     
-    Director::sharedDirector()->replaceScene(s);
+    Director::getInstance()->replaceScene(s);
     s->release();
 }
 
@@ -123,7 +123,7 @@ void DrawPrimitivesTest::draw()
 	// color: 255,255,255,255 (white, non-transparent)
 	// Anti-Aliased
     //	glEnable(GL_LINE_SMOOTH);
-    ccDrawLine( VisibleRect::leftBottom(), VisibleRect::rightTop() );
+    DrawPrimitives::drawLine( VisibleRect::leftBottom(), VisibleRect::rightTop() );
     
 	CHECK_GL_ERROR_DEBUG();
     
@@ -132,8 +132,8 @@ void DrawPrimitivesTest::draw()
 	// GL_SMOOTH_LINE_WIDTH_RANGE = (1,1) on iPhone
     //	glDisable(GL_LINE_SMOOTH);
 	glLineWidth( 5.0f );
-	ccDrawColor4B(255,0,0,255);
-    ccDrawLine( VisibleRect::leftTop(), VisibleRect::rightBottom() );
+	DrawPrimitives::setDrawColor4B(255,0,0,255);
+    DrawPrimitives::drawLine( VisibleRect::leftTop(), VisibleRect::rightBottom() );
     
 	CHECK_GL_ERROR_DEBUG();
     
@@ -144,81 +144,81 @@ void DrawPrimitivesTest::draw()
 	// Remember: OpenGL is a state-machine.
     
 	// draw big point in the center
-	ccPointSize(64);
-	ccDrawColor4B(0,0,255,128);
-    ccDrawPoint( VisibleRect::center() );
+	DrawPrimitives::setPointSize(64);
+	DrawPrimitives::setDrawColor4B(0,0,255,128);
+    DrawPrimitives::drawPoint( VisibleRect::center() );
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw 4 small points
-	Point points[] = { ccp(60,60), ccp(70,70), ccp(60,70), ccp(70,60) };
-	ccPointSize(4);
-	ccDrawColor4B(0,255,255,255);
-	ccDrawPoints( points, 4);
+	Point points[] = { Point(60,60), Point(70,70), Point(60,70), Point(70,60) };
+	DrawPrimitives::setPointSize(4);
+	DrawPrimitives::setDrawColor4B(0,255,255,255);
+	DrawPrimitives::drawPoints( points, 4);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw a green circle with 10 segments
 	glLineWidth(16);
-	ccDrawColor4B(0, 255, 0, 255);
-    ccDrawCircle( VisibleRect::center(), 100, 0, 10, false);
+	DrawPrimitives::setDrawColor4B(0, 255, 0, 255);
+    DrawPrimitives::drawCircle( VisibleRect::center(), 100, 0, 10, false);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw a green circle with 50 segments with line to center
 	glLineWidth(2);
-	ccDrawColor4B(0, 255, 255, 255);
-    ccDrawCircle( VisibleRect::center(), 50, CC_DEGREES_TO_RADIANS(90), 50, true);
+	DrawPrimitives::setDrawColor4B(0, 255, 255, 255);
+    DrawPrimitives::drawCircle( VisibleRect::center(), 50, CC_DEGREES_TO_RADIANS(90), 50, true);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw a pink solid circle with 50 segments
 	glLineWidth(2);
-	ccDrawColor4B(255, 0, 255, 255);
-    ccDrawSolidCircle( VisibleRect::center() + ccp(140,0), 40, CC_DEGREES_TO_RADIANS(90), 50, 1.0f, 1.0f);
+	DrawPrimitives::setDrawColor4B(255, 0, 255, 255);
+    DrawPrimitives::drawSolidCircle( VisibleRect::center() + Point(140,0), 40, CC_DEGREES_TO_RADIANS(90), 50, 1.0f, 1.0f);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// open yellow poly
-	ccDrawColor4B(255, 255, 0, 255);
+	DrawPrimitives::setDrawColor4B(255, 255, 0, 255);
 	glLineWidth(10);
-	Point vertices[] = { ccp(0,0), ccp(50,50), ccp(100,50), ccp(100,100), ccp(50,100) };
-	ccDrawPoly( vertices, 5, false);
+	Point vertices[] = { Point(0,0), Point(50,50), Point(100,50), Point(100,100), Point(50,100) };
+	DrawPrimitives::drawPoly( vertices, 5, false);
     
 	CHECK_GL_ERROR_DEBUG();
 	
 	// filled poly
 	glLineWidth(1);
-	Point filledVertices[] = { ccp(0,120), ccp(50,120), ccp(50,170), ccp(25,200), ccp(0,170) };
-	ccDrawSolidPoly(filledVertices, 5, Color4F(0.5f, 0.5f, 1, 1 ) );
+	Point filledVertices[] = { Point(0,120), Point(50,120), Point(50,170), Point(25,200), Point(0,170) };
+	DrawPrimitives::drawSolidPoly(filledVertices, 5, Color4F(0.5f, 0.5f, 1, 1 ) );
     
     
 	// closed purble poly
-	ccDrawColor4B(255, 0, 255, 255);
+	DrawPrimitives::setDrawColor4B(255, 0, 255, 255);
 	glLineWidth(2);
-	Point vertices2[] = { ccp(30,130), ccp(30,230), ccp(50,200) };
-	ccDrawPoly( vertices2, 3, true);
+	Point vertices2[] = { Point(30,130), Point(30,230), Point(50,200) };
+	DrawPrimitives::drawPoly( vertices2, 3, true);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw quad bezier path
-    ccDrawQuadBezier(VisibleRect::leftTop(), VisibleRect::center(), VisibleRect::rightTop(), 50);
+    DrawPrimitives::drawQuadBezier(VisibleRect::leftTop(), VisibleRect::center(), VisibleRect::rightTop(), 50);
     
 	CHECK_GL_ERROR_DEBUG();
     
 	// draw cubic bezier path
-    ccDrawCubicBezier(VisibleRect::center(), ccp(VisibleRect::center().x+30,VisibleRect::center().y+50), ccp(VisibleRect::center().x+60,VisibleRect::center().y-50),VisibleRect::right(),100);
+    DrawPrimitives::drawCubicBezier(VisibleRect::center(), Point(VisibleRect::center().x+30,VisibleRect::center().y+50), Point(VisibleRect::center().x+60,VisibleRect::center().y-50),VisibleRect::right(),100);
     
 	CHECK_GL_ERROR_DEBUG();
     
     //draw a solid polygon
-	Point vertices3[] = {ccp(60,160), ccp(70,190), ccp(100,190), ccp(90,160)};
-    ccDrawSolidPoly( vertices3, 4, Color4F(1,1,0,1) );
+	Point vertices3[] = {Point(60,160), Point(70,190), Point(100,190), Point(90,160)};
+    DrawPrimitives::drawSolidPoly( vertices3, 4, Color4F(1,1,0,1) );
     
 	// restore original values
 	glLineWidth(1);
-	ccDrawColor4B(255,255,255,255);
-	ccPointSize(1);
+	DrawPrimitives::setDrawColor4B(255,255,255,255);
+	DrawPrimitives::setPointSize(1);
     
 	CHECK_GL_ERROR_DEBUG();
 }
@@ -236,7 +236,7 @@ string DrawPrimitivesTest::subtitle()
 // DrawNodeTest
 DrawNodeTest::DrawNodeTest()
 {
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     
     DrawNode *draw = DrawNode::create();
     addChild(draw, 10);
@@ -244,7 +244,7 @@ DrawNodeTest::DrawNodeTest()
     // Draw 10 circles
     for( int i=0; i < 10; i++)
     {
-        draw->drawDot(ccp(s.width/2, s.height/2), 10*(10-i), Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
+        draw->drawDot(Point(s.width/2, s.height/2), 10*(10-i), Color4F(CCRANDOM_0_1(), CCRANDOM_0_1(), CCRANDOM_0_1(), 1));
     }
     
     // Draw polygons
@@ -283,9 +283,9 @@ DrawNodeTest::DrawNodeTest()
     
     
     // Draw segment
-    draw->drawSegment(ccp(20,s.height), ccp(20,s.height/2), 10, Color4F(0, 1, 0, 1));
+    draw->drawSegment(Point(20,s.height), Point(20,s.height/2), 10, Color4F(0, 1, 0, 1));
 
-    draw->drawSegment(ccp(10,s.height/2), ccp(s.width/2, s.height/2), 40, Color4F(1, 0, 1, 0.5));
+    draw->drawSegment(Point(10,s.height/2), Point(s.width/2, s.height/2), 40, Color4F(1, 0, 1, 0.5));
 }
 
 string DrawNodeTest::title()
@@ -300,8 +300,8 @@ string DrawNodeTest::subtitle()
 
 void DrawPrimitivesTestScene::runThisTest()
 {
-    Layer* pLayer = nextAction();
-    addChild(pLayer);
+    Layer* layer = nextAction();
+    addChild(layer);
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }

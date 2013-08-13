@@ -146,7 +146,7 @@ public:
             else if (SAX_DICT == preState)
             {
                 // add the dictionary into the pre dictionary
-                CCAssert(! _dictStack.empty(), "The state is wrong!");
+                CCASSERT(! _dictStack.empty(), "The state is wrong!");
                 Dictionary* pPreDict = _dictStack.top();
                 pPreDict->setObject(_curDict, _curKey.c_str());
             }
@@ -194,7 +194,7 @@ public:
             }
             else if (preState == SAX_ARRAY)
             {
-                CCAssert(! _arrayStack.empty(), "The state is wrong!");
+                CCASSERT(! _arrayStack.empty(), "The state is wrong!");
                 Array* pPreArray = _arrayStack.top();
                 pPreArray->addObject(_array);
             }
@@ -300,7 +300,7 @@ public:
             {
                 if (curState == SAX_DICT)
                 {
-                    CCAssert(!_curKey.empty(), "key not found : <integer/real>");
+                    CCASSERT(!_curKey.empty(), "key not found : <integer/real>");
                 }
                 
                 _curValue.append(pText->getCString());
@@ -326,6 +326,7 @@ Array* FileUtils::createArrayWithContentsOfFile(const std::string& filename)
     DictMaker tMaker;
     return tMaker.arrayWithContentsOfFile(fullPath.c_str());
 }
+
 
 /*
  * forward statement
@@ -457,9 +458,21 @@ Array* FileUtils::createArrayWithContentsOfFile(const std::string& filename) {re
 
 FileUtils* FileUtils::s_sharedFileUtils = NULL;
 
-void FileUtils::purgeFileUtils()
+// XXX: deprecated
+FileUtils* FileUtils::sharedFileUtils()
+{
+    return FileUtils::getInstance();
+}
+
+void FileUtils::destroyInstance()
 {
     CC_SAFE_DELETE(s_sharedFileUtils);
+}
+
+// XXX: deprecated
+void FileUtils::purgeFileUtils()
+{
+    FileUtils::destroyInstance();
 }
 
 FileUtils::FileUtils()
@@ -471,6 +484,7 @@ FileUtils::~FileUtils()
 {
     CC_SAFE_RELEASE(_filenameLookupDict);
 }
+
 
 bool FileUtils::init()
 {
@@ -484,15 +498,15 @@ void FileUtils::purgeCachedEntries()
     _fullPathCache.clear();
 }
 
-unsigned char* FileUtils::getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize)
+unsigned char* FileUtils::getFileData(const char* filename, const char* pszMode, unsigned long * pSize)
 {
     unsigned char * pBuffer = NULL;
-    CCAssert(pszFileName != NULL && pSize != NULL && pszMode != NULL, "Invalid parameters.");
+    CCASSERT(filename != NULL && pSize != NULL && pszMode != NULL, "Invalid parameters.");
     *pSize = 0;
     do
     {
         // read the file from hardware
-        std::string fullPath = fullPathForFilename(pszFileName);
+        std::string fullPath = fullPathForFilename(filename);
         FILE *fp = fopen(fullPath.c_str(), pszMode);
         CC_BREAK_IF(!fp);
         
@@ -507,14 +521,14 @@ unsigned char* FileUtils::getFileData(const char* pszFileName, const char* pszMo
     if (! pBuffer)
     {
         std::string msg = "Get data from file(";
-        msg.append(pszFileName).append(") failed!");
+        msg.append(filename).append(") failed!");
         
         CCLOG("%s", msg.c_str());
     }
     return pBuffer;
 }
 
-unsigned char* FileUtils::getFileDataFromZip(const char* pszZipFilePath, const char* pszFileName, unsigned long * pSize)
+unsigned char* FileUtils::getFileDataFromZip(const char* pszZipFilePath, const char* filename, unsigned long * pSize)
 {
     unsigned char * pBuffer = NULL;
     unzFile pFile = NULL;
@@ -522,13 +536,13 @@ unsigned char* FileUtils::getFileDataFromZip(const char* pszZipFilePath, const c
 
     do 
     {
-        CC_BREAK_IF(!pszZipFilePath || !pszFileName);
+        CC_BREAK_IF(!pszZipFilePath || !filename);
         CC_BREAK_IF(strlen(pszZipFilePath) == 0);
 
         pFile = unzOpen(pszZipFilePath);
         CC_BREAK_IF(!pFile);
 
-        int nRet = unzLocateFile(pFile, pszFileName, 1);
+        int nRet = unzLocateFile(pFile, filename, 1);
         CC_BREAK_IF(UNZ_OK != nRet);
 
         char szFilePathA[260];
@@ -541,7 +555,7 @@ unsigned char* FileUtils::getFileDataFromZip(const char* pszZipFilePath, const c
 
         pBuffer = new unsigned char[FileInfo.uncompressed_size];
         int CC_UNUSED nSize = unzReadCurrentFile(pFile, pBuffer, FileInfo.uncompressed_size);
-        CCAssert(nSize == 0 || nSize == (int)FileInfo.uncompressed_size, "the file size is wrong");
+        CCASSERT(nSize == 0 || nSize == (int)FileInfo.uncompressed_size, "the file size is wrong");
 
         *pSize = FileInfo.uncompressed_size;
         unzCloseCurrentFile(pFile);
@@ -555,13 +569,13 @@ unsigned char* FileUtils::getFileDataFromZip(const char* pszZipFilePath, const c
     return pBuffer;
 }
 
-std::string FileUtils::getNewFilename(const char* pszFileName)
+std::string FileUtils::getNewFilename(const char* filename)
 {
     const char* pszNewFileName = NULL;
     // in Lookup Filename dictionary ?
-    String* fileNameFound = _filenameLookupDict ? (String*)_filenameLookupDict->objectForKey(pszFileName) : NULL;
+    String* fileNameFound = _filenameLookupDict ? (String*)_filenameLookupDict->objectForKey(filename) : NULL;
     if( NULL == fileNameFound || fileNameFound->length() == 0) {
-        pszNewFileName = pszFileName;
+        pszNewFileName = filename;
     }
     else {
         pszNewFileName = fileNameFound->getCString();
@@ -593,19 +607,19 @@ std::string FileUtils::getPathForFilename(const std::string& filename, const std
 }
 
 
-std::string FileUtils::fullPathForFilename(const char* pszFileName)
+std::string FileUtils::fullPathForFilename(const char* filename)
 {
-    CCAssert(pszFileName != NULL, "CCFileUtils: Invalid path");
+    CCASSERT(filename != NULL, "CCFileUtils: Invalid path");
     
-    std::string strFileName = pszFileName;
-    if (isAbsolutePath(pszFileName))
+    std::string strFileName = filename;
+    if (isAbsolutePath(filename))
     {
-        //CCLOG("Return absolute path( %s ) directly.", pszFileName);
-        return pszFileName;
+        //CCLOG("Return absolute path( %s ) directly.", filename);
+        return filename;
     }
     
     // Already Cached ?
-    std::map<std::string, std::string>::iterator cacheIter = _fullPathCache.find(pszFileName);
+    std::map<std::string, std::string>::iterator cacheIter = _fullPathCache.find(filename);
     if (cacheIter != _fullPathCache.end())
     {
         //CCLOG("Return full path from cache: %s", cacheIter->second.c_str());
@@ -613,7 +627,7 @@ std::string FileUtils::fullPathForFilename(const char* pszFileName)
     }
     
     // Get the new file name.
-    std::string newFilename = getNewFilename(pszFileName);
+    std::string newFilename = getNewFilename(filename);
     
     string fullpath = "";
     
@@ -629,31 +643,32 @@ std::string FileUtils::fullPathForFilename(const char* pszFileName)
             if (fullpath.length() > 0)
             {
                 // Using the filename passed in as key.
-                _fullPathCache.insert(std::pair<std::string, std::string>(pszFileName, fullpath));
+                _fullPathCache.insert(std::pair<std::string, std::string>(filename, fullpath));
 //                CCLOG("Returning path: %s", fullpath.c_str());
                 return fullpath;
             }
         }
     }
     
-//    CCLOG("cocos2d: fullPathForFilename: No file found at %s. Possible missing file.", pszFileName);
+//    CCLOG("cocos2d: fullPathForFilename: No file found at %s. Possible missing file.", filename);
 
     // The file wasn't found, return the file name passed in.
-    return pszFileName;
+    return filename;
 }
 
-const char* FileUtils::fullPathFromRelativeFile(const char *pszFilename, const char *pszRelativeFile)
+const char* FileUtils::fullPathFromRelativeFile(const char *filename, const char *pszRelativeFile)
 {
     std::string relativeFile = pszRelativeFile;
     String *pRet = String::create("");
     pRet->_string = relativeFile.substr(0, relativeFile.rfind('/')+1);
-    pRet->_string += getNewFilename(pszFilename);
+    pRet->_string += getNewFilename(filename);
     return pRet->getCString();
 }
 
 void FileUtils::setSearchResolutionsOrder(const std::vector<std::string>& searchResolutionsOrder)
 {
     bool bExistDefault = false;
+    _fullPathCache.clear();
     _searchResolutionsOrderArray.clear();
     for (std::vector<std::string>::const_iterator iter = searchResolutionsOrder.begin(); iter != searchResolutionsOrder.end(); ++iter)
     {
@@ -695,6 +710,7 @@ void FileUtils::setSearchPaths(const std::vector<std::string>& searchPaths)
 {
     bool bExistDefaultRootPath = false;
     
+    _fullPathCache.clear();
     _searchPathArray.clear();
     for (std::vector<std::string>::const_iterator iter = searchPaths.begin(); iter != searchPaths.end(); ++iter)
     {
@@ -741,6 +757,7 @@ void FileUtils::addSearchPath(const char* path_)
 
 void FileUtils::setFilenameLookupDictionary(Dictionary* pFilenameLookupDict)
 {
+    _fullPathCache.clear();    
     CC_SAFE_RELEASE(_filenameLookupDict);
     _filenameLookupDict = pFilenameLookupDict;
     CC_SAFE_RETAIN(_filenameLookupDict);

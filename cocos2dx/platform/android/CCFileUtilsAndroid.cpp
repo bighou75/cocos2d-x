@@ -34,32 +34,30 @@ THE SOFTWARE.
 
 using namespace std;
 
-static AAssetManager* s_assetmanager;
-
-extern "C" {
-    JNIEXPORT void JNICALL
-    Java_org_cocos2dx_lib_Cocos2dxHelper_nativeSetAssetManager(JNIEnv* env,
-                                                               jobject thiz,
-                                                               jobject java_assetmanager) {
-        AAssetManager* assetmanager =
-            AAssetManager_fromJava(env, java_assetmanager);
-        if (NULL == assetmanager) {
-            LOGD("assetmanager : is NULL");
-            return;
-        }
-
-        s_assetmanager = assetmanager;
-    }
-}
+AAssetManager* cocos2d::FileUtilsAndroid::assetmanager = NULL;
 
 NS_CC_BEGIN
 
-FileUtils* FileUtils::sharedFileUtils()
+void FileUtilsAndroid::setassetmanager(AAssetManager* a) {
+    if (NULL == a) {
+        LOGD("setassetmanager : received unexpected NULL parameter");
+        return;
+    }
+
+    cocos2d::FileUtilsAndroid::assetmanager = a;
+}
+
+FileUtils* FileUtils::getInstance()
 {
     if (s_sharedFileUtils == NULL)
     {
         s_sharedFileUtils = new FileUtilsAndroid();
-        s_sharedFileUtils->init();
+        if(!s_sharedFileUtils->init())
+        {
+          delete s_sharedFileUtils;
+          s_sharedFileUtils = NULL;
+          CCLOG("ERROR: Could not init CCFileUtilsAndroid");
+        }
     }
     return s_sharedFileUtils;
 }
@@ -95,8 +93,8 @@ bool FileUtilsAndroid::isFileExist(const std::string& strFilePath)
         // Found "assets/" at the beginning of the path and we don't want it
         if (strFilePath.find(_defaultResRootPath) == 0) s += strlen("assets/");
 
-        if (s_assetmanager) {
-            AAsset* aa = AAssetManager_open(s_assetmanager, s, AASSET_MODE_UNKNOWN);
+        if (FileUtilsAndroid::assetmanager) {
+            AAsset* aa = AAssetManager_open(FileUtilsAndroid::assetmanager, s, AASSET_MODE_UNKNOWN);
             if (aa)
             {
                 bFound = true;
@@ -132,54 +130,62 @@ bool FileUtilsAndroid::isAbsolutePath(const std::string& strPath)
 }
 
 
-unsigned char* FileUtilsAndroid::getFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize)
+unsigned char* FileUtilsAndroid::getFileData(const char* filename, const char* pszMode, unsigned long * pSize)
 {    
-    return doGetFileData(pszFileName, pszMode, pSize, false);
+    return doGetFileData(filename, pszMode, pSize, false);
 }
 
-unsigned char* FileUtilsAndroid::getFileDataForAsync(const char* pszFileName, const char* pszMode, unsigned long * pSize)
+unsigned char* FileUtilsAndroid::getFileDataForAsync(const char* filename, const char* pszMode, unsigned long * pSize)
 {
-    return doGetFileData(pszFileName, pszMode, pSize, true);
+    return doGetFileData(filename, pszMode, pSize, true);
 }
 
-unsigned char* FileUtilsAndroid::doGetFileData(const char* pszFileName, const char* pszMode, unsigned long * pSize, bool forAsync)
+unsigned char* FileUtilsAndroid::doGetFileData(const char* filename, const char* pszMode, unsigned long * pSize, bool forAsync)
 {
     unsigned char * pData = 0;
     
-    if ((! pszFileName) || (! pszMode) || 0 == strlen(pszFileName))
+    if ((! filename) || (! pszMode) || 0 == strlen(filename))
     {
         return 0;
     }
     
-    string fullPath = fullPathForFilename(pszFileName);
+    string fullPath = fullPathForFilename(filename);
     
     if (fullPath[0] != '/')
     {
         
-        string fullPath(pszFileName);
         // fullPathForFilename is not thread safe.
-        if (! forAsync)
-        {
-            fullPath = fullPathForFilename(pszFileName);
+        if (forAsync) {
+            LOGD("Async loading not supported. fullPathForFilename is not thread safe.");
+            return NULL;
         }
 
-        const char* relativepath = fullPath.c_str();
+        string fullPath = fullPathForFilename(filename);
+        LOGD("full path = %s", fullPath.c_str());
 
-        // "assets/" is at the beginning of the path and we don't want it
-        relativepath += strlen("assets/");
+        string relativePath = string();
 
-        if (NULL == s_assetmanager) {
-            LOGD("... s_assetmanager is NULL");
+        size_t position = fullPath.find("assets/");
+        if (0 == position) {
+            // "assets/" is at the beginning of the path and we don't want it
+            relativePath += fullPath.substr(strlen("assets/"));
+        } else {
+            relativePath += fullPath;
+        }
+        LOGD("relative path = %s", relativePath.c_str());
+
+        if (NULL == FileUtilsAndroid::assetmanager) {
+            LOGD("... FileUtilsAndroid::assetmanager is NULL");
             return NULL;
         }
 
         // read asset data
         AAsset* asset =
-            AAssetManager_open(s_assetmanager,
-                               relativepath,
+            AAssetManager_open(FileUtilsAndroid::assetmanager,
+                               relativePath.c_str(),
                                AASSET_MODE_UNKNOWN);
         if (NULL == asset) {
-            LOGD("asset : is NULL");
+            LOGD("asset is NULL");
             return NULL;
         }
 
@@ -200,7 +206,7 @@ unsigned char* FileUtilsAndroid::doGetFileData(const char* pszFileName, const ch
         do
         {
             // read rrom other path than user set it
-	        //CCLOG("GETTING FILE ABSOLUTE DATA: %s", pszFileName);
+	        //CCLOG("GETTING FILE ABSOLUTE DATA: %s", filename);
             FILE *fp = fopen(fullPath.c_str(), pszMode);
             CC_BREAK_IF(!fp);
             
@@ -222,8 +228,8 @@ unsigned char* FileUtilsAndroid::doGetFileData(const char* pszFileName, const ch
     if (! pData)
     {
         std::string msg = "Get data from file(";
-        msg.append(pszFileName).append(") failed!");
-        CCLOG(msg.c_str());
+        msg.append(filename).append(") failed!");
+        CCLOG("%s", msg.c_str());
     }
     
     return pData;

@@ -7,11 +7,8 @@
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
 			<arguments>
-				<dictionary>
-					<key>?children?</key>
-					<value>?name?=outputEntries\|?children?=?name?=entry\\\\\\\|\\\|?name?=entry\\\\\\\|\\\|?name?=entry\\\\\\\|\\\|\||</value>
-				</dictionary>
 				<dictionary>
 					<key>?name?</key>
 					<value></value>
@@ -46,7 +43,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableAutoBuild</key>
-					<value>true</value>
+					<value>false</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableCleanBuild</key>
@@ -104,6 +101,16 @@
 			<name>src/CCBReader</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/CCBReader</locationURI>
+		</link>
+		<link>
+			<name>src/CCDeprecated-ext.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/CCDeprecated-ext.cpp</locationURI>
+		</link>
+		<link>
+			<name>src/CCDeprecated-ext.h</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/CCDeprecated-ext.h</locationURI>
 		</link>
 		<link>
 			<name>src/Components</name>

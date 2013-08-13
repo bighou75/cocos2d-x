@@ -21,9 +21,10 @@
  */
 
 #include "CCDrawNode.h"
-#include "support/CCPointExtension.h"
 #include "shaders/CCShaderCache.h"
 #include "CCGL.h"
+#include "support/CCNotificationCenter.h"
+#include "CCEventType.h"
 
 NS_CC_BEGIN
 
@@ -74,7 +75,7 @@ static inline Vertex2F v2fforangle(float _a_)
 
 static inline Vertex2F v2fnormalize(const Vertex2F &p)
 {
-	Point r = ccpNormalize(ccp(p.x, p.y));
+	Point r = Point(p.x, p.y).normalize();
 	return v2f(r.x, r.y);
 }
 
@@ -102,8 +103,7 @@ DrawNode::DrawNode()
 , _buffer(NULL)
 , _dirty(false)
 {
-    _blendFunc.src = CC_BLEND_SRC;
-    _blendFunc.dst = CC_BLEND_DST;
+    _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 }
 
 DrawNode::~DrawNode()
@@ -116,7 +116,12 @@ DrawNode::~DrawNode()
     
 #if CC_TEXTURE_ATLAS_USE_VAO      
     glDeleteVertexArrays(1, &_vao);
+    GL::bindVAO(0);
     _vao = 0;
+#endif
+    
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    NotificationCenter::getInstance()->removeObserver(this, EVNET_COME_TO_FOREGROUND);
 #endif
 }
 
@@ -135,8 +140,10 @@ DrawNode* DrawNode::create()
     return pRet;
 }
 
-void DrawNode::ensureCapacity(unsigned int count)
+void DrawNode::ensureCapacity(int count)
 {
+    CCASSERT(count>=0, "capacity must be >= 0");
+    
     if(_bufferCount + count > _bufferCapacity)
     {
 		_bufferCapacity += MAX(_bufferCapacity, count);
@@ -146,40 +153,47 @@ void DrawNode::ensureCapacity(unsigned int count)
 
 bool DrawNode::init()
 {
-    _blendFunc.src = CC_BLEND_SRC;
-    _blendFunc.dst = CC_BLEND_DST;
+    _blendFunc = BlendFunc::ALPHA_PREMULTIPLIED;
 
-    setShaderProgram(ShaderCache::sharedShaderCache()->programForKey(kShader_PositionLengthTexureColor));
+    setShaderProgram(ShaderCache::getInstance()->programForKey(GLProgram::SHADER_NAME_POSITION_LENGTH_TEXTURE_COLOR));
     
     ensureCapacity(512);
     
 #if CC_TEXTURE_ATLAS_USE_VAO    
     glGenVertexArrays(1, &_vao);
-    ccGLBindVAO(_vao);
+    GL::bindVAO(_vao);
 #endif
     
     glGenBuffers(1, &_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(V2F_C4B_T2F)* _bufferCapacity, _buffer, GL_STREAM_DRAW);
     
-    glEnableVertexAttribArray(kVertexAttrib_Position);
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_POSITION);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
     
-    glEnableVertexAttribArray(kVertexAttrib_Color);
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_COLOR);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
     
-    glEnableVertexAttribArray(kVertexAttrib_TexCoords);
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
+    glEnableVertexAttribArray(GLProgram::VERTEX_ATTRIB_TEX_COORDS);
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
 #if CC_TEXTURE_ATLAS_USE_VAO 
-    ccGLBindVAO(0);
+    GL::bindVAO(0);
 #endif
     
     CHECK_GL_ERROR_DEBUG();
     
     _dirty = true;
+    
+#if CC_ENABLE_CACHE_TEXTURE_DATA
+    // Need to listen the event only when not use batchnode, because it will use VBO
+    NotificationCenter::getInstance()->addObserver(this,
+                                                   callfuncO_selector(DrawNode::listenBackToForeground),
+                                                   EVNET_COME_TO_FOREGROUND,
+                                                   NULL);
+#endif
     
     return true;
 }
@@ -193,18 +207,19 @@ void DrawNode::render()
         _dirty = false;
     }
 #if CC_TEXTURE_ATLAS_USE_VAO     
-    ccGLBindVAO(_vao);
+    GL::bindVAO(_vao);
 #else
-    ccGLEnableVertexAttribs(kVertexAttribFlag_PosColorTex);
+    GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POS_COLOR_TEX);
+    
     glBindBuffer(GL_ARRAY_BUFFER, _vbo);
     // vertex
-    glVertexAttribPointer(kVertexAttrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, vertices));
     
     // color
-    glVertexAttribPointer(kVertexAttrib_Color, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, colors));
     
     // texcood
-    glVertexAttribPointer(kVertexAttrib_TexCoords, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
+    glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_TEX_COORDS, 2, GL_FLOAT, GL_FALSE, sizeof(V2F_C4B_T2F), (GLvoid *)offsetof(V2F_C4B_T2F, texCoords));
 #endif
 
     glDrawArrays(GL_TRIANGLES, 0, _bufferCount);
@@ -216,11 +231,9 @@ void DrawNode::render()
 
 void DrawNode::draw()
 {
-    ccGLBlendFunc(_blendFunc.src, _blendFunc.dst);
-    
-    getShaderProgram()->use();
-    getShaderProgram()->setUniformsForBuiltins();
-    
+    CC_NODE_DRAW_SETUP();
+    GL::blendFunc(_blendFunc.src, _blendFunc.dst);
+
     render();
 }
 
@@ -438,6 +451,13 @@ const BlendFunc& DrawNode::getBlendFunc() const
 void DrawNode::setBlendFunc(const BlendFunc &blendFunc)
 {
     _blendFunc = blendFunc;
+}
+
+/** listen the event that coming to foreground on Android
+ */
+void DrawNode::listenBackToForeground(Object *obj)
+{
+    init();
 }
 
 NS_CC_END

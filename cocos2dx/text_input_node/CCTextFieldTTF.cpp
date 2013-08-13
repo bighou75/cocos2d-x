@@ -70,7 +70,7 @@ TextFieldTTF::~TextFieldTTF()
 // static constructor
 //////////////////////////////////////////////////////////////////////////
 
-TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const char *placeholder, const Size& dimensions, TextAlignment alignment, const char *fontName, float fontSize)
+TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const char *placeholder, const Size& dimensions, TextHAlignment alignment, const char *fontName, float fontSize)
 {
     TextFieldTTF *pRet = new TextFieldTTF();
     if(pRet && pRet->initWithPlaceHolder("", dimensions, alignment, fontName, fontSize))
@@ -106,7 +106,7 @@ TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const char *placeholder, c
 // initialize
 //////////////////////////////////////////////////////////////////////////
 
-bool TextFieldTTF::initWithPlaceHolder(const char *placeholder, const Size& dimensions, TextAlignment alignment, const char *fontName, float fontSize)
+bool TextFieldTTF::initWithPlaceHolder(const char *placeholder, const Size& dimensions, TextHAlignment alignment, const char *fontName, float fontSize)
 {
     if (placeholder)
     {
@@ -135,7 +135,7 @@ bool TextFieldTTF::attachWithIME()
     if (bRet)
     {
         // open keyboard
-        EGLView * pGlView = Director::sharedDirector()->getOpenGLView();
+        EGLView * pGlView = Director::getInstance()->getOpenGLView();
         if (pGlView)
         {
             pGlView->setIMEKeyboardState(true);
@@ -150,7 +150,7 @@ bool TextFieldTTF::detachWithIME()
     if (bRet)
     {
         // close keyboard
-        EGLView * pGlView = Director::sharedDirector()->getOpenGLView();
+        EGLView * pGlView = Director::getInstance()->getOpenGLView();
         if (pGlView)
         {
             pGlView->setIMEKeyboardState(false);

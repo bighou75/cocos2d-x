@@ -35,14 +35,14 @@ void PlayerController::update(float delta)
 
 }
 
-void PlayerController::ccTouchesEnded(Set *pTouches, Event *pEvent)
+void PlayerController::ccTouchesEnded(Set  *touches, Event  *event)
 {
     // Choose one of the touches to work with
-	Touch* touch = (Touch*)( pTouches->anyObject() );
+	Touch* touch = static_cast<Touch*>( touches->anyObject() );
 	Point location = touch->getLocation();
     
 
-	Sprite *projectile = Sprite::create("components/Projectile.png", CCRectMake(0, 0, 20, 20));
+	Sprite *projectile = Sprite::create("components/Projectile.png", Rect(0, 0, 20, 20));
     _owner->getParent()->addChild(projectile, 1, 4);
     
     ProjectileController *com = ProjectileController::create();

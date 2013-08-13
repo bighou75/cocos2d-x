@@ -7,11 +7,8 @@
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.cdt.managedbuilder.core.genmakebuilder</name>
+			<triggers>clean,full,incremental,</triggers>
 			<arguments>
-				<dictionary>
-					<key>?children?</key>
-					<value>?name?=outputEntries\|?children?=?name?=entry\\\\\\\|\\\|?name?=entry\\\\\\\|\\\|?name?=entry\\\\\\\|\\\|\||</value>
-				</dictionary>
 				<dictionary>
 					<key>?name?</key>
 					<value></value>
@@ -46,7 +43,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableAutoBuild</key>
-					<value>true</value>
+					<value>false</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.enableCleanBuild</key>
@@ -111,6 +108,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/CCConfiguration.h</locationURI>
 		</link>
 		<link>
+			<name>src/CCDeprecated.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/CCDeprecated.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/CCDirector.cpp</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/CCDirector.cpp</locationURI>
@@ -151,6 +153,11 @@
 			<locationURI>PARENT-1-PROJECT_LOC/ccFPSImages.h</locationURI>
 		</link>
 		<link>
+			<name>src/ccTypes.cpp</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/ccTypes.cpp</locationURI>
+		</link>
+		<link>
 			<name>src/cocoa</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/cocoa</locationURI>
@@ -179,6 +186,11 @@
 			<name>src/kazmath</name>
 			<type>2</type>
 			<locationURI>PARENT-1-PROJECT_LOC/kazmath</locationURI>
+		</link>
+		<link>
+			<name>src/keyboard_dispatcher</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/keyboard_dispatcher</locationURI>
 		</link>
 		<link>
 			<name>src/keypad_dispatcher</name>
@@ -301,11 +313,6 @@
 			<locationURI>PARENT-1-PROJECT_LOC/platform/CCImage.h</locationURI>
 		</link>
 		<link>
-			<name>src/platform/CCImageCommonWebp.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/platform/CCImageCommonWebp.cpp</locationURI>
-		</link>
-		<link>
 			<name>src/platform/CCImageCommon_cpp.h</name>
 			<type>1</type>
 			<locationURI>PARENT-1-PROJECT_LOC/platform/CCImageCommon_cpp.h</locationURI>
@@ -341,14 +348,14 @@
 			<locationURI>PARENT-1-PROJECT_LOC/platform/CCThread.h</locationURI>
 		</link>
 		<link>
-			<name>src/platform/platform.cpp</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/platform/platform.cpp</locationURI>
+			<name>src/platform/etc</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/platform/third_party/common/etc</locationURI>
 		</link>
 		<link>
-			<name>src/platform/platform.h</name>
-			<type>1</type>
-			<locationURI>PARENT-1-PROJECT_LOC/platform/platform.h</locationURI>
+			<name>src/platform/s3tc</name>
+			<type>2</type>
+			<locationURI>PARENT-1-PROJECT_LOC/platform/third_party/common/s3tc</locationURI>
 		</link>
 		<link>
 			<name>src/platform/tizen</name>

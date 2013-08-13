@@ -37,8 +37,8 @@ Application::~Application()
 
 extern "C" void mainLoopIter(void)
 {
-    EGLView::sharedOpenGLView()->handleEvents();
-    Director::sharedDirector()->mainLoop();
+    EGLView::getInstance()->handleEvents();
+    Director::getInstance()->mainLoop();
 }
 
 int Application::run()
@@ -74,7 +74,7 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::sharedFileUtils();
+    FileUtils* pFileUtils = FileUtils::getInstance();
     std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
     pFileUtils->setSearchPaths(searchPaths);
@@ -85,23 +85,29 @@ const std::string& Application::getResourceRootPath(void)
     return _resourceRootPath;
 }
 
-TargetPlatform Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
-    return kTargetEmscripten;
+    return Platform::OS_EMSCRIPTEN;
 }
 
 //////////////////////////////////////////////////////////////////////////
 // static member function
 //////////////////////////////////////////////////////////////////////////
-Application* Application::sharedApplication()
+Application* Application::getInstance()
 {
     CC_ASSERT(sm_pSharedApplication);
     return sm_pSharedApplication;
 }
 
-ccLanguageType Application::getCurrentLanguage()
+// @deprecated Use getInstance() instead
+Application* Application::sharedApplication()
 {
-    return kLanguageEnglish;
+    return Application::getInstance();
+}
+
+LanguageType Application::getCurrentLanguage()
+{
+    return LanguageType::ENGLISH;
 }
 
 NS_CC_END;

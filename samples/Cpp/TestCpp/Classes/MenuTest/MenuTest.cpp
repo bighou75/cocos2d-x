@@ -26,13 +26,13 @@ enum {
 MenuLayerMainMenu::MenuLayerMainMenu()
 {
     setTouchEnabled(true);
-    setTouchPriority(kMenuHandlerPriority + 1);
-    setTouchMode(kTouchesOneByOne);
+    setTouchPriority(Menu::HANDLER_PRIORITY + 1);
+    setTouchMode(Touch::DispatchMode::ONE_BY_ONE);
 
     // Font Item    
-    Sprite* spriteNormal = Sprite::create(s_MenuItem, CCRectMake(0,23*2,115,23));
-    Sprite* spriteSelected = Sprite::create(s_MenuItem, CCRectMake(0,23*1,115,23));
-    Sprite* spriteDisabled = Sprite::create(s_MenuItem, CCRectMake(0,23*0,115,23));
+    Sprite* spriteNormal = Sprite::create(s_MenuItem, Rect(0,23*2,115,23));
+    Sprite* spriteSelected = Sprite::create(s_MenuItem, Rect(0,23*1,115,23));
+    Sprite* spriteDisabled = Sprite::create(s_MenuItem, Rect(0,23*0,115,23));
 
     MenuItemSprite* item1 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, CC_CALLBACK_1(MenuLayerMainMenu::menuCallback, this) );
     
@@ -82,7 +82,7 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     
     
     // elastic effect
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     
     int i=0;
     Node* child;
@@ -100,9 +100,9 @@ MenuLayerMainMenu::MenuLayerMainMenu()
         if( i % 2 == 0)
             offset = -offset;
         
-        child->setPosition( ccp( dstPoint.x + offset, dstPoint.y) );
+        child->setPosition( Point( dstPoint.x + offset, dstPoint.y) );
         child->runAction( 
-                          EaseElasticOut::create(MoveBy::create(2, ccp(dstPoint.x - offset,0)), 0.35f) 
+                          EaseElasticOut::create(MoveBy::create(2, Point(dstPoint.x - offset,0)), 0.35f) 
                         );
         i++;
     }
@@ -111,23 +111,23 @@ MenuLayerMainMenu::MenuLayerMainMenu()
     _disabledItem->setEnabled( false );
 
     addChild(menu);
-    menu->setPosition(ccp(s.width/2, s.height/2));
+    menu->setPosition(Point(s.width/2, s.height/2));
 }
 
-bool MenuLayerMainMenu::ccTouchBegan(Touch *touch, Event * pEvent)
+bool MenuLayerMainMenu::ccTouchBegan(Touch *touch, Event * event)
 {
     return true;
 }
 
-void MenuLayerMainMenu::ccTouchEnded(Touch *touch, Event * pEvent)
+void MenuLayerMainMenu::ccTouchEnded(Touch *touch, Event * event)
 {
 }
 
-void MenuLayerMainMenu::ccTouchCancelled(Touch *touch, Event * pEvent)
+void MenuLayerMainMenu::ccTouchCancelled(Touch *touch, Event * event)
 {
 }
 
-void MenuLayerMainMenu::ccTouchMoved(Touch *touch, Event * pEvent)
+void MenuLayerMainMenu::ccTouchMoved(Touch *touch, Event * event)
 {
 }
 
@@ -148,19 +148,19 @@ void MenuLayerMainMenu::menuCallbackConfig(Object* sender)
 
 void MenuLayerMainMenu::allowTouches(float dt)
 {
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->setPriority(kMenuHandlerPriority+1, this);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->setPriority(Menu::HANDLER_PRIORITY+1, this);
     unscheduleAllSelectors();
-    CCLog("TOUCHES ALLOWED AGAIN");
+    log("TOUCHES ALLOWED AGAIN");
 }
 
 void MenuLayerMainMenu::menuCallbackDisabled(Object* sender) 
 {
     // hijack all touch events for 5 seconds
-    Director* pDirector = Director::sharedDirector();
-    pDirector->getTouchDispatcher()->setPriority(kMenuHandlerPriority-1, this);
+    Director* director = Director::getInstance();
+    director->getTouchDispatcher()->setPriority(Menu::HANDLER_PRIORITY-1, this);
     schedule(schedule_selector(MenuLayerMainMenu::allowTouches), 5.0f);
-    CCLog("TOUCHES DISABLED FOR 5 SECONDS");
+    log("TOUCHES DISABLED FOR 5 SECONDS");
 }
 
 void MenuLayerMainMenu::menuCallback2(Object* sender)
@@ -168,7 +168,7 @@ void MenuLayerMainMenu::menuCallback2(Object* sender)
     static_cast<LayerMultiplex*>(_parent)->switchTo(2);
 }
 
-void MenuLayerMainMenu::menuCallbackPriorityTest(Object* pSender)
+void MenuLayerMainMenu::menuCallbackPriorityTest(Object* sender)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(4);
 }
@@ -208,8 +208,8 @@ MenuLayer2::MenuLayer2()
         
         Menu* menu = Menu::create(item1, item2, item3, NULL);
         
-        Size s = Director::sharedDirector()->getWinSize();
-        menu->setPosition(ccp(s.width/2, s.height/2));
+        Size s = Director::getInstance()->getWinSize();
+        menu->setPosition(Point(s.width/2, s.height/2));
 
         menu->setTag( kTagMenu );
         
@@ -237,7 +237,7 @@ void MenuLayer2::alignMenusH()
             // TIP: if no padding, padding = 5
             menu->alignItemsHorizontally();            
             Point p = menu->getPosition();
-            menu->setPosition( ccpAdd(p, ccp(0,30)) );
+            menu->setPosition(p + Point(0,30));
             
         } 
         else 
@@ -245,7 +245,7 @@ void MenuLayer2::alignMenusH()
             // TIP: but padding is configurable
             menu->alignItemsHorizontallyWithPadding(40);
             Point p = menu->getPosition();
-            menu->setPosition( ccpSub(p, ccp(0,30)) );
+            menu->setPosition(p - Point(0,30));
         }        
     }
 }
@@ -261,14 +261,14 @@ void MenuLayer2::alignMenusV()
             // TIP: if no padding, padding = 5
             menu->alignItemsVertically();            
             Point p = menu->getPosition();
-            menu->setPosition( ccpAdd(p, ccp(100,0)) );            
+            menu->setPosition(p + Point(100,0));
         } 
         else 
         {
             // TIP: but padding is configurable
             menu->alignItemsVerticallyWithPadding(40);    
             Point p = menu->getPosition();
-            menu->setPosition( ccpSub(p, ccp(100,0)) );
+            menu->setPosition(p - Point(100,0));
         }        
     }
 }
@@ -318,27 +318,27 @@ MenuLayer3::MenuLayer3()
 		    static_cast<LayerMultiplex*>(_parent)->switchTo(0);
 	});
 
-    Sprite *spriteNormal   = Sprite::create(s_MenuItem,  CCRectMake(0,23*2,115,23));
-    Sprite *spriteSelected = Sprite::create(s_MenuItem,  CCRectMake(0,23*1,115,23));
-    Sprite *spriteDisabled = Sprite::create(s_MenuItem,  CCRectMake(0,23*0,115,23));
+    Sprite *spriteNormal   = Sprite::create(s_MenuItem,  Rect(0,23*2,115,23));
+    Sprite *spriteSelected = Sprite::create(s_MenuItem,  Rect(0,23*1,115,23));
+    Sprite *spriteDisabled = Sprite::create(s_MenuItem,  Rect(0,23*0,115,23));
     
     
     MenuItemSprite* item3 = MenuItemSprite::create(spriteNormal, spriteSelected, spriteDisabled, [](Object *sender) {
-		CCLog("sprite clicked!");
+		log("sprite clicked!");
 	});
     _disabledItem = item3;  item3->retain();
     _disabledItem->setEnabled( false );
     
     Menu *menu = Menu::create( item1, item2, item3, NULL);    
-    menu->setPosition( ccp(0,0) );
+    menu->setPosition( Point(0,0) );
 
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     
-    item1->setPosition( ccp(s.width/2 - 150, s.height/2) );
-    item2->setPosition( ccp(s.width/2 - 200, s.height/2) );
-    item3->setPosition( ccp(s.width/2, s.height/2 - 100) );
+    item1->setPosition( Point(s.width/2 - 150, s.height/2) );
+    item2->setPosition( Point(s.width/2 - 200, s.height/2) );
+    item3->setPosition( Point(s.width/2, s.height/2 - 100) );
     
-    JumpBy* jump = JumpBy::create(3, ccp(400,0), 50, 4);
+    JumpBy* jump = JumpBy::create(3, Point(400,0), 50, 4);
     item2->runAction( RepeatForever::create(Sequence::create( jump, jump->reverse(), NULL)));
 
     ActionInterval* spin1 = RotateBy::create(3, 360);
@@ -351,7 +351,7 @@ MenuLayer3::MenuLayer3()
     
     addChild( menu ); 
 
-    menu->setPosition(ccp(0,0));
+    menu->setPosition(Point(0,0));
 }
 
 MenuLayer3::~MenuLayer3()
@@ -439,8 +439,8 @@ MenuLayer4::MenuLayer4()
     
     addChild( menu );
 
-    Size s = Director::sharedDirector()->getWinSize();
-    menu->setPosition(ccp(s.width/2, s.height/2));
+    Size s = Director::getInstance()->getWinSize();
+    menu->setPosition(Point(s.width/2, s.height/2));
 }
 
 MenuLayer4::~MenuLayer4()
@@ -491,10 +491,10 @@ MenuLayerPriorityTest::MenuLayerPriorityTest()
     MenuItemFont::setFontSize(48);
     item1 = MenuItemFont::create("Toggle priority", [&](Object *sender) {
 		if( _priority) {
-			_menu2->setHandlerPriority(kMenuHandlerPriority + 20);
+			_menu2->setHandlerPriority(Menu::HANDLER_PRIORITY + 20);
 			_priority = false;
 		} else {
-			_menu2->setHandlerPriority(kMenuHandlerPriority - 20);
+			_menu2->setHandlerPriority(Menu::HANDLER_PRIORITY - 20);
 			_priority = true;
 		}
 	});
@@ -509,10 +509,10 @@ MenuLayerPriorityTest::~MenuLayerPriorityTest()
 
 }
 
-void MenuLayerPriorityTest::menuCallback(Object* pSender)
+void MenuLayerPriorityTest::menuCallback(Object* sender)
 {
     static_cast<LayerMultiplex*>(_parent)->switchTo(0);
-//    [[Director sharedDirector] popScene];
+//    [[Director sharedDirector] poscene];
 }
 
 // BugsTest
@@ -526,8 +526,8 @@ BugsTest::BugsTest()
     addChild(menu);
     menu->alignItemsVertically();
     
-    Size s = Director::sharedDirector()->getWinSize();
-    menu->setPosition(ccp(s.width/2, s.height/2));
+    Size s = Director::getInstance()->getWinSize();
+    menu->setPosition(Point(s.width/2, s.height/2));
 }
 
 void BugsTest::issue1410MenuCallback(Object *sender)
@@ -536,7 +536,7 @@ void BugsTest::issue1410MenuCallback(Object *sender)
     menu->setTouchEnabled(false);
     menu->setTouchEnabled(true);
     
-    CCLog("NO CRASHES");
+    log("NO CRASHES");
 }
 
 void BugsTest::issue1410v2MenuCallback(cocos2d::Object *pSender)
@@ -545,7 +545,7 @@ void BugsTest::issue1410v2MenuCallback(cocos2d::Object *pSender)
     menu->setTouchEnabled(true);
     menu->setTouchEnabled(false);
     
-    CCLog("NO CRASHES. AND MENU SHOULD STOP WORKING");
+    log("NO CRASHES. AND MENU SHOULD STOP WORKING");
 }
 
 void BugsTest::backMenuCallback(cocos2d::Object *pSender)
@@ -555,10 +555,10 @@ void BugsTest::backMenuCallback(cocos2d::Object *pSender)
 
 RemoveMenuItemWhenMove::RemoveMenuItemWhenMove()
 {
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     
     LabelTTF* label = LabelTTF::create("click item and move, should not crash", "Arial", 20);
-    label->setPosition(ccp(s.width/2, s.height - 30));
+    label->setPosition(Point(s.width/2, s.height - 30));
     addChild(label);
     
     item = MenuItemFont::create("item 1");
@@ -570,7 +570,7 @@ RemoveMenuItemWhenMove::RemoveMenuItemWhenMove()
     addChild(menu);
     menu->alignItemsVertically();
     
-    menu->setPosition(ccp(s.width/2, s.height/2));
+    menu->setPosition(Point(s.width/2, s.height/2));
     
     setTouchEnabled(true);
 }
@@ -587,15 +587,15 @@ RemoveMenuItemWhenMove::~RemoveMenuItemWhenMove()
 
 void RemoveMenuItemWhenMove::registerWithTouchDispatcher(void)
 {
-    Director::sharedDirector()->getTouchDispatcher()->addTargetedDelegate(this, -129, false);
+    Director::getInstance()->getTouchDispatcher()->addTargetedDelegate(this, -129, false);
 }
 
-bool RemoveMenuItemWhenMove::ccTouchBegan(Touch *pTouch, Event *pEvent)
+bool RemoveMenuItemWhenMove::ccTouchBegan(Touch  *touch, Event  *event)
 {
     return true;
 }
 
-void RemoveMenuItemWhenMove::ccTouchMoved(Touch *pTouch, Event *pEvent)
+void RemoveMenuItemWhenMove::ccTouchMoved(Touch  *touch, Event  *event)
 {
     if (item)
     {
@@ -607,24 +607,24 @@ void RemoveMenuItemWhenMove::ccTouchMoved(Touch *pTouch, Event *pEvent)
 
 void MenuTestScene::runThisTest()
 {
-    Layer* pLayer1 = new MenuLayerMainMenu();
-    Layer* pLayer2 = new MenuLayer2();
-    Layer* pLayer3 = new MenuLayer3();
-    Layer* pLayer4 = new MenuLayer4();
-    Layer* pLayer5 = new MenuLayerPriorityTest();
-    Layer* pLayer6 = new BugsTest();
-    Layer* pLayer7 = new RemoveMenuItemWhenMove();
+    Layer* layer1 = new MenuLayerMainMenu();
+    Layer* layer2 = new MenuLayer2();
+    Layer* layer3 = new MenuLayer3();
+    Layer* layer4 = new MenuLayer4();
+    Layer* layer5 = new MenuLayerPriorityTest();
+    Layer* layer6 = new BugsTest();
+    Layer* layer7 = new RemoveMenuItemWhenMove();
 
-    LayerMultiplex* layer = LayerMultiplex::create(pLayer1, pLayer2, pLayer3, pLayer4, pLayer5, pLayer6, pLayer7, NULL);
+    LayerMultiplex* layer = LayerMultiplex::create(layer1, layer2, layer3, layer4, layer5, layer6, layer7, NULL);
     addChild(layer, 0); 
 
-    pLayer1->release();
-    pLayer2->release();
-    pLayer3->release();
-    pLayer4->release();
-    pLayer5->release();
-    pLayer6->release();
-    pLayer7->release();
+    layer1->release();
+    layer2->release();
+    layer3->release();
+    layer4->release();
+    layer5->release();
+    layer6->release();
+    layer7->release();
 
-    Director::sharedDirector()->replaceScene(this);
+    Director::getInstance()->replaceScene(this);
 }

@@ -62,7 +62,7 @@ public:
     bool getBitmapFromJavaShadowStroke(	const char *text,
     									int nWidth,
     									int nHeight,
-    									Image::ETextAlign eAlignMask,
+    									Image::TextAlign eAlignMask,
     									const char * pFontName,
     									float fontSize,
     									float textTintR 		= 1.0,
@@ -72,7 +72,7 @@ public:
     									float shadowDeltaX 		= 0.0,
     									float shadowDeltaY 		= 0.0,
     									float shadowBlur 		= 0.0,
-    									float shadowIntensity 	= 0.0,
+    									float shadowOpacity 	= 0.0,
     									bool stroke 			= false,
     									float strokeColorR 		= 0.0,
     									float strokeColorG 		= 0.0,
@@ -81,7 +81,7 @@ public:
     {
            JniMethodInfo methodInfo;
            if (! JniHelper::getStaticMethodInfo(methodInfo, "org/cocos2dx/lib/Cocos2dxBitmap", "createTextBitmapShadowStroke",
-               "(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFZFFFF)V"))
+               "(Ljava/lang/String;Ljava/lang/String;IFFFIIIZFFFFZFFFF)V"))
            {
                CCLOG("%s %d: error to get methodInfo", __FILE__, __LINE__);
                return false;
@@ -91,7 +91,7 @@ public:
         
            // Do a full lookup for the font path using FileUtils in case the given font name is a relative path to a font file asset,
            // or the path has been mapped to a different location in the app package:
-           std::string fullPathOrFontName = FileUtils::sharedFileUtils()->fullPathForFilename(pFontName);
+           std::string fullPathOrFontName = FileUtils::getInstance()->fullPathForFilename(pFontName);
         
 		   // If the path name returned includes the 'assets' dir then that needs to be removed, because the android.content.Context
 		   // requires this portion of the path to be omitted for assets inside the app package.
@@ -110,7 +110,7 @@ public:
            jstring jstrFont = methodInfo.env->NewStringUTF(fullPathOrFontName.c_str());
 
            methodInfo.env->CallStaticVoidMethod(methodInfo.classID, methodInfo.methodID, jstrText,
-               jstrFont, (int)fontSize, textTintR, textTintG, textTintB, eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowBlur, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize);
+               jstrFont, (int)fontSize, textTintR, textTintG, textTintB, eAlignMask, nWidth, nHeight, shadow, shadowDeltaX, -shadowDeltaY, shadowBlur, shadowOpacity, stroke, strokeColorR, strokeColorG, strokeColorB, strokeSize);
 
            methodInfo.env->DeleteLocalRef(jstrText);
            methodInfo.env->DeleteLocalRef(jstrFont);
@@ -120,7 +120,7 @@ public:
     }
 
 
-    bool getBitmapFromJava(const char *text, int nWidth, int nHeight, Image::ETextAlign eAlignMask, const char * pFontName, float fontSize)
+    bool getBitmapFromJava(const char *text, int nWidth, int nHeight, Image::TextAlign eAlignMask, const char * pFontName, float fontSize)
     {
     	return  getBitmapFromJavaShadowStroke(	text, nWidth, nHeight, eAlignMask, pFontName, fontSize );
     }
@@ -148,7 +148,7 @@ bool Image::initWithString(
                                const char *    pText, 
                                int             nWidth/* = 0*/, 
                                int             nHeight/* = 0*/,
-                               ETextAlign      eAlignMask/* = kAlignCenter*/,
+                               TextAlign      eAlignMask/* = kAlignCenter*/,
                                const char *    pFontName/* = nil*/,
                                int             nSize/* = 0*/)
 {
@@ -168,9 +168,8 @@ bool Image::initWithString(
 
         _width    = (short)dc._width;
         _height   = (short)dc._height;
-        _hasAlpha = true;
         _preMulti = true;
-        _bitsPerComponent = 8;
+        _renderFormat = Texture2D::PixelFormat::RGBA8888;
 
         bRet = true;
     } while (0);
@@ -182,7 +181,7 @@ bool Image::initWithStringShadowStroke(
                                          const char * pText,
                                          int         nWidth ,
                                          int         nHeight ,
-                                         ETextAlign eAlignMask ,
+                                         TextAlign eAlignMask ,
                                          const char * pFontName ,
                                          int          nSize ,
                                          float        textTintR,
@@ -220,9 +219,8 @@ bool Image::initWithStringShadowStroke(
 
 	        _width    = (short)dc._width;
 	        _height   = (short)dc._height;
-	        _hasAlpha = true;
 	        _preMulti = true;
-	        _bitsPerComponent = 8;
+		    _renderFormat = Texture2D::PixelFormat::RGBA8888;
 
 	        // swap the alpha channel (ARGB to RGBA)
 	        swapAlphaChannel((unsigned int *)_data, (_width * _height) );

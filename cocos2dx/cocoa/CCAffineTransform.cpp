@@ -69,17 +69,17 @@ Rect RectApplyAffineTransform(const Rect& rect, const AffineTransform& anAffineT
     float right  = rect.getMaxX();
     float bottom = rect.getMaxY();
     
-    Point topLeft = PointApplyAffineTransform(CCPointMake(left, top), anAffineTransform);
-    Point topRight = PointApplyAffineTransform(CCPointMake(right, top), anAffineTransform);
-    Point bottomLeft = PointApplyAffineTransform(CCPointMake(left, bottom), anAffineTransform);
-    Point bottomRight = PointApplyAffineTransform(CCPointMake(right, bottom), anAffineTransform);
+    Point topLeft = PointApplyAffineTransform(Point(left, top), anAffineTransform);
+    Point topRight = PointApplyAffineTransform(Point(right, top), anAffineTransform);
+    Point bottomLeft = PointApplyAffineTransform(Point(left, bottom), anAffineTransform);
+    Point bottomRight = PointApplyAffineTransform(Point(right, bottom), anAffineTransform);
 
     float minX = min(min(topLeft.x, topRight.x), min(bottomLeft.x, bottomRight.x));
     float maxX = max(max(topLeft.x, topRight.x), max(bottomLeft.x, bottomRight.x));
     float minY = min(min(topLeft.y, topRight.y), min(bottomLeft.y, bottomRight.y));
     float maxY = max(max(topLeft.y, topRight.y), max(bottomLeft.y, bottomRight.y));
         
-    return CCRectMake(minX, minY, (maxX - minX), (maxY - minY));
+    return Rect(minX, minY, (maxX - minX), (maxY - minY));
 }
 
 AffineTransform AffineTransformTranslate(const AffineTransform& t, float tx, float ty)
@@ -94,13 +94,13 @@ AffineTransform AffineTransformScale(const AffineTransform& t, float sx, float s
 
 AffineTransform AffineTransformRotate(const AffineTransform& t, float anAngle)
 {
-    float fSin = sin(anAngle);
-    float fCos = cos(anAngle);
+    float sine = sinf(anAngle);
+    float cosine = cosf(anAngle);
 
-    return __CCAffineTransformMake(    t.a * fCos + t.c * fSin,
-                                    t.b * fCos + t.d * fSin,
-                                    t.c * fCos - t.a * fSin,
-                                    t.d * fCos - t.b * fSin,
+    return __CCAffineTransformMake(    t.a * cosine + t.c * sine,
+                                    t.b * cosine + t.d * sine,
+                                    t.c * cosine - t.a * sine,
+                                    t.d * cosine - t.b * sine,
                                     t.tx,
                                     t.ty);
 }

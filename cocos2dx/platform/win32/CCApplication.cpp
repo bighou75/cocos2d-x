@@ -49,7 +49,7 @@ int Application::run()
         return 0;
     }
 
-    EGLView* pMainWnd = EGLView::sharedOpenGLView();
+    EGLView* pMainWnd = EGLView::getInstance();
     pMainWnd->centerWindow();
     ShowWindow(pMainWnd->getHWnd(), SW_SHOW);
 
@@ -64,7 +64,7 @@ int Application::run()
             if (nNow.QuadPart - nLast.QuadPart > _animationInterval.QuadPart)
             {
                 nLast.QuadPart = nNow.QuadPart;
-                Director::sharedDirector()->mainLoop();
+                Director::getInstance()->mainLoop();
             }
             else
             {
@@ -100,15 +100,21 @@ void Application::setAnimationInterval(double interval)
 //////////////////////////////////////////////////////////////////////////
 // static member function
 //////////////////////////////////////////////////////////////////////////
-Application* Application::sharedApplication()
+Application* Application::getInstance()
 {
     CC_ASSERT(sm_pSharedApplication);
     return sm_pSharedApplication;
 }
 
-ccLanguageType Application::getCurrentLanguage()
+// @deprecated Use getInstance() instead
+Application* Application::sharedApplication()
 {
-    ccLanguageType ret = kLanguageEnglish;
+    return Application::getInstance();
+}
+
+LanguageType Application::getCurrentLanguage()
+{
+    LanguageType ret = LanguageType::ENGLISH;
 
     LCID localeID = GetUserDefaultLCID();
     unsigned short primaryLanguageID = localeID & 0xFF;
@@ -116,55 +122,55 @@ ccLanguageType Application::getCurrentLanguage()
     switch (primaryLanguageID)
     {
         case LANG_CHINESE:
-            ret = kLanguageChinese;
+            ret = LanguageType::CHINESE;
             break;
         case LANG_ENGLISH:
-            ret = kLanguageEnglish;
+            ret = LanguageType::ENGLISH;
             break;
         case LANG_FRENCH:
-            ret = kLanguageFrench;
+            ret = LanguageType::FRENCH;
             break;
         case LANG_ITALIAN:
-            ret = kLanguageItalian;
+            ret = LanguageType::ITALIAN;
             break;
         case LANG_GERMAN:
-            ret = kLanguageGerman;
+            ret = LanguageType::GERMAN;
             break;
         case LANG_SPANISH:
-            ret = kLanguageSpanish;
+            ret = LanguageType::SPANISH;
             break;
         case LANG_RUSSIAN:
-            ret = kLanguageRussian;
+            ret = LanguageType::RUSSIAN;
             break;
         case LANG_KOREAN:
-            ret = kLanguageKorean;
+            ret = LanguageType::KOREAN;
             break;
         case LANG_JAPANESE:
-            ret = kLanguageJapanese;
+            ret = LanguageType::JAPANESE;
             break;
         case LANG_HUNGARIAN:
-            ret = kLanguageHungarian;
+            ret = LanguageType::HUNGARIAN;
             break;
         case LANG_PORTUGUESE:
-            ret = kLanguagePortuguese;
+            ret = LanguageType::PORTUGUESE;
             break;
         case LANG_ARABIC:
-            ret = kLanguageArabic;
+            ret = LanguageType::ARABIC;
             break;
 	    case LANG_NORWEGIAN:
-            ret = kLanguageNorwegian;
+            ret = LanguageType::NORWEGIAN;
             break;
  	    case LANG_POLISH:
-            ret = kLanguagePolish;
+            ret = LanguageType::POLISH;
             break;
     }
 
     return ret;
 }
 
-TargetPlatform Application::getTargetPlatform()
+Application::Platform Application::getTargetPlatform()
 {
-    return kTargetWindows;
+    return Platform::OS_WINDOWS;
 }
 
 void Application::setResourceRootPath(const std::string& rootResDir)
@@ -175,7 +181,7 @@ void Application::setResourceRootPath(const std::string& rootResDir)
     {
         _resourceRootPath += '/';
     }
-    FileUtils* pFileUtils = FileUtils::sharedFileUtils();
+    FileUtils* pFileUtils = FileUtils::getInstance();
     std::vector<std::string> searchPaths = pFileUtils->getSearchPaths();
     searchPaths.insert(searchPaths.begin(), _resourceRootPath);
     pFileUtils->setSearchPaths(searchPaths);

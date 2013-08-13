@@ -17,40 +17,13 @@ public:
 
 class CCBAnimationManager : public Object
 {
-private:
-    Array *mSequences;
-    Dictionary *mNodeSequences;
-    Dictionary *mBaseValues;
-    int mAutoPlaySequenceId;
-    
-    Node *mRootNode;
-    
-    Size mRootContainerSize;
-    
-    CCBAnimationManagerDelegate *mDelegate;
-    CCBSequence *mRunningSequence;
-    
-    Array *mDocumentOutletNames;
-    Array *mDocumentOutletNodes;
-    Array *mDocumentCallbackNames;
-    Array *mDocumentCallbackNodes;
-    Array *mKeyframeCallbacks;
-    Dictionary *mKeyframeCallFuncs;
-
-    std::string mDocumentControllerName;
-    std::string lastCompletedSequenceName;
-
-    SEL_CallFunc mAnimationCompleteCallbackFunc;
-    Object *mTarget;
-    
-    
 public:
-    bool jsControlled;
+    bool _jsControlled;
     CCBAnimationManager();
     ~CCBAnimationManager();
 
 
-    Object *mOwner;
+    Object *_owner;
     
     virtual bool init();
     
@@ -92,7 +65,7 @@ public:
     const Size& getContainerSize(Node* pNode);
     
     void addNode(Node *pNode, Dictionary *pSeq);
-    void setBaseValue(Object *pValue, Node *pNode, const char *pPropName);
+    void setBaseValue(Object *pValue, Node *pNode, const char *propName);
     void moveAnimationsFromNode(Node* fromNode, Node* toNode);
 
     /** @deprecated This interface will be deprecated sooner or later.*/
@@ -114,117 +87,142 @@ public:
 
     Object* actionForCallbackChannel(CCBSequenceProperty* channel);
     Object* actionForSoundChannel(CCBSequenceProperty* channel);
+
+	// return -1 if timeline not exsit
+    int getSequenceId(const char* pSequenceName);
+    
+    // get timeline duration
+    float getSequenceDuration(const char* pSequenceName);
     
 private:
-    Object* getBaseValue(Node *pNode, const char* pPropName);
-    int getSequenceId(const char* pSequenceName);
+    Object* getBaseValue(Node *pNode, const char* propName);
     CCBSequence* getSequence(int nSequenceId);
-    ActionInterval* getAction(CCBKeyframe *pKeyframe0, CCBKeyframe *pKeyframe1, const char *pPropName, Node *pNode);
-    void setAnimatedProperty(const char *pPropName, Node *pNode, Object *pValue, float fTweenDuraion);
+    ActionInterval* getAction(CCBKeyframe *pKeyframe0, CCBKeyframe *pKeyframe1, const char *propName, Node *pNode);
+    void setAnimatedProperty(const char *propName, Node *pNode, Object *pValue, float fTweenDuraion);
     void setFirstFrame(Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration);
-    ActionInterval* getEaseAction(ActionInterval *pAction, int nEasingType, float fEasingOpt);
+    ActionInterval* getEaseAction(ActionInterval *pAction, CCBKeyframe::EasingType easingType, float fEasingOpt);
     void runAction(Node *pNode, CCBSequenceProperty *pSeqProp, float fTweenDuration);
     void sequenceCompleted();
+    
+private:
+    Array *_sequences;
+    Dictionary *_nodeSequences;
+    Dictionary *_baseValues;
+    int _autoPlaySequenceId;
+    
+    Node *_rootNode;
+    
+    Size _rootContainerSize;
+    
+    CCBAnimationManagerDelegate *_delegate;
+    CCBSequence *_runningSequence;
+    
+    Array *_documentOutletNames;
+    Array *_documentOutletNodes;
+    Array *_documentCallbackNames;
+    Array *_documentCallbackNodes;
+    Array *_keyframeCallbacks;
+    Dictionary *_keyframeCallFuncs;
+    
+    std::string _documentControllerName;
+    std::string _lastCompletedSequenceName;
+    
+    SEL_CallFunc _animationCompleteCallbackFunc;
+    Object *_target;
 };
 
 class CCBSetSpriteFrame : public ActionInstant
 {
-private:
-    SpriteFrame *mSpriteFrame;
-    
 public:
-    ~CCBSetSpriteFrame();
-    
     /** creates a Place action with a position */
     static CCBSetSpriteFrame* create(SpriteFrame *pSpriteFrame);
+
+    ~CCBSetSpriteFrame();
+    
     bool initWithSpriteFrame(SpriteFrame *pSpriteFrame);
-    virtual void update(float time);
-	/** returns a new clone of the action */
-	virtual CCBSetSpriteFrame* clone() const;
 
-	/** returns a new reversed action */
-	virtual CCBSetSpriteFrame* reverse() const;
+    // Overrides
+    virtual void update(float time) override;
+	virtual CCBSetSpriteFrame* clone() const override;
+	virtual CCBSetSpriteFrame* reverse() const override;
+
+private:
+    SpriteFrame *_spriteFrame;
 };
-
 
 
 class CCBSoundEffect : public ActionInstant
 {
-private:
-  std::string mSoundFile;
-  float mPitch, mPan, mGain;
-    
 public:
-    ~CCBSoundEffect();
-    
     static CCBSoundEffect* actionWithSoundFile(const std::string &file, float pitch, float pan, float gain);
+    ~CCBSoundEffect();
     bool initWithSoundFile(const std::string &file, float pitch, float pan, float gain);
-    virtual void update(float time);
-	/** returns a new clone of the action */
-	virtual CCBSoundEffect* clone() const;
 
-	/** returns a new reversed action */
-	virtual CCBSoundEffect* reverse() const;
+    // Overrides
+    virtual void update(float time) override;
+	virtual CCBSoundEffect* clone() const override;
+	virtual CCBSoundEffect* reverse() const override;
+
+private:
+    std::string _soundFile;
+    float _pitch, _pan, _gain;
 };
 
 
 class CCBRotateTo : public ActionInterval
 {
-private:
-    float mStartAngle;
-    float mDstAngle;
-    float mDiffAngle;
-    
 public:
     static CCBRotateTo* create(float fDuration, float fAngle);
     bool initWithDuration(float fDuration, float fAngle);
-    virtual void update(float time);
-	/** returns a new clone of the action */
-	virtual CCBRotateTo* clone() const;
 
-	/** returns a new reversed action */
-	virtual CCBRotateTo* reverse() const;
+    // Override
+    virtual void update(float time) override;
+	virtual CCBRotateTo* clone() const override;
+	virtual CCBRotateTo* reverse() const override;
+    virtual void startWithTarget(Node *pNode) override;
 
-    virtual void startWithTarget(Node *pNode);
+private:
+    float _startAngle;
+    float _dstAngle;
+    float _diffAngle;
 };
 
 
-class CCBRotateXTo: public ActionInterval {
-private:
-    float mStartAngle;
-    float mDstAngle;
-    float mDiffAngle;
+class CCBRotateXTo: public ActionInterval
+{
 public:
     static CCBRotateXTo* create(float fDuration, float fAngle);
     bool initWithDuration(float fDuration, float fAngle);
-    virtual void startWithTarget(Node *pNode);
-	/** returns a new clone of the action */
-	virtual CCBRotateXTo* clone() const;
 
-	/** returns a new reversed action */
-	virtual CCBRotateXTo* reverse() const;
+    // Overrides
+    virtual void startWithTarget(Node *pNode) override;
+	virtual CCBRotateXTo* clone() const override;
+	virtual CCBRotateXTo* reverse() const override;
+    virtual void update(float time) override;
 
-    virtual void update(float time);
+private:
+    float _startAngle;
+    float _dstAngle;
+    float _diffAngle;
 };
 
 
-class CCBRotateYTo: public ActionInterval {
-private:
-    float mStartAngle;
-    float mDstAngle;
-    float mDiffAngle;
-
+class CCBRotateYTo: public ActionInterval
+{
 public:
     static CCBRotateYTo* create(float fDuration, float fAngle);
     bool initWithDuration(float fDuration, float fAngle);
-    virtual void startWithTarget(Node *pNode);
-	/** returns a new clone of the action */
-	virtual CCBRotateYTo* clone() const;
 
-	/** returns a new reversed action */
-	virtual CCBRotateYTo* reverse() const;
+    // Override
+    virtual void startWithTarget(Node *pNode) override;
+	virtual CCBRotateYTo* clone() const override;
+	virtual CCBRotateYTo* reverse() const override;
+    virtual void update(float time) override;
 
-    virtual void update(float time);
+private:
+    float _startAngle;
+    float _dstAngle;
+    float _diffAngle;
 };
 
 
@@ -233,13 +231,9 @@ class CCBEaseInstant : public ActionEase
 public:
     static CCBEaseInstant* create(ActionInterval *pAction);
 
-	/** returns a new clone of the action */
-	virtual CCBEaseInstant* clone() const;
-
-	/** returns a new reversed action */
-	virtual CCBEaseInstant* reverse() const;
-	
-    virtual void update(float dt);
+	virtual CCBEaseInstant* clone() const override;
+	virtual CCBEaseInstant* reverse() const override;
+    virtual void update(float dt) override;
 };
 
 

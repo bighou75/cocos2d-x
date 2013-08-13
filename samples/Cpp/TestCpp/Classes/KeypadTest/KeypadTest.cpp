@@ -2,16 +2,16 @@
 
 KeypadTest::KeypadTest()
 {
-    Size s = Director::sharedDirector()->getWinSize();
+    Size s = Director::getInstance()->getWinSize();
     LabelTTF* label = LabelTTF::create("Keypad Test", "Arial", 28);
     addChild(label, 0);
-    label->setPosition( ccp(s.width/2, s.height-50) );
+    label->setPosition( Point(s.width/2, s.height-50) );
 
     setKeypadEnabled(true);
 
     // create a label to display the tip string
     _label = LabelTTF::create("Please press any key...", "Arial", 22);
-    _label->setPosition(ccp(s.width / 2, s.height / 2));
+    _label->setPosition(Point(s.width / 2, s.height / 2));
     addChild(_label, 0);
     
     _label->retain();
@@ -34,9 +34,9 @@ void KeypadTest::keyMenuClicked()
 
 void KeypadTestScene::runThisTest()
 {
-    Layer* pLayer = new KeypadTest();
-    addChild(pLayer);
+    Layer* layer = new KeypadTest();
+    addChild(layer);
 
-    Director::sharedDirector()->replaceScene(this);
-    pLayer->release();
+    Director::getInstance()->replaceScene(this);
+    layer->release();
 }

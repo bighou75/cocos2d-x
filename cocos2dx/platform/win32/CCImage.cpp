@@ -111,7 +111,7 @@ public:
                 int nFindTTF = fontName.find(".TTF");
                 if (nFindttf >= 0 || nFindTTF >= 0)
                 {
-                    fontPath = FileUtils::sharedFileUtils()->fullPathForFilename(fontName.c_str());
+                    fontPath = FileUtils::getInstance()->fullPathForFilename(fontName.c_str());
                     int nFindPos = fontName.rfind("/");
                     fontName = &fontName[nFindPos+1];
                     nFindPos = fontName.rfind(".");
@@ -240,7 +240,7 @@ public:
         return true;
     }
 
-    int drawText(const char * pszText, SIZE& tSize, Image::ETextAlign eAlign)
+    int drawText(const char * pszText, SIZE& tSize, Image::TextAlign eAlign)
     {
         int nRet = 0;
         wchar_t * pwszBuffer = 0;
@@ -249,8 +249,8 @@ public:
             CC_BREAK_IF(! pszText);
 
             DWORD dwFmt = DT_WORDBREAK;
-            DWORD dwHoriFlag = eAlign & 0x0f;
-            DWORD dwVertFlag = (eAlign & 0xf0) >> 4;
+            DWORD dwHoriFlag = (int)eAlign & 0x0f;
+            DWORD dwVertFlag = ((int)eAlign & 0xf0) >> 4;
 
             switch (dwHoriFlag)
             {
@@ -370,7 +370,7 @@ bool Image::initWithString(
                                const char *    pText, 
                                int             nWidth/* = 0*/, 
                                int             nHeight/* = 0*/,
-                               ETextAlign      eAlignMask/* = kAlignCenter*/,
+                               TextAlign       eAlignMask/* = kAlignCenter*/,
                                const char *    pFontName/* = nil*/,
                                int             nSize/* = 0*/)
 {
@@ -383,14 +383,15 @@ bool Image::initWithString(
 
         if (! dc.setFont(pFontName, nSize))
         {
-            CCLog("Can't found font(%s), use system default", pFontName);
+            log("Can't found font(%s), use system default", pFontName);
         }
 
         // draw text
         SIZE size = {nWidth, nHeight};
         CC_BREAK_IF(! dc.drawText(pText, size, eAlignMask));
 
-        _data = new unsigned char[size.cx * size.cy * 4];
+        _dataLen = size.cx * size.cy * 4;
+        _data = new unsigned char[_dataLen];
         CC_BREAK_IF(! _data);
 
         struct
@@ -404,9 +405,8 @@ bool Image::initWithString(
 
         _width    = (short)size.cx;
         _height   = (short)size.cy;
-        _hasAlpha = true;
         _preMulti = false;
-        _bitsPerComponent = 8;
+        _renderFormat = Texture2D::PixelFormat::RGBA8888;
         // copy pixed data
         bi.bmiHeader.biHeight = (bi.bmiHeader.biHeight > 0)
            ? - bi.bmiHeader.biHeight : bi.bmiHeader.biHeight;

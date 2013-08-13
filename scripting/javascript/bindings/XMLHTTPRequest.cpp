@@ -601,10 +601,10 @@ JS_BINDED_FUNC_IMPL(MinXmlHttpRequest, open)
         }
 
         if (meth.compare("post") == 0 || meth.compare("POST") == 0) {
-            cc_request->setRequestType(cocos2d::extension::HttpRequest::kHttpPost);
+            cc_request->setRequestType(cocos2d::extension::HttpRequest::Type::POST);
         }
         else {
-            cc_request->setRequestType(cocos2d::extension::HttpRequest::kHttpGet);
+            cc_request->setRequestType(cocos2d::extension::HttpRequest::Type::GET);
         }
         
         cc_request->setUrl(url.c_str());
@@ -785,7 +785,7 @@ void MinXmlHttpRequest::_js_register(JSContext *cx, JSObject *global) {
     
     JSClass js_class = {
         "XMLHttpRequest", JSCLASS_HAS_PRIVATE, JS_PropertyStub,
-        JS_PropertyStub, JS_PropertyStub, JS_StrictPropertyStub,
+        JS_DeletePropertyStub, JS_PropertyStub, JS_StrictPropertyStub,
         JS_EnumerateStub, JS_ResolveStub, JS_ConvertStub,
         basic_object_finalize, JSCLASS_NO_OPTIONAL_MEMBERS
     };

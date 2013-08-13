@@ -44,7 +44,8 @@ NS_CC_BEGIN
 class LuaEngine : public ScriptEngineProtocol
 {
 public:
-    static LuaEngine* defaultEngine(void);    
+    static LuaEngine* getInstance(void);
+    CC_DEPRECATED_ATTRIBUTE static LuaEngine* defaultEngine(void) { return LuaEngine::getInstance(); }
     virtual ~LuaEngine(void);
     
     virtual ccScriptType getScriptType() {
@@ -70,7 +71,7 @@ public:
      @brief Remove Object from lua state
      @param object to remove
      */
-    virtual void removeScriptObjectByObject(Object* pObj);
+    virtual void removeScriptObjectByObject(Object* object);
     
     /**
      @brief Remove Lua function reference
@@ -119,7 +120,13 @@ public:
     virtual bool handleAssert(const char *msg);
     
     virtual int sendEvent(ScriptEvent* message);
+    void extendLuaObject();
 private:
+    LuaEngine(void)
+    : _stack(NULL)
+    {
+    }
+    bool init(void);
     int handleNodeEvent(void* data);
     int handleMenuClickedEvent(void* data);
     int handleNotificationEvent(void* data);
@@ -128,17 +135,18 @@ private:
     int handleKeypadEvent(void* data);
     int handleAccelerometerEvent(void* data);
     int handleCommonEvent(void* data);
+    int handleTouchEvent(void* data);
     int handleTouchesEvent(void* data);
-    int handleLayerTouchesEvent(Layer* layer,int actionType,Set* touches);
-    int handleLayerKeypadEvent(Layer* layer,int actionType);
-public:
-    LuaEngine(void)
-    : _stack(NULL)
-    {
-    }
-    
-    bool init(void);
-    
+    int handlerControlEvent(void* data);
+    void extendNode(lua_State* lua_S);
+    void extendMenuItem(lua_State* lua_S);
+    void extendLayer(lua_State* lua_S);
+    void extendControl(lua_State* lua_S);
+    void extendWebsocket(lua_State* lua_S);
+    void extendGLNode(lua_State* lua_S);
+    void extendScrollView(lua_State* lua_S);
+    void extendDrawNode(lua_State* lua_S);
+private:
     static LuaEngine* _defaultEngine;
     LuaStack *_stack;
 };

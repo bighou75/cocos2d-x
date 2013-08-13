@@ -13,12 +13,12 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
-    Director* pDirector = Director::sharedDirector();
-    EGLView* pEGLView = EGLView::sharedOpenGLView();
+    Director* pDirector = Director::getInstance();
+    EGLView* pEGLView = EGLView::getInstance();
 
     pDirector->setOpenGLView(pEGLView);
 	
-    pEGLView->setDesignResolutionSize(960.0f, 640.0f, kResolutionNoBorder);
+    pEGLView->setDesignResolutionSize(960.0f, 640.0f, ResolutionPolicy::NO_BORDER);
 
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -37,16 +37,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
 void AppDelegate::applicationDidEnterBackground() {
-    Director::sharedDirector()->stopAnimation();
+    Director::getInstance()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
-    // SimpleAudioEngine::sharedEngine()->pauseBackgroundMusic();
+    // SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
 }
 
 // this function will be called when the app is active again
 void AppDelegate::applicationWillEnterForeground() {
-    Director::sharedDirector()->startAnimation();
+    Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here
-    // SimpleAudioEngine::sharedEngine()->resumeBackgroundMusic();
+    // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }

@@ -45,7 +45,7 @@ NotificationCenter::~NotificationCenter()
     _observers->release();
 }
 
-NotificationCenter *NotificationCenter::sharedNotificationCenter(void)
+NotificationCenter *NotificationCenter::getInstance()
 {
     if (!s_sharedNotifCenter)
     {
@@ -54,9 +54,21 @@ NotificationCenter *NotificationCenter::sharedNotificationCenter(void)
     return s_sharedNotifCenter;
 }
 
-void NotificationCenter::purgeNotificationCenter(void)
+void NotificationCenter::destroyInstance()
 {
     CC_SAFE_RELEASE_NULL(s_sharedNotifCenter);
+}
+
+// XXX: deprecated
+NotificationCenter *NotificationCenter::sharedNotificationCenter(void)
+{
+    return NotificationCenter::getInstance();
+}
+
+// XXX: deprecated
+void NotificationCenter::purgeNotificationCenter(void)
+{
+    NotificationCenter::destroyInstance();
 }
 
 //
@@ -180,9 +192,9 @@ void NotificationCenter::postNotification(const char *name, Object *object)
         {
             if (0 != observer->getHandler())
             {
-                BasicScriptData data((void*)this,(void*)name);
+                BasicScriptData data(this, (void*)name);
                 ScriptEvent scriptEvent(kNotificationEvent,(void*)&data);
-                ScriptEngineManager::sharedManager()->getScriptEngine()->sendEvent(&scriptEvent);
+                ScriptEngineManager::getInstance()->getScriptEngine()->sendEvent(&scriptEvent);
             }
             else
             {
@@ -235,17 +247,13 @@ NotificationObserver::NotificationObserver(Object *target,
     _selector = selector;
     _object = obj;
     
-    _name = new char[strlen(name)+1];
-    memset(_name,0,strlen(name)+1);
-    
-    string orig (name);
-    orig.copy(_name,strlen(name),0);
+    _name = name;
     _handler = 0;
 }
 
 NotificationObserver::~NotificationObserver()
 {
-    CC_SAFE_DELETE_ARRAY(_name);
+
 }
 
 void NotificationObserver::performSelector(Object *obj)
@@ -270,17 +278,17 @@ SEL_CallFuncO NotificationObserver::getSelector() const
     return _selector;
 }
 
-char *NotificationObserver::getName() const
+const char* NotificationObserver::getName() const
 {
-    return _name;
+    return _name.c_str();
 }
 
-Object *NotificationObserver::getObject() const
+Object* NotificationObserver::getObject() const
 {
     return _object;
 }
 
-int NotificationObserver::getHandler()
+int NotificationObserver::getHandler() const
 {
     return _handler;
 }
